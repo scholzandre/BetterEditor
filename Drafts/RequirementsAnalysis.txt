@@ -1,0 +1,5 @@
+Files: 
+	- open
+	- save (as)
+	- delete
+	- rename
