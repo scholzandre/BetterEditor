@@ -3,3 +3,7 @@ Files:
 	- save (as)
 	- delete
 	- rename
+	- automatically save changes (toggleable)
+Views: 
+	- Lightmode
+	- Darkmode
