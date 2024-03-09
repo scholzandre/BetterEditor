@@ -7,3 +7,13 @@ Files:
 Views: 
 	- Lightmode
 	- Darkmode
+Tabs:
+	- write without manually creating a file
+	- close tab (only close tab)
+	- close tab (and delete file)
+	- right click with 
+		- rename
+		- close tab
+		- delete file 
+		- open in explorer
+		
