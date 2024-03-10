@@ -4,9 +4,11 @@ Files:
 	- delete
 	- rename
 	- automatically save changes (toggleable)
+
 Views: 
 	- Lightmode
 	- Darkmode
+
 Tabs:
 	- write without manually creating a file
 	- close tab (only close tab)
@@ -16,4 +18,17 @@ Tabs:
 		- close tab
 		- delete file 
 		- open in explorer
-		
+
+Search: 
+	- Search one tab
+	- Search all tabs
+	- case insensitive
+
+Replace: 
+	- Replace in one tab
+	- Replace in all tabs
+	- case insensitive
+
+All tabs overview:
+	- filter by 
+		- 
