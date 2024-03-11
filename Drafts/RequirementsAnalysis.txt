@@ -8,6 +8,7 @@ Files:
 Views: 
 	- Lightmode
 	- Darkmode
+	- (user has to add them manually in the json list)
 
 Tabs:
 	- write without manually creating a file
@@ -18,6 +19,9 @@ Tabs:
 		- close tab
 		- delete file 
 		- open in explorer
+	- name: 
+		- if file: filename
+		- if no file: first few letters
 
 Search: 
 	- Search one tab
@@ -31,4 +35,13 @@ Replace:
 
 All tabs overview:
 	- filter by 
-		- 
+		- datatype
+		- order	
+			- user order
+			- alphabetically
+			- sort by modification date
+			- datatype
+
+	- Search tab names
+	- Search contents
+	- Search through everything
