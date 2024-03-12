@@ -27,11 +27,19 @@ Search:
 	- Search one tab
 	- Search all tabs
 	- case insensitive
+	- expand icon for replace overview 
+	- Search next 
+	- Search previous
+	- close view
 
 Replace: 
 	- Replace in one tab
 	- Replace in all tabs
 	- case insensitive
+	- minimize icon for replace overview 
+	- Search next 
+	- Search previous
+	- close view
 
 All tabs overview:
 	- filter by 
@@ -45,3 +53,7 @@ All tabs overview:
 	- Search tab names
 	- Search contents
 	- Search through everything
+	- close view
+	- all tabs listed with icons to 
+		- rename 
+		- delete
