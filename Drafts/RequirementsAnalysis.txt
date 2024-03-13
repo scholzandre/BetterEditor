@@ -57,3 +57,8 @@ All tabs overview:
 	- all tabs listed with icons to 
 		- rename 
 		- delete
+
+Edit text: 
+	- enter text
+	- undo changes (ctrl + z) 
+	- redo changes (ctrl + y)
