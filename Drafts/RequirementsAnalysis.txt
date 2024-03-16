@@ -12,6 +12,7 @@ Views:
 
 Tabs:
 	- write without manually creating a file
+	- after app started - open last opened tab
 	- close tab (only close tab)
 	- close tab (and delete file)
 	- right click with 
@@ -31,6 +32,7 @@ Search:
 	- Search next 
 	- Search previous
 	- close view
+	- save search settings while app open
 
 Replace: 
 	- Replace in one tab
@@ -49,7 +51,6 @@ All tabs overview:
 			- alphabetically
 			- sort by modification date
 			- datatype
-
 	- Search tab names
 	- Search contents
 	- Search through everything
@@ -57,8 +58,19 @@ All tabs overview:
 	- all tabs listed with icons to 
 		- rename 
 		- delete
+	- save filter settings while app open
 
 Edit text: 
 	- enter text
 	- undo changes (ctrl + z) 
 	- redo changes (ctrl + y)
+
+Viewmodes
+	- lightmode
+	- darkmode 
+	- user can add more in json file
+
+Auto-checks
+	- do all settings variables exist in the json file?
+	- do at least light- and darkmode exist in the json file?
+	- does last opened tab exist?
