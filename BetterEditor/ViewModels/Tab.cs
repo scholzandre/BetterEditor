@@ -26,5 +26,7 @@ namespace BetterEditor.ViewModels {
             Content = content;
             MD = mD;
         }
+
+        public Tab() { }
     }
 }

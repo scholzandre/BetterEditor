@@ -32,5 +32,7 @@ namespace BetterEditor.ViewModels {
             SA = sA;
             CAD = cAD;
         }
+
+        public Settings() { }
     }
 }

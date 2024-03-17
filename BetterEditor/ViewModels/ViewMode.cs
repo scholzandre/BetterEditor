@@ -32,5 +32,7 @@ namespace BetterEditor.ViewModels {
             BGT = bGT;
             Foreground = foreground;
         }
+
+        public ViewMode() { } 
     }
 }
