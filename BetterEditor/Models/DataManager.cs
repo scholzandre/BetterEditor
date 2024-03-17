@@ -18,6 +18,10 @@ namespace BetterEditor.Models {
         }
         public DataManager() { }
 
+        /// <summary>
+        /// Gets data from AppData.json
+        /// </summary>
+        /// <returns>DataManager instance</returns>
         public static DataManager GetData() {
             try {
                 if (File.Exists(_filePath)) {
@@ -25,7 +29,7 @@ namespace BetterEditor.Models {
                     DataManager dataManager = JsonConvert.DeserializeObject<DataManager>(jsonData);
                     return dataManager;
                 } else {
-                    throw new NotImplementedException("Create standard file is missing");
+                    return CreateDefaultAppData(_filePath);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -33,8 +37,22 @@ namespace BetterEditor.Models {
             }
         }
 
-        public static bool WriteData() {
-            throw new NotImplementedException();
+
+        /// <summary>
+        /// Writes data in file
+        /// </summary>
+        /// <param name="dataManager"></param>
+        /// <param name="filePath"></param>
+        /// <returns>if writing was successful</returns>
+        public static bool WriteData(DataManager dataManager, string filePath) {
+            try {
+                string json = JsonConvert.SerializeObject(dataManager, Formatting.Indented);
+                File.WriteAllText(filePath, json);
+                return true;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return false;
+            }
         }
 
         public static Settings GetSettings() {
@@ -49,6 +67,11 @@ namespace BetterEditor.Models {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Gets file path of AppData.json
+        /// </summary>
+        /// <returns>file path as a string</returns>
         public static string GetFilePath() {
             try {
                 string currDirectory = Directory.GetCurrentDirectory();
@@ -57,9 +80,7 @@ namespace BetterEditor.Models {
                 string filePath = folderPath + "AppData.json";
 
                 if (!File.Exists(filePath)) {
-                    File.Create(filePath);
-                } else {
-                    throw new NotImplementedException("Create standard file is missing");
+                    CreateDefaultAppData(filePath);
                 }
                 return filePath;
             } catch (Exception e) {
@@ -67,5 +88,29 @@ namespace BetterEditor.Models {
                 return "";
             }
         }
+
+        /// <summary>
+        /// Creates DataManager with default data
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>DataManager instance</returns>
+        private static DataManager CreateDefaultAppData(string filePath) {
+            try {
+                List<ViewMode> viewModes = new List<ViewMode>() {
+                    new ViewMode("Lightmode", "", "", ""),
+                    new ViewMode("Darkmode", "", "", "")
+                };
+
+                Settings settings = new Settings(new Tab(), viewModes[0], true, true);
+                List<Tab> tabs = new List<Tab>();
+                DataManager dataManager = new DataManager(settings, viewModes, tabs);
+
+                WriteData(dataManager, filePath);
+                return dataManager;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return null;
+            }
+        } 
     }
 }
