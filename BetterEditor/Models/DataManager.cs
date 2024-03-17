@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BetterEditor.Models {
-    internal class DataManager {
+    internal class DataManager : BaseViewModel {
         public Settings Settings { get; set; }
         public List<ViewMode> ViewModes { get; set; }
         public List<Tab> Tabs { get; set; }
-        private string _filePath = "";
+        private string _filePath = GetFilePath();
 
         public DataManager(Settings settings, List<ViewMode> viewModes, List<Tab> tabs) {
             Settings = settings;
@@ -41,7 +38,21 @@ namespace BetterEditor.Models {
         }
 
         public static string GetFilePath() {
-            throw new NotImplementedException();
+            try {
+                string currDirectory = Directory.GetCurrentDirectory();
+                int indexFolder = currDirectory.LastIndexOf("bin");
+                string folderPath = currDirectory.Substring(0, indexFolder);
+                string filePath = folderPath + "AppData.json";
+
+                if (!File.Exists(filePath)) {
+                    File.Create(filePath);
+                }
+
+                return filePath;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return "";
+            }
         }
     }
 }
