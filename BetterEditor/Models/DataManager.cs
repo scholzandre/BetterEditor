@@ -125,8 +125,19 @@ namespace BetterEditor.Models {
             return false;
         }
 
-        public static bool RenameFile(Tab tab, string newName) { 
-            throw new NotImplementedException(); 
+        public static bool RenameFile(Tab tab, string newName) {
+            try {
+                if (File.Exists(tab.FilePath)) {
+                    int indexBackslash = tab.FilePath.LastIndexOf("\\") + 1;
+                    string destinationFilePath = tab.FilePath.Substring(0, indexBackslash) + newName;
+                    File.Move(tab.FilePath, destinationFilePath);
+                    return true;
+                } else
+                    throw new Exception("This tab is not linked to a file");
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+            return false;
         }
     }
 }
