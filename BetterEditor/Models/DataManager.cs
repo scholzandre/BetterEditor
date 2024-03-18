@@ -111,6 +111,22 @@ namespace BetterEditor.Models {
                 BaseViewModel.ShowErrorMessage(e);
                 return null;
             }
-        } 
+        }
+
+        public static bool DeleteFile(Tab tab) {
+            try {
+                if (File.Exists(tab.FilePath)) {
+                    File.Delete(tab.FilePath);
+                    return true;
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+            return false;
+        }
+
+        public static bool RenameFile(Tab tab, string newName) { 
+            throw new NotImplementedException(); 
+        }
     }
 }
