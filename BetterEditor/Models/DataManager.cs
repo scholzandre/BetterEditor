@@ -97,8 +97,8 @@ namespace BetterEditor.Models {
         private static DataManager CreateDefaultAppData(string filePath) {
             try {
                 List<ViewMode> viewModes = new List<ViewMode>() {
-                    new ViewMode("Lightmode", "", "", ""),
-                    new ViewMode("Darkmode", "", "", "")
+                    new ViewMode("Lightmode", "#FFFFFF", "#F5F5F5", "#000000"),
+                    new ViewMode("Darkmode", "#525252", "#7F7D8A", "#FFFFFF")
                 };
 
                 Settings settings = new Settings(new Tab(), viewModes[0], true, true);
