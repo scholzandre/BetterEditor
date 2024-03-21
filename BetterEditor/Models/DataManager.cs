@@ -112,7 +112,11 @@ namespace BetterEditor.Models {
                 return null;
             }
         }
-
+        /// <summary>
+        /// Deletes a file
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns>if deleting was successful</returns>
         public static bool DeleteFile(Tab tab) {
             try {
                 if (File.Exists(tab.FilePath)) {
@@ -125,6 +129,12 @@ namespace BetterEditor.Models {
             return false;
         }
 
+        /// <summary>
+        /// Renames a file
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="newName"></param>
+        /// <returns>if renaming was successful</returns>
         public static bool RenameFile(Tab tab, string newName) {
             try {
                 if (File.Exists(tab.FilePath)) {
