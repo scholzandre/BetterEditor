@@ -4,6 +4,7 @@ Files:
 	- delete
 	- rename
 	- automatically save changes (toggleable)
+	- open settings file
 
 Views: 
 	- Lightmode
