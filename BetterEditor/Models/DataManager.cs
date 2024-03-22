@@ -37,7 +37,6 @@ namespace BetterEditor.Models {
             }
         }
 
-
         /// <summary>
         /// Writes data in file
         /// </summary>
@@ -65,6 +64,34 @@ namespace BetterEditor.Models {
 
         public static List<Tab> GetTabs() {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets content of JSON file
+        /// </summary>
+        /// <returns>JSON content as string</returns>
+        public static string GetPlainJSONFile() {
+            try {
+                return File.ReadAllText(_filePath);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// Writes string in json file
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns>if writing was successful</returns>
+        public static bool WritePlainTextInJSONFile(string content) {
+            try {
+                DataManager dataManager = JsonConvert.DeserializeObject<DataManager>(content);
+                return WriteData(dataManager, _filePath);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return false;
+            }
         }
 
 
