@@ -49,12 +49,16 @@ namespace BetterEditor.ViewModels {
         }
         public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
         private void ChangeUserControl(object obj) {
-            if (UserControl.DataContext == null || UserControl.GetType() == _listTabsViewType) {
-                UserControl = (UserControl)Activator.CreateInstance(_textEditorViewType);
-                UserControl.DataContext = TextEditorViewModel;
-            } else {
-                UserControl = (UserControl)Activator.CreateInstance(_listTabsViewType);
-                UserControl.DataContext = ListTabsViewModel;
+            try {
+                if (UserControl.DataContext == null || UserControl.GetType() == _listTabsViewType) {
+                    UserControl = (UserControl)Activator.CreateInstance(_textEditorViewType);
+                    UserControl.DataContext = TextEditorViewModel;
+                } else {
+                    UserControl = (UserControl)Activator.CreateInstance(_listTabsViewType);
+                    UserControl.DataContext = ListTabsViewModel;
+                }
+            } catch (Exception e) { 
+                BaseViewModel.ShowErrorMessage(e);
             }
         }
     }
