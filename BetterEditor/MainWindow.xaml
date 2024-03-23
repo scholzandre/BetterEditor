@@ -11,6 +11,9 @@
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Tab" Command="{Binding ChangeUserControlCommand}" />
+    </Window.InputBindings>
     <Grid>
         <ContentControl Content="{Binding UserControl}"/>
     </Grid>
