@@ -12,6 +12,6 @@
         <viewmodels:MainViewModel/>
     </Window.DataContext>
     <Grid>
-
+        <ContentControl Content="{Binding UserControl}"/>
     </Grid>
 </Window>
