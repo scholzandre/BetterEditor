@@ -17,7 +17,7 @@ namespace BetterEditor.Views {
     /// <summary>
     /// Interaction logic for ReplaceView.xaml
     /// </summary>
-    public partial class ReplaceView : Page {
+    public partial class ReplaceView : UserControl {
         public ReplaceView() {
             InitializeComponent();
         }

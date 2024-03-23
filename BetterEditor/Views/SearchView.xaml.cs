@@ -17,7 +17,7 @@ namespace BetterEditor.Views {
     /// <summary>
     /// Interaction logic for SearchView.xaml
     /// </summary>
-    public partial class SearchView : Page {
+    public partial class SearchView : UserControl {
         public SearchView() {
             InitializeComponent();
         }

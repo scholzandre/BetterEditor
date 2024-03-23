@@ -17,7 +17,7 @@ namespace BetterEditor.Views {
     /// <summary>
     /// Interaction logic for ListTabsView.xaml
     /// </summary>
-    public partial class ListTabsView : Page {
+    public partial class ListTabsView : UserControl {
         public ListTabsView() {
             InitializeComponent();
         }
