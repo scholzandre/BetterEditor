@@ -54,6 +54,23 @@ namespace BetterEditor.Models {
             }
         }
 
+
+        /// <summary>
+        /// Writes data in file
+        /// </summary>
+        /// <param name="dataManager"></param>
+        /// <returns>if writing was successful</returns>
+        public static bool WriteData(DataManager dataManager) {
+            try {
+                string json = JsonConvert.SerializeObject(dataManager, Formatting.Indented);
+                File.WriteAllText(_filePath, json);
+                return true;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return false;
+            }
+        }
+
         /// <summary>
         /// Gets settings
         /// </summary>
