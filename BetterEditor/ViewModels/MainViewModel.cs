@@ -36,7 +36,15 @@ namespace BetterEditor.ViewModels {
         }
 
         public List<ViewMode> ViewModes { get; set; } = DataManager.GetViewModes();
-        public Settings Settings { get; set; } = DataManager.GetSettings(); 
+        private Settings _settings = DataManager.GetSettings();
+        public Settings Settings { 
+            get => _settings;
+            set {
+                _settings = value; 
+                OnPropertyChanged(nameof(Settings));
+            }
+        }
+        
         public MainViewModel() {
             ChangeUserControlCommand.Execute(this);
         }
@@ -62,7 +70,9 @@ namespace BetterEditor.ViewModels {
         public ICommand ChangeViewModeCommand => new RelayCommand(ChangeViewMode, CanExecuteCommand);
         private void ChangeViewMode(object obj) {
             try {
-                Settings.SVM = (ViewMode)obj;
+                Settings settings = Settings;
+                settings.SVM = (ViewMode)obj;
+                Settings = settings;
                 DataManager dataManager = DataManager.GetData();
                 dataManager.Settings = Settings;
                 DataManager.WriteData(dataManager);
