@@ -54,16 +54,29 @@ namespace BetterEditor.Models {
             }
         }
 
+        /// <summary>
+        /// Gets settings
+        /// </summary>
+        /// <returns>returns settings instance</returns>
         public static Settings GetSettings() {
-            throw new NotImplementedException();
+            return GetData().Settings;
         }
 
+
+        /// <summary>
+        /// Gets all viewmodes
+        /// </summary>
+        /// <returns>List of viewmode</returns>
         public static List<ViewMode> GetViewModes() {
-            throw new NotImplementedException();
+            return GetData().ViewModes;
         }
 
+        /// <summary>
+        /// Gets all tabs
+        /// </summary>
+        /// <returns>List of tab</returns>
         public static List<Tab> GetTabs() {
-            throw new NotImplementedException();
+            return GetData().Tabs;
         }
 
         /// <summary>
