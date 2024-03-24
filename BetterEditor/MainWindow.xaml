@@ -8,13 +8,73 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
+
     <Window.InputBindings>
         <KeyBinding Key="Tab" Command="{Binding ChangeUserControlCommand}" />
     </Window.InputBindings>
+
+    <Window.Resources>
+        <!-- Binding to ViewModes property -->
+        <CollectionViewSource Source="{Binding Path=ViewModes}" x:Key="ViewModes"/>
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <ContentControl Content="{Binding UserControl}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="New (Ctrl + T)"/>
+                <MenuItem Header="Open (Ctrl + O)"/>
+                <MenuItem Header="Save (Ctrl + S)"/>
+                <MenuItem Header="Save as (Ctrl + Alt + S)"/>
+                <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True"/>
+                <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True"/>
+                <MenuItem Header="Open settings file"/>
+                <MenuItem Header="Close tab (Ctrl + W)"/>
+                <MenuItem Header="Close BetterEditor (Alt + F4)"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo (Ctrl + Z)"/>
+                <MenuItem Header="Redo (Ctrl + Y)"/>
+                <MenuItem Header="Search (Ctrl + F)"/>
+                <MenuItem Header="Replace (Ctrl + R)"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Zoom">
+                    <MenuItem Header="Zoom in (Ctrl + '+')"/>
+                    <MenuItem Header="Zoom out (Ctrl + '-')"/>
+                </MenuItem>
+                <MenuItem Header="Viewmode (Ctrl + M)" >
+                    <MenuItem.ItemsSource>
+                        <!-- dynamically show list entries -->
+                        <CompositeCollection>
+                            <CollectionContainer Collection="{Binding Source={StaticResource ViewModes}}"/>
+                        </CompositeCollection>
+                    </MenuItem.ItemsSource>
+                    <MenuItem.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="MenuItem.Background" Value="white"/>
+                            <Setter Property="MenuItem.Header" Value="{Binding Label}"/>
+                            <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.ChangeViewModeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
+                            <Setter Property="MenuItem.CommandParameter" Value="{Binding}"/>
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help" >
+                <MenuItem Header="Open license" />
+                <MenuItem Header="Open program info" />
+            </MenuItem>
+        </Menu>
+        <ContentControl Content="{Binding UserControl}" Grid.Row="1"/>
     </Grid>
 </Window>
