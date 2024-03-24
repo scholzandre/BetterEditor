@@ -17,7 +17,7 @@ namespace BetterEditor.ViewModels {
             }
         }
         private Type _textEditorViewType = typeof(TextEditorView);
-        private TextEditorViewModel _textEditorViewModel = new TextEditorViewModel();
+        private TextEditorViewModel _textEditorViewModel;
         public TextEditorViewModel TextEditorViewModel { 
             get => _textEditorViewModel;
             set {
@@ -26,7 +26,7 @@ namespace BetterEditor.ViewModels {
             }
         }
         private Type _listTabsViewType = typeof(ListTabsView);
-        private ListTabsViewModel _listTabsView = new ListTabsViewModel();
+        private ListTabsViewModel _listTabsView;
         public ListTabsViewModel ListTabsViewModel {
             get => _listTabsView;
             set {
@@ -36,6 +36,7 @@ namespace BetterEditor.ViewModels {
         }
 
         public List<ViewMode> ViewModes { get; set; } = DataManager.GetViewModes();
+        public List<Tab> Tabs { get; set; } = DataManager.GetTabs();
         private Settings _settings = DataManager.GetSettings();
         public Settings Settings { 
             get => _settings;
@@ -46,7 +47,13 @@ namespace BetterEditor.ViewModels {
         }
         
         public MainViewModel() {
-            ChangeUserControlCommand.Execute(this);
+            try { 
+                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings);
+                ListTabsViewModel = new ListTabsViewModel();
+                ChangeUserControlCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
         }
 
         private bool CanExecuteCommand(object arg) {
