@@ -2,11 +2,6 @@
 using BetterEditor.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VocabTrainer.Models;
@@ -40,6 +35,8 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        public List<ViewMode> ViewModes { get; set; } = DataManager.GetViewModes();
+        public Settings Settings { get; set; } = DataManager.GetSettings(); 
         public MainViewModel() {
             ChangeUserControlCommand.Execute(this);
         }
@@ -58,6 +55,18 @@ namespace BetterEditor.ViewModels {
                     UserControl.DataContext = ListTabsViewModel;
                 }
             } catch (Exception e) { 
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand ChangeViewModeCommand => new RelayCommand(ChangeViewMode, CanExecuteCommand);
+        private void ChangeViewMode(object obj) {
+            try {
+                Settings.SVM = (ViewMode)obj;
+                DataManager dataManager = DataManager.GetData();
+                dataManager.Settings = Settings;
+                DataManager.WriteData(dataManager);
+            } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
