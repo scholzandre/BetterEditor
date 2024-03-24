@@ -4,9 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BetterEditor.Views"
+        xmlns:viewmodels="clr-namespace:BetterEditor.ViewModels"
+        d:DataContext="{d:DesignInstance Type=viewmodels:TextEditorViewModel}"
         mc:Ignorable="d"
-        Height="450" Width="800">
+        Height="auto" Width="auto">
     <Grid>
-        <TextBlock Text="das ist ein kleiner test"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20px"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20px"/>
+            </Grid.ColumnDefinitions>
+            <Button Height="20px" Width="20px" Grid.Column="0" HorizontalAlignment="Left"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <ItemsControl ItemsSource="{Binding Tabs}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Content}" Height="20px" Width="175px"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <Button Height="20" Width="20" Grid.Column="2" HorizontalAlignment="Right"/>
+        </Grid>
+        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="1" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>
