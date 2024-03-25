@@ -71,6 +71,30 @@ namespace BetterEditor.Models {
             }
         }
 
+        public static bool WriteSettings(Settings settings) {
+            try {
+                DataManager dataManager = DataManager.GetData();
+                dataManager.Settings = settings;
+                DataManager.WriteData(dataManager);
+                return true;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return false;
+            }
+        }
+
+        public static bool WriteTabs(List<Tab> tabs) {
+            try {
+                DataManager dataManager = DataManager.GetData();
+                dataManager.Tabs = tabs;
+                DataManager.WriteData(dataManager);
+                return true;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return false;
+            }
+        }
+
         /// <summary>
         /// Gets settings
         /// </summary>
