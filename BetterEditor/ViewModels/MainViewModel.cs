@@ -80,9 +80,7 @@ namespace BetterEditor.ViewModels {
                 Settings settings = Settings;
                 settings.SVM = (ViewMode)obj;
                 Settings = settings;
-                DataManager dataManager = DataManager.GetData();
-                dataManager.Settings = Settings;
-                DataManager.WriteData(dataManager);
+                DataManager.WriteSettings(Settings);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
