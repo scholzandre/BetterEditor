@@ -28,5 +28,16 @@ namespace BetterEditor.ViewModels {
         }
 
         public Tab() { }
+
+        public override bool Equals(object obj) {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+
+            Tab otherEntry = (Tab)obj;
+            return this.FilePath == otherEntry.FilePath &&
+                   this.Content == otherEntry.Content &&
+                   this.MD == otherEntry.MD;
+        }
     }
 }
