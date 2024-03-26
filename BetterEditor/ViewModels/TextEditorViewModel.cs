@@ -1,6 +1,7 @@
 ﻿using BetterEditor.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using VocabTrainer.Models;
 
@@ -10,7 +11,7 @@ namespace BetterEditor.ViewModels {
         public List<Tab> Tabs {
             get => _tabs;
             set {
-                _tabs = value; 
+                _tabs = value;
                 OnPropertyChanged(nameof(Tabs));
             }
         }
@@ -22,12 +23,13 @@ namespace BetterEditor.ViewModels {
         public TextEditorViewModel(List<Tab> tabs, Settings settings) {
             Tabs = tabs;
             Settings = settings;
+            OpenFirstTab();
         }
 
         private Tab _tab;
-        public Tab Tab { 
+        public Tab Tab {
             get => _tab;
-            set { 
+            set {
                 _tab = value;
                 OnPropertyChanged(nameof(Tab));
             }
@@ -60,5 +62,16 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        private void OpenFirstTab() {
+            if (!Tabs.Contains(Settings.LOT)) {
+                Tabs = new List<Tab>(Tabs.Append(Settings.LOT));
+                DataManager.WriteTabs(Tabs);
+                OpenTabCommand.Execute(Tabs[Tabs.Count - 1]);
+            } else { 
+                int index = Tabs.IndexOf(Settings.LOT);
+                OpenTabCommand.Execute(Tabs[index]);
+            }
+        } 
     }
 }
