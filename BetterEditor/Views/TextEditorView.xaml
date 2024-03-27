@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
             <Button Content="{Binding MoveLeftIcon}" Height="20px" Width="20px" Grid.Column="0" HorizontalAlignment="Left"/>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <ItemsControl ItemsSource="{Binding Tabs}">
+                <ItemsControl ItemsSource="{Binding UsedTabs}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -31,17 +31,24 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button 
-                                    Content="{Binding FilePath}" 
+                                    Content="{Binding TabName}" 
                                     Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
-                                    CommandParameter="{Binding}" Height="20px" Width="175px"/>
+                                    CommandParameter="{Binding}"
+                                    IsEnabled="{Binding IsActive}"
+                                    Height="20px" 
+                                    Width="175px"/>
                                 <Button 
                                     Content="{Binding DataContext.RenameIcon, RelativeSource={RelativeSource AncestorType={x:Type local:TextEditorView}}}" 
                                     Command="{Binding Path=DataContext.RenameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
-                                    CommandParameter="{Binding}" Width="20" Height="20"/>
+                                    CommandParameter="{Binding}" 
+                                    Width="20" 
+                                    Height="20"/>
                                 <Button 
                                     Content="{Binding DataContext.DeleteIcon, RelativeSource={RelativeSource AncestorType={x:Type local:TextEditorView}}}" 
                                     Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
-                                    CommandParameter="{Binding}" Width="20" Height="20"/>
+                                    CommandParameter="{Binding}" 
+                                    Width="20" 
+                                    Height="20"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
