@@ -21,23 +21,21 @@ namespace BetterEditor.ViewModels {
         /// </summary>
         public DateOnly MD { get; set; }
 
-        public Tab(string filePath, string content, DateOnly mD) { 
+        public Tab(string filePath = "", string content = "", DateOnly mD = new DateOnly()) { 
             FilePath = filePath;
             Content = content;
             MD = mD;
         }
-
-        public Tab() { }
 
         public override bool Equals(object obj) {
             if (obj == null || GetType() != obj.GetType()) {
                 return false;
             }
 
-            Tab otherEntry = (Tab)obj;
-            return this.FilePath == otherEntry.FilePath &&
-                   this.Content == otherEntry.Content &&
-                   this.MD == otherEntry.MD;
+            Tab otherTab = (Tab)obj;
+            return this.FilePath == otherTab.FilePath &&
+                   this.Content == otherTab.Content &&
+                   this.MD == otherTab.MD;
         }
     }
 }
