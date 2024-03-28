@@ -27,6 +27,7 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(UsedTabs));
             }
         }
+        public int Counter { get; set; }
         public Settings Settings { get; set; }
         public string MoveLeftIcon { get; set; } = "<";
         public string MoveRightIcon { get; set; } = ">";
@@ -67,9 +68,8 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
-                Tab tab = (Tab)obj;
-                Tab = new TabViewModel(tab.FilePath, tab.Content, tab.MD);
-                Settings.LOT = tab;
+                Tab = (TabViewModel)obj;
+                Settings.LOT = new Tab(Tab.FilePath, Tab.Content, Tab.MD);
                 if (UsedTabs.Count > 0) { 
                     ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                     for (int i = 0; i < usedTabs.Count; i++)
@@ -86,25 +86,28 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<TabViewModel> TabsToUsedTabs(ObservableCollection<Tab> tabs) {
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>();
             foreach (Tab tab in tabs) {
+                Counter++;
                 string tabName = "";
                 if (File.Exists(tab.FilePath))
                     tabName = tab.FilePath.Substring(tab.FilePath.LastIndexOf("\\"));
                 else
                     tabName = (tab.Content.Length > 30)? tab.Content.Substring(0, 30) : tab.Content;
-                usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName));
+                usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName, false, Counter));
             }
             return usedTabs;
         }
 
         private void OpenFirstTab() {
             if (!Tabs.Contains(Settings.LOT)) {
+                Counter++;
                 Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
+                UsedTabs.Append(new TabViewModel(Settings.LOT.FilePath, Settings.LOT.Content, Settings.LOT.MD, (Settings.LOT.Content.Length > 30) ? Settings.LOT.Content.Substring(0, 30) : Settings.LOT.Content, false, Counter));
                 DataManager.WriteTabs(Tabs.ToList());
-                OpenTabCommand.Execute(Tabs[Tabs.Count - 1]);
+                OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
             } else { 
                 int index = Tabs.IndexOf(Settings.LOT);
-                OpenTabCommand.Execute(Tabs[index]);
+                OpenTabCommand.Execute(UsedTabs[index]);
             }
-        } 
+        }
     }
 }
