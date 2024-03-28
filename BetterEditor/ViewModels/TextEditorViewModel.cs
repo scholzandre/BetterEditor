@@ -109,5 +109,17 @@ namespace BetterEditor.ViewModels {
                 OpenTabCommand.Execute(UsedTabs[index]);
             }
         }
+
+
+        public ICommand CreateNewTabCommand => new RelayCommand(CreateNewTab, CanExecuteCommand);
+        private void CreateNewTab(object obj) {
+            Counter++;
+            Tab tab = new Tab();
+            TabViewModel usedTab = new TabViewModel(tab.FilePath, tab.Content, tab.MD, "", false, Counter);
+            Tabs = new ObservableCollection<Tab>(Tabs.Append(tab));
+            UsedTabs.Append(usedTab);
+            DataManager.WriteTabs(Tabs.ToList());
+            OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
+        }
     }
 }
