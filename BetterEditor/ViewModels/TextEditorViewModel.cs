@@ -1,4 +1,5 @@
 ﻿using BetterEditor.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,13 @@ namespace BetterEditor.ViewModels {
         public string Content { 
             get => _content;
             set {
-                _content = value; 
+                _content = value;
+                if (Tab.TabName == "" && UsedTabs.Count != 0 || !File.Exists(Tab.FilePath)) {
+                    int index = Tabs.IndexOf(new Tab(Tab.FilePath, Tab.Content, Tab.MD));
+                    ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
+                    usedTabs[index].TabName = (value.Length > 30) ? value.Substring(0, 27) + "..." : value;
+                    UsedTabs = usedTabs;
+                }
                 OnPropertyChanged(nameof(Content));
             } 
         }
@@ -107,7 +114,7 @@ namespace BetterEditor.ViewModels {
                 if (File.Exists(tab.FilePath))
                     tabName = tab.FilePath.Substring(tab.FilePath.LastIndexOf("\\"));
                 else
-                    tabName = (tab.Content.Length > 30)? tab.Content.Substring(0, 30) : tab.Content;
+                    tabName = (tab.Content.Length > 30)? tab.Content.Substring(0, 27) + "..." : tab.Content;
                 usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName, false, Counter));
             }
             return usedTabs;
