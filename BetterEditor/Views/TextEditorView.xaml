@@ -56,9 +56,10 @@
             </StackPanel>
             <Button Content="{Binding MoveRightIcon}" Height="20" Width="20" Grid.Column="2" HorizontalAlignment="Right"/>
         </Grid>
-        <TextBox Text="{Binding Tab.Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="1" VerticalAlignment="Stretch">
+        <TextBox Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="1" VerticalAlignment="Stretch">
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}" />
+                <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
             </TextBox.InputBindings>
         </TextBox>
     </Grid>
