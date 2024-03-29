@@ -5,22 +5,31 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
 using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
+        private Timer _timer = new Timer(SaveAutomatically, null, 10000, Timeout.Infinite);
+        private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
+        private static bool _appStart = true;
         private string _content = string.Empty;
         public string Content { 
             get => _content;
             set {
                 _content = value;
-                if (Tab.TabName == "" && UsedTabs.Count != 0 || !File.Exists(Tab.FilePath)) {
-                    int index = Tabs.IndexOf(new Tab(Tab.FilePath, Tab.Content, Tab.MD));
-                    ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
+                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
+                ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
+                if (Tab.TabName == "" || !File.Exists(Tab.FilePath)) 
                     usedTabs[index].TabName = (value.Length > 30) ? value.Substring(0, 27) + "..." : value;
-                    UsedTabs = usedTabs;
-                }
+                usedTabs[index].Content = Content;
+                UsedTabs = usedTabs;
+                _staticTabs = new ObservableCollection<Tab>();
+                foreach (TabViewModel tab in usedTabs)
+                    _staticTabs.Add(GetTabFromTabViewModel(tab));
+                _timer.Change(10000, Timeout.Infinite);
+
                 OnPropertyChanged(nameof(Content));
             } 
         }
@@ -52,6 +61,7 @@ namespace BetterEditor.ViewModels {
             Tabs = new ObservableCollection<Tab>(tabs);
             Settings = settings;
             OpenFirstTab();
+            _appStart = false;
         }
 
         private TabViewModel _tab = new TabViewModel();
@@ -86,12 +96,12 @@ namespace BetterEditor.ViewModels {
             try {
                 TabViewModel tTVM = (TabViewModel)obj;
                 TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, tTVM.MD, tTVM.TabName, tTVM.IsActive, tTVM.Index);
-                int index = Tabs.IndexOf(new Tab(Tab.FilePath, Tab.Content, Tab.MD));
+                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
                 Tabs[index].Content = Content;
                 UsedTabs[index].Content = Content;
                 Tab = tempTabViewModel;
                 Content = Tab.Content;
-                Settings.LOT = new Tab(Tab.FilePath, Tab.Content, Tab.MD);
+                Settings.LOT = GetTabFromTabViewModel(Tab);
                 if (UsedTabs.Count > 0) { 
                     ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                     for (int i = 0; i < usedTabs.Count; i++)
@@ -147,11 +157,20 @@ namespace BetterEditor.ViewModels {
 
         public ICommand SaveCommand => new RelayCommand(Save, CanExecuteCommand);
         private void Save(object obj) {
-            int index = Tabs.IndexOf(new Tab(Tab.FilePath, Tab.Content, Tab.MD));
+            int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
             Tab.Content = Content;
             Tabs[index].Content = Content;
             UsedTabs[index].Content = Content;
             DataManager.WriteTabs(Tabs.ToList());
+        }
+        private static void SaveAutomatically(object state) {
+            if (!_appStart) {
+                DataManager.WriteTabs(_staticTabs.ToList());
+            }
+        }
+
+        private Tab GetTabFromTabViewModel(TabViewModel tabViewModel) { 
+            return new Tab(tabViewModel.FilePath, tabViewModel.Content, tabViewModel.MD);
         }
     }
 }
