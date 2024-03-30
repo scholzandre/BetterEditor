@@ -19,7 +19,7 @@ namespace BetterEditor.ViewModels {
             get => _content;
             set {
                 _content = value;
-                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
+                int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                 if (Tab.TabName == "" || !File.Exists(Tab.FilePath)) 
                     usedTabs[index].TabName = (value.Length > 30) ? value.Substring(0, 27) + "..." : value;
