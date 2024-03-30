@@ -165,6 +165,8 @@ namespace BetterEditor.ViewModels {
             Tabs[index].Content = Content;
             UsedTabs[index].Content = Content;
             DataManager.WriteTabs(Tabs.ToList());
+            Settings.LOT = Tab;
+            DataManager.WriteSettings(Settings);
         }
         private static void SaveAutomatically(object state) {
             if (!_appStart) {
