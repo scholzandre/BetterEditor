@@ -96,9 +96,13 @@ namespace BetterEditor.ViewModels {
             try {
                 TabViewModel tTVM = (TabViewModel)obj;
                 TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, tTVM.MD, tTVM.TabName, tTVM.IsActive, tTVM.Index);
-                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
+                int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 Tabs[index].Content = Content;
-                UsedTabs[index].Content = Content;
+                ObservableCollection<TabViewModel> tempUsedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
+                tempUsedTabs[index].Content = Content;
+                if (Tab.TabName == "" || !File.Exists(Tab.FilePath))
+                    tempUsedTabs[index].TabName = (tempUsedTabs[index].Content.Length > 30) ? tempUsedTabs[index].Content.Substring(0, 27) + "..." : tempUsedTabs[index].Content;
+                UsedTabs = tempUsedTabs;
                 Tab = tempTabViewModel;
                 Content = Tab.Content;
                 Settings.LOT = GetTabFromTabViewModel(Tab);
@@ -117,6 +121,7 @@ namespace BetterEditor.ViewModels {
         }
 
         private ObservableCollection<TabViewModel> TabsToUsedTabs(ObservableCollection<Tab> tabs) {
+            Counter = 0;
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>();
             foreach (Tab tab in tabs) {
                 Counter++;
@@ -132,9 +137,7 @@ namespace BetterEditor.ViewModels {
 
         private void OpenFirstTab() {
             if (!Tabs.Contains(Settings.LOT)) {
-                Counter++;
                 Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
-                UsedTabs.Append(new TabViewModel(Settings.LOT.FilePath, Settings.LOT.Content, Settings.LOT.MD, (Settings.LOT.Content.Length > 30) ? Settings.LOT.Content.Substring(0, 30) : Settings.LOT.Content, false, Counter));
                 Tab = UsedTabs.Last();
                 DataManager.WriteTabs(Tabs.ToList());
                 OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
