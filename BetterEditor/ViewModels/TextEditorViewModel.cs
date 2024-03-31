@@ -13,6 +13,7 @@ namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
         private Timer _timer = new Timer(SaveAutomatically, null, 10000, Timeout.Infinite);
         private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
+        private static Settings _staticSettings;
         private static bool _appStart = true;
         private string _content = string.Empty;
         public string Content { 
@@ -25,11 +26,14 @@ namespace BetterEditor.ViewModels {
                     usedTabs[index].TabName = (value.Length > 30) ? value.Substring(0, 27) + "..." : value;
                 usedTabs[index].Content = Content;
                 UsedTabs = usedTabs;
+                Tabs[index].Content = value;
                 _staticTabs = new ObservableCollection<Tab>();
                 foreach (TabViewModel tab in usedTabs)
                     _staticTabs.Add(GetTabFromTabViewModel(tab));
+                Tab.Content = value;
+                Settings.LOT = GetTabFromTabViewModel(Tab);
+                _staticSettings = Settings;
                 _timer.Change(10000, Timeout.Infinite);
-
                 OnPropertyChanged(nameof(Content));
             } 
         }
@@ -165,12 +169,13 @@ namespace BetterEditor.ViewModels {
             Tabs[index].Content = Content;
             UsedTabs[index].Content = Content;
             DataManager.WriteTabs(Tabs.ToList());
-            Settings.LOT = Tab;
+            Settings.LOT = GetTabFromTabViewModel(Tab);
             DataManager.WriteSettings(Settings);
         }
         private static void SaveAutomatically(object state) {
             if (!_appStart) {
                 DataManager.WriteTabs(_staticTabs.ToList());
+                DataManager.WriteSettings(_staticSettings);
             }
         }
 
