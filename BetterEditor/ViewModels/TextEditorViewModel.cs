@@ -56,7 +56,14 @@ namespace BetterEditor.ViewModels {
             }
         }
         public int Counter { get; set; }
-        public Settings Settings { get; set; }
+        private Settings _settings;
+        public Settings Settings { 
+            get => _settings;
+            set {
+                _settings = value;
+                OnPropertyChanged(nameof(Settings));
+            }
+        }
         public string MoveLeftIcon { get; set; } = "<";
         public string MoveRightIcon { get; set; } = ">";
         public string RenameIcon { get; set; } = "🖉";
