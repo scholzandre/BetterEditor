@@ -3,8 +3,10 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading;
 using System.Windows.Input;
 using VocabTrainer.Models;
@@ -99,7 +101,22 @@ namespace BetterEditor.ViewModels {
 
         public ICommand DeleteCommand => new RelayCommand(Delete, CanExecuteRenameCommand);
         private void Delete(object obj) {
-            throw new NotImplementedException();
+            TabViewModel tab = (TabViewModel)obj;
+            int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == tab.Index).First());
+            Tabs.Remove(GetTabFromTabViewModel(tab));
+            ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
+            usedTabs.Remove(tab);
+            UsedTabs = usedTabs;
+            if (usedTabs.Count == 0) {
+                Counter = 0;
+                CreateNewTab(this);
+                return;
+            } else if (index == usedTabs.Count) {
+                index--;
+            } 
+            usedTabs[index].IsActive = false;
+            Tab = usedTabs[index];
+            DataManager.WriteTabs(Tabs.ToList());
         }
 
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
@@ -135,13 +152,13 @@ namespace BetterEditor.ViewModels {
             Counter = 0;
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>();
             foreach (Tab tab in tabs) {
-                Counter++;
                 string tabName = "";
                 if (File.Exists(tab.FilePath))
                     tabName = tab.FilePath.Substring(tab.FilePath.LastIndexOf("\\"));
                 else
                     tabName = (tab.Content.Length > 30)? tab.Content.Substring(0, 27) + "..." : tab.Content;
                 usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName, false, Counter));
+                Counter++;
             }
             return usedTabs;
         }
@@ -161,11 +178,12 @@ namespace BetterEditor.ViewModels {
 
         public ICommand CreateNewTabCommand => new RelayCommand(CreateNewTab, CanExecuteCommand);
         private void CreateNewTab(object obj) {
-            Counter++;
             Tab tab = new Tab();
             TabViewModel usedTab = new TabViewModel(tab.FilePath, tab.Content, tab.MD, "", false, Counter);
             Tabs = new ObservableCollection<Tab>(Tabs.Append(tab));
             UsedTabs.Append(usedTab);
+            Tab = usedTab;
+            Counter++;
             OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
         }
 
