@@ -31,6 +31,8 @@
                                         Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}"
                                         IsEnabled="{Binding IsActive}"
+                                        Background="{Binding Path=DataContext.Settings.SVM.BGT, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
+                                        Foreground="{Binding Path=DataContext.Settings.SVM.Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
                                         Height="20px" 
                                         Width="175px"/>
                                     <Button 
