@@ -122,12 +122,15 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
+                DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 TabViewModel tTVM = (TabViewModel)obj;
-                TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, tTVM.MD, tTVM.TabName, tTVM.IsActive, tTVM.Index);
+                TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, todaysDate, tTVM.TabName, tTVM.IsActive, tTVM.Index);
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 Tabs[index].Content = Content;
+                Tabs[index].MD = todaysDate;
                 ObservableCollection<TabViewModel> tempUsedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                 tempUsedTabs[index].Content = Content;
+                tempUsedTabs[index].MD = todaysDate;
                 if (Tab.TabName == "" || !File.Exists(Tab.FilePath))
                     tempUsedTabs[index].TabName = (tempUsedTabs[index].Content.Length > 30) ? tempUsedTabs[index].Content.Substring(0, 27) + "..." : tempUsedTabs[index].Content;
                 UsedTabs = tempUsedTabs;
