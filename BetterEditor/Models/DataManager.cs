@@ -71,6 +71,12 @@ namespace BetterEditor.Models {
             }
         }
 
+
+        /// <summary>
+        /// Writes settings in file
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns>if writing was successful</returns>
         public static bool WriteSettings(Settings settings) {
             try {
                 DataManager dataManager = DataManager.GetData();
@@ -83,6 +89,12 @@ namespace BetterEditor.Models {
             }
         }
 
+
+        /// <summary>
+        /// Writes tabs in file
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <returns>if writing was successful</returns>
         public static bool WriteTabs(List<Tab> tabs) {
             try {
                 DataManager dataManager = DataManager.GetData();
