@@ -8,6 +8,33 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:TextEditorViewModel}"
         mc:Ignorable="d"
         Height="auto" Width="auto">
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="TabButtonStyle">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="{Binding Path=DataContext.Settings.SVM.BGT, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"/>
+            <Setter Property="Foreground" Value="{Binding Path=DataContext.Settings.SVM.Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="MyContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="SlateGray"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -31,8 +58,7 @@
                                         Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}"
                                         IsEnabled="{Binding IsActive}"
-                                        Background="{Binding Path=DataContext.Settings.SVM.BGT, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
-                                        Foreground="{Binding Path=DataContext.Settings.SVM.Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
+                                        Style="{DynamicResource TabButtonStyle}"
                                         Height="20px" 
                                         Width="175px"/>
                                     <Button 
