@@ -45,10 +45,13 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(Settings));
             }
         }
-        
+
+        private string _editButtonBackground = "#D0CEE2";
+        private string _deleteButtonBackground = "#FECAC6";
+
         public MainViewModel() {
             try { 
-                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings);
+                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground);
                 ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
