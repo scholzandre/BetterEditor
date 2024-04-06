@@ -70,11 +70,15 @@ namespace BetterEditor.ViewModels {
         public string MoveRightIcon { get; set; } = ">";
         public string RenameIcon { get; set; } = "🖉";
         public string DeleteIcon { get; set; } = "✖";
-        public TextEditorViewModel(List<Tab> tabs, Settings settings) {
+        public string EditButtonBackground { get; set; }
+        public string DeleteButtonBackground { get; set; }
+        public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor) {
             Tabs = new ObservableCollection<Tab>(tabs);
             Settings = settings;
             OpenFirstTab();
             _appStart = false;
+            EditButtonBackground = editBackgroundColor;
+            DeleteButtonBackground = deleteBackgroundColor;
         }
 
         private TabViewModel _tab = new TabViewModel();
