@@ -89,5 +89,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand SaveCommand => new RelayCommand(Save, CanExecuteCommand);
+        private void Save(object obj) {
+            try {
+                TextEditorViewModel.SaveCommand.Execute(obj);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
