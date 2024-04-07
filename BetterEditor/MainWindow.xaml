@@ -34,7 +34,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="New (Ctrl + T)"/>
                 <MenuItem Header="Open (Ctrl + O)"/>
-                <MenuItem Header="Save (Ctrl + S)"/>
+                <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
                 <MenuItem Header="Save as (Ctrl + Alt + S)"/>
                 <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True"/>
                 <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True"/>
