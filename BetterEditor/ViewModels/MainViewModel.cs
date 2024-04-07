@@ -98,5 +98,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenFileCommand => new RelayCommand(OpenFile, CanExecuteCommand);
+        private void OpenFile(object obj) {
+            try {
+                TextEditorViewModel.OpenFileCommand.Execute(obj);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
