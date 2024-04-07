@@ -70,7 +70,6 @@
                                         Height="20">
                                         <Button.Style>
                                             <Style TargetType="Button">
-                                                <Setter Property="IsEnabled" Value="False"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding FilePath}" Value="">
                                                         <Setter Property="IsEnabled" Value="False"/>
