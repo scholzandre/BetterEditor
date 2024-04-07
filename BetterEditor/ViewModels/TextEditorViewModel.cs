@@ -1,4 +1,5 @@
 ﻿using BetterEditor.Models;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -126,15 +127,12 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
-                DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 TabViewModel tTVM = (TabViewModel)obj;
-                TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, todaysDate, tTVM.TabName, tTVM.IsActive, tTVM.Index);
+                TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, tTVM.MD, tTVM.TabName, tTVM.IsActive, tTVM.Index);
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 Tabs[index].Content = Content;
-                Tabs[index].MD = todaysDate;
                 ObservableCollection<TabViewModel> tempUsedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                 tempUsedTabs[index].Content = Content;
-                tempUsedTabs[index].MD = todaysDate;
                 if (Tab.TabName == "" || !File.Exists(Tab.FilePath))
                     tempUsedTabs[index].TabName = (tempUsedTabs[index].Content.Length > 30) ? tempUsedTabs[index].Content.Substring(0, 27) + "..." : tempUsedTabs[index].Content;
                 UsedTabs = tempUsedTabs;
@@ -192,14 +190,33 @@ namespace BetterEditor.ViewModels {
 
         public ICommand SaveCommand => new RelayCommand(Save, CanExecuteCommand);
         private void Save(object obj) {
+            DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
             Tab.Content = Content;
             Tabs[index].Content = Content;
+            Tabs[index].MD = todaysDate;
             UsedTabs[index].Content = Content;
+            UsedTabs[index].MD = todaysDate;
             DataManager.WriteTabs(Tabs.ToList());
             Settings.LOT = GetTabFromTabViewModel(Tab);
             DataManager.WriteSettings(Settings);
         }
+
+        public ICommand OpenFileCommand => new RelayCommand(OpenFile, CanExecuteCommand);
+        private void OpenFile(object obj) {
+            try {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.ShowDialog();
+                string filePath = openFileDialog.FileName;
+                string content = File.ReadAllText(filePath);
+                DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
+                Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
+                OpenTabCommand.Execute(UsedTabs.Last());
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
         private static void SaveAutomatically(object state) {
             if (!_appStart) {
                 DataManager.WriteTabs(_staticTabs.ToList());
