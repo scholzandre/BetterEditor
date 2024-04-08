@@ -46,6 +46,15 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        private string _changeSizeButton = string.Empty;
+        public string ChangeSizeButton {
+            get => _changeSizeButton;
+            set {
+                _changeSizeButton = value;
+                OnPropertyChanged(nameof(ChangeSizeButton));
+            }
+        }
+
         private string _editButtonBackground = "#D0CEE2";
         private string _deleteButtonBackground = "#FECAC6";
 
