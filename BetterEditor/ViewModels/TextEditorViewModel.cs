@@ -14,9 +14,6 @@ using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
-        private Timer _timer = new Timer(SaveAutomatically, null, 10000, Timeout.Infinite);
-        private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
-        private static Settings _staticSettings;
         private static bool _appStart = true;
         private string _content = string.Empty;
         public string Content { 
@@ -30,13 +27,9 @@ namespace BetterEditor.ViewModels {
                 usedTabs[index].Content = Content;
                 UsedTabs = usedTabs;
                 Tabs[index].Content = value;
-                _staticTabs = new ObservableCollection<Tab>();
-                foreach (TabViewModel tab in usedTabs)
-                    _staticTabs.Add(GetTabFromTabViewModel(tab));
                 Tab.Content = value;
                 Settings.LOT = GetTabFromTabViewModel(Tab);
-                _staticSettings = Settings;
-                _timer.Change(10000, Timeout.Infinite);
+                SaveAutomatically();
                 OnPropertyChanged(nameof(Content));
             } 
         }
@@ -217,10 +210,10 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private static void SaveAutomatically(object state) {
+        private void SaveAutomatically() {
             if (!_appStart) {
-                DataManager.WriteTabs(_staticTabs.ToList());
-                DataManager.WriteSettings(_staticSettings);
+                DataManager.WriteTabs(Tabs.ToList());
+                DataManager.WriteSettings(Settings);
             }
         }
 
