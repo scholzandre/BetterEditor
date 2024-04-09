@@ -95,7 +95,7 @@
             <!--<Button Content="{Binding MoveRightIcon}" Height="20" Width="20" Grid.Column="2" HorizontalAlignment="Right"/>-->
         </Grid>
         <TextBox 
-            Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+            Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Delay=5000, Mode=TwoWay}" 
             TextWrapping="Wrap" 
             AcceptsReturn="True" 
             VerticalScrollBarVisibility="Auto" 
