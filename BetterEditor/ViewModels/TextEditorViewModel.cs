@@ -220,5 +220,19 @@ namespace BetterEditor.ViewModels {
         private Tab GetTabFromTabViewModel(TabViewModel tabViewModel) { 
             return new Tab(tabViewModel.FilePath, tabViewModel.Content, tabViewModel.MD);
         }
+
+        public ICommand OpenNextTabCommand => new RelayCommand(OpenNextTab, CanExecuteCommand);
+        private void OpenNextTab(object obj) {
+            try {
+                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
+                if (index >= Tabs.Count - 1) {
+                    OpenTabCommand.Execute(UsedTabs[0]);
+                } else { 
+                    OpenTabCommand.Execute(UsedTabs[index + 1]);
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
