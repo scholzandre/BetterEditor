@@ -35,6 +35,11 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding OpenNextTabCommand}"/>
+    </UserControl.InputBindings>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
