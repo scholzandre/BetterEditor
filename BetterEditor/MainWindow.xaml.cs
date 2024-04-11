@@ -1,6 +1,8 @@
 ﻿using BetterEditor.ViewModels;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BetterEditor {
     /// <summary>
@@ -37,8 +39,25 @@ namespace BetterEditor {
             Close();
         }
 
-        private void WindowsMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) DragMove();
+        private void DragWindow(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                if (WindowState == WindowState.Maximized && e.ClickCount == 1) {
+                    WindowState = WindowState.Normal;
+                    Top = 0;
+                    Left = Mouse.GetPosition(this).X - Width / 2;
+                }
+                DragMove();
+            }
+        }
+
+        private void DoubleClick(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount == 2) {
+                if (WindowState == WindowState.Maximized) {
+                    WindowState = WindowState.Normal;
+                } else {
+                    WindowState = WindowState.Maximized;
+                }
+            }
         }
     }
 }
