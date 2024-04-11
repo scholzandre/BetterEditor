@@ -110,11 +110,14 @@
             Background="{Binding Settings.SVM.BGTE}"
             Foreground="{Binding Settings.SVM.Foreground}"
             AcceptsTab="True"
+            FontSize="{Binding Settings.FontSize}"
             >
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
                 <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
                 <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
+                <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
+                <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>
