@@ -14,7 +14,7 @@
     </Window.DataContext>
 
     <Window.InputBindings>
-        <KeyBinding Key="Tab" Command="{Binding ChangeUserControlCommand}" />
+        <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -24,7 +24,7 @@
             <Setter Property="Background" Value="Lightgray"/>
         </Style>
     </Window.Resources>
-    <Grid Background="{Binding Settings.SVM.BGTE}" MouseDown="WindowsMouseDown">
+    <Grid Background="{Binding Settings.SVM.BGTE}" MouseDown="DragWindow" MouseLeftButtonDown="DoubleClick">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition/>
