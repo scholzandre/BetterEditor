@@ -60,7 +60,7 @@ namespace BetterEditor.ViewModels {
 
         public MainViewModel() {
             try { 
-                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground);
+                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground, this);
                 ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
