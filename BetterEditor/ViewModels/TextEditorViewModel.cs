@@ -263,5 +263,23 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand ZoomInCommand => new RelayCommand(ZoomIn, CanExecuteCommand);
+        private void ZoomIn(object obj) {
+            try {
+                _parent.ZoomInCommand.Execute(_parent);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand ZoomOutCommand => new RelayCommand(ZoomOut, CanExecuteCommand);
+        private void ZoomOut(object obj) {
+            try {
+                _parent.ZoomOutCommand.Execute(_parent);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }

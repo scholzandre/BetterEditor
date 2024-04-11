@@ -116,5 +116,27 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand ZoomInCommand => new RelayCommand(ZoomIn, CanExecuteCommand);
+        private void ZoomIn(object obj) {
+            try {
+                Settings.FontSize += 2;
+                TextEditorViewModel.Settings = Settings;
+                DataManager.WriteSettings(Settings);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand ZoomOutCommand => new RelayCommand(ZoomOut, CanExecuteCommand);
+        private void ZoomOut(object obj) {
+            try {
+                Settings.FontSize -= 2;
+                TextEditorViewModel.Settings = Settings;
+                DataManager.WriteSettings(Settings);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
