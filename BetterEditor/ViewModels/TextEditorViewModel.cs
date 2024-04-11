@@ -14,6 +14,9 @@ using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
+        private Timer _timer = new Timer(SaveAutomatically, null, 10000, Timeout.Infinite);
+        private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
+        private static Settings _staticSettings;
         private static bool _appStart = true;
         private string _content = string.Empty;
         public string Content { 
@@ -28,8 +31,12 @@ namespace BetterEditor.ViewModels {
                 UsedTabs = usedTabs;
                 Tabs[index].Content = value;
                 Tab.Content = value;
+                _staticTabs = new ObservableCollection<Tab>();
+                foreach (TabViewModel tab in usedTabs)
+                    _staticTabs.Add(GetTabFromTabViewModel(tab));
                 Settings.LOT = GetTabFromTabViewModel(Tab);
-                SaveAutomatically();
+                _staticSettings = Settings;
+                _timer.Change(10000, Timeout.Infinite);
                 OnPropertyChanged(nameof(Content));
             } 
         }
@@ -66,13 +73,16 @@ namespace BetterEditor.ViewModels {
         public string DeleteIcon { get; set; } = "✖";
         public string EditButtonBackground { get; set; }
         public string DeleteButtonBackground { get; set; }
-        public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor) {
+        private MainViewModel _parent;
+
+        public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor, MainViewModel parent) {
             Tabs = new ObservableCollection<Tab>(tabs);
             Settings = settings;
             OpenFirstTab();
             _appStart = false;
             EditButtonBackground = editBackgroundColor;
             DeleteButtonBackground = deleteBackgroundColor;
+            _parent = parent;
         }
 
         private TabViewModel _tab = new TabViewModel();
@@ -97,13 +107,21 @@ namespace BetterEditor.ViewModels {
             return true;
         }
 
-        public ICommand DeleteCommand => new RelayCommand(Delete, CanExecuteRenameCommand);
-        private void Delete(object obj) {
+        public ICommand DeleteSpecificTabCommand => new RelayCommand(DeleteTab, CanExecuteRenameCommand);
+        private void DeleteTab(object obj) {
             TabViewModel tab = (TabViewModel)obj;
-            int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == tab.Index).First());
-            Tabs.Remove(GetTabFromTabViewModel(tab));
+            DeleteTab(UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == tab.Index).First()));
+        }
+
+        public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteRenameCommand);
+        private void DeleteCurrentTab(object obj) {
+            DeleteTab(UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First()));
+        }
+
+        private void DeleteTab(int index) {
+            Tabs.Remove(Tabs[index]);
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
-            usedTabs.Remove(tab);
+            usedTabs.Remove(Tab);
             UsedTabs = usedTabs;
             if (usedTabs.Count == 0) {
                 Counter = 0;
@@ -111,10 +129,12 @@ namespace BetterEditor.ViewModels {
                 return;
             } else if (index == usedTabs.Count) {
                 index--;
-            } 
+            }
             usedTabs[index].IsActive = false;
             Tab = usedTabs[index];
             DataManager.WriteTabs(Tabs.ToList());
+            Settings.LOT = GetTabFromTabViewModel(Tab);
+            DataManager.WriteSettings(Settings);
         }
 
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
@@ -176,7 +196,7 @@ namespace BetterEditor.ViewModels {
 
         public ICommand CreateNewTabCommand => new RelayCommand(CreateNewTab, CanExecuteCommand);
         private void CreateNewTab(object obj) {
-            Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab()));
+            Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day))));
             Tab = UsedTabs.Last();
             OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
         }
@@ -210,10 +230,10 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private void SaveAutomatically() {
+        private static void SaveAutomatically(object? state) {
             if (!_appStart) {
-                DataManager.WriteTabs(Tabs.ToList());
-                DataManager.WriteSettings(Settings);
+                DataManager.WriteTabs(_staticTabs.ToList());
+                DataManager.WriteSettings(_staticSettings);
             }
         }
 
@@ -230,6 +250,15 @@ namespace BetterEditor.ViewModels {
                 } else { 
                     OpenTabCommand.Execute(UsedTabs[index + 1]);
                 }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
+        private void ChangeUserControl(object obj) {
+            try {
+                _parent.ChangeUserControlCommand.Execute(_parent);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
