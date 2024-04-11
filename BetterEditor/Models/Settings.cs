@@ -26,11 +26,17 @@ namespace BetterEditor.ViewModels {
         /// </summary>
         public bool CAD { get; set; }
 
-        public Settings(Tab lOT, ViewMode sVM, bool sA, bool cAD) { 
+        /// <summary>
+        /// General font size
+        /// </summary>
+        public int FontSize { get; set; }
+
+        public Settings(Tab lOT, ViewMode sVM, bool sA, bool cAD, int fontSize = 14) { 
             LOT = lOT;
             SVM = sVM;
             SA = sA;
             CAD = cAD;
+            FontSize = fontSize;
         }
 
         public Settings() { }
