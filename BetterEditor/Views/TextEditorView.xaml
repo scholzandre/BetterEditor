@@ -38,8 +38,9 @@
 
     <UserControl.InputBindings>
         <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding OpenNextTabCommand}"/>
+        <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding DeleteCurrentTabCommand}"/>
     </UserControl.InputBindings>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -86,7 +87,7 @@
 
                                     <Button 
                                         Content="{Binding DataContext.DeleteIcon, RelativeSource={RelativeSource AncestorType={x:Type local:TextEditorView}}}" 
-                                        Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
+                                        Command="{Binding Path=DataContext.DeleteSpecificTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}" 
                                         Background="{Binding Path=DataContext.DeleteButtonBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
                                         Width="20" 
@@ -100,17 +101,20 @@
             <!--<Button Content="{Binding MoveRightIcon}" Height="20" Width="20" Grid.Column="2" HorizontalAlignment="Right"/>-->
         </Grid>
         <TextBox 
-            Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Delay=5000, Mode=TwoWay}" 
+            Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             TextWrapping="Wrap" 
             AcceptsReturn="True" 
             VerticalScrollBarVisibility="Auto" 
             Grid.Row="1" 
             VerticalAlignment="Stretch"
             Background="{Binding Settings.SVM.BGTE}"
-            Foreground="{Binding Settings.SVM.Foreground}">
+            Foreground="{Binding Settings.SVM.Foreground}"
+            AcceptsTab="True"
+            >
             <TextBox.InputBindings>
-                <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}" />
-                <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}" />
+                <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
+                <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+                <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>
