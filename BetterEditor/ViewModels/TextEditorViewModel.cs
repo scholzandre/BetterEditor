@@ -7,8 +7,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using VocabTrainer.Models;
 
@@ -25,8 +27,7 @@ namespace BetterEditor.ViewModels {
                 _content = value;
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
-                if (Tab.TabName == "" || !File.Exists(Tab.FilePath)) 
-                    usedTabs[index].TabName = (value.Length > 30) ? value.Substring(0, 27) + "..." : value;
+                usedTabs[index].TabName = CreateTabName(Tab.FilePath, value);
                 usedTabs[index].Content = Content;
                 UsedTabs = usedTabs;
                 Tabs[index].Content = value;
@@ -140,15 +141,27 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
-                TabViewModel tTVM = (TabViewModel)obj;
-                TabViewModel tempTabViewModel = new TabViewModel(tTVM.FilePath, tTVM.Content, tTVM.MD, tTVM.TabName, tTVM.IsActive, tTVM.Index);
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 Tabs[index].Content = Content;
                 ObservableCollection<TabViewModel> tempUsedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                 tempUsedTabs[index].Content = Content;
-                if (Tab.TabName == "" || !File.Exists(Tab.FilePath))
-                    tempUsedTabs[index].TabName = (tempUsedTabs[index].Content.Length > 30) ? tempUsedTabs[index].Content.Substring(0, 27) + "..." : tempUsedTabs[index].Content;
+                tempUsedTabs[index].TabName = CreateTabName(tempUsedTabs[index].FilePath, tempUsedTabs[index].Content);
                 UsedTabs = tempUsedTabs;
+                DataManager.WriteTabs(Tabs.ToList());
+
+                TabViewModel tempTabViewModel = (TabViewModel)obj;
+                if (tempTabViewModel.FilePath != "" && !File.Exists(tempTabViewModel.FilePath)) {
+                    MessageBoxResult messageBoxResult = MessageBox.Show($"{tempTabViewModel.FilePath} doesn't exist anymore.\nDo you want to keep the tab?", "File is missing", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.No) {
+                        DeleteSpecificTabCommand.Execute(tempTabViewModel);
+                        return;
+                    } else {
+                        index = UsedTabs.IndexOf(UsedTabs.Where(x => x.FilePath == tempTabViewModel.FilePath).First());
+                        Tabs[index].FilePath = "";
+                        tempTabViewModel.FilePath = "";
+                        DataManager.WriteTabs(Tabs.ToList());
+                    }
+                }
                 Tab = tempTabViewModel;
                 Content = Tab.Content;
                 Settings.LOT = GetTabFromTabViewModel(Tab);
@@ -159,7 +172,6 @@ namespace BetterEditor.ViewModels {
                     usedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                     UsedTabs = usedTabs;
                 }
-                DataManager.WriteTabs(Tabs.ToList());
                 DataManager.WriteSettings(Settings);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -170,11 +182,7 @@ namespace BetterEditor.ViewModels {
             Counter = 0;
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>();
             foreach (Tab tab in tabs) {
-                string tabName = "";
-                if (File.Exists(tab.FilePath))
-                    tabName = tab.FilePath.Substring(tab.FilePath.LastIndexOf("\\"));
-                else
-                    tabName = (tab.Content.Length > 30)? tab.Content.Substring(0, 27) + "..." : tab.Content;
+                string tabName = CreateTabName(tab.FilePath, tab.Content);
                 usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName, false, Counter));
                 Counter++;
             }
@@ -182,6 +190,26 @@ namespace BetterEditor.ViewModels {
         }
 
         private void OpenFirstTab() {
+            if (Settings.LOT.FilePath != "" && !File.Exists(Settings.LOT.FilePath)) {
+                MessageBoxResult messageBoxResult = MessageBox.Show($"{Settings.LOT.FilePath} doesn't exist anymore.\nDo you want to keep the tab?", "File is missing", MessageBoxButton.YesNo);
+                if (messageBoxResult == MessageBoxResult.No) { 
+                    if (Tabs.Contains(Settings.LOT)) {
+                        Tabs.Remove(Settings.LOT);
+                        UsedTabs = TabsToUsedTabs(Tabs);
+                        DataManager.WriteTabs(Tabs.ToList());
+                    }
+                    Tab = UsedTabs.Last();
+                    OpenTabCommand.Execute(UsedTabs.Last());
+                    return;
+                } else { 
+                    if (Tabs.Contains(Settings.LOT)) { 
+                        int index = Tabs.IndexOf(Settings.LOT);
+                        Tabs[index].FilePath = "";
+                        UsedTabs[index].FilePath = "";
+                    }
+                    Settings.LOT.FilePath = "";
+                }
+            }
             if (!Tabs.Contains(Settings.LOT)) {
                 Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
                 Tab = UsedTabs.Last();
@@ -280,6 +308,21 @@ namespace BetterEditor.ViewModels {
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
+        }
+
+        private string CreateTabName(string filePath, string newContent) {
+            string tabName = "";
+            if (File.Exists(filePath)) {
+                tabName = filePath.Substring(filePath.LastIndexOf("\\")+1);
+            } else { 
+                string tempSubstring = (newContent.Length > 30) ? newContent.Substring(0, 27) + "..." : newContent;
+                if (tempSubstring.Contains("\n"))
+                    tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\n"));
+                if (tempSubstring.Contains("\r"))
+                    tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\r"));
+                tabName = tempSubstring.Trim();
+            }
+            return tabName;
         }
     }
 }
