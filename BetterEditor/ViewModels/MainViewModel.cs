@@ -78,6 +78,7 @@ namespace BetterEditor.ViewModels {
                     UserControl = (UserControl)Activator.CreateInstance(_textEditorViewType);
                     UserControl.DataContext = TextEditorViewModel;
                 } else {
+                    TextEditorViewModel.SaveCommand.Execute(this);
                     UserControl = (UserControl)Activator.CreateInstance(_listTabsViewType);
                     UserControl.DataContext = ListTabsViewModel;
                 }
