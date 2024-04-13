@@ -1,6 +1,7 @@
 ﻿using BetterEditor.ViewModels;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -39,24 +40,35 @@ namespace BetterEditor {
             Close();
         }
 
-        private void DragWindow(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                if (WindowState == WindowState.Maximized && e.ClickCount == 1) {
-                    WindowState = WindowState.Normal;
-                    Top = 0;
-                    Left = Mouse.GetPosition(this).X - Width / 2;
-                }
-                DragMove();
-            }
-        }
-
-        private void DoubleClick(object sender, MouseButtonEventArgs e) {
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 if (WindowState == WindowState.Maximized) {
                     WindowState = WindowState.Normal;
                 } else {
                     WindowState = WindowState.Maximized;
                 }
+            }
+        }
+
+        private void MouseMoves(object sender, System.Windows.Input.MouseEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                if (WindowState == WindowState.Maximized) {
+                    WindowState = WindowState.Normal;
+                    Screen selectedScreen = Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+                    int screenWidth = selectedScreen.WorkingArea.Width;
+                    double leftArea = screenWidth * 0.2;
+                    double middle = screenWidth * 0.8;
+                    int upperLeftCornor = selectedScreen.Bounds.Left;
+                    double mouseXPosition = e.GetPosition(this).X;
+                    Top = 0;
+                    if (mouseXPosition <= leftArea)
+                        Left = upperLeftCornor;
+                    else if (mouseXPosition > leftArea && mouseXPosition <= middle)
+                        Left = upperLeftCornor + mouseXPosition - Width / 2;
+                    else
+                        Left = upperLeftCornor + screenWidth - Width;
+                }
+                DragMove();
             }
         }
     }
