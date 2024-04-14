@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VocabTrainer.Models;
+using System.Windows;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel{
@@ -135,6 +136,71 @@ namespace BetterEditor.ViewModels {
                 Settings.FontSize -= 2;
                 TextEditorViewModel.Settings = Settings;
                 DataManager.WriteSettings(Settings);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand CloseAppCommand => new RelayCommand(CloseApp, CanExecuteCommand);
+        private void CloseApp(object obj) {
+            try {
+                TextEditorViewModel.SaveCommand.Execute(this);
+                DataManager.WriteSettings(Settings);
+                Application.Current.Shutdown();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand CloseTabCommand => new RelayCommand(CloseTab, CanExecuteCommand);
+        private void CloseTab(object obj) {
+            try {
+                TextEditorViewModel.DeleteCurrentTabCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenNewTabCommand => new RelayCommand(OpenNewTab, CanExecuteCommand);
+        private void OpenNewTab(object obj) {
+            try {
+                TextEditorViewModel.CreateNewTabCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand SaveAsCommand => new RelayCommand(SaveAs, CanExecuteCommand);
+        private void SaveAs(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand SaveAutomaticallyCommand => new RelayCommand(SaveAutomatically, CanExecuteCommand);
+        private void SaveAutomatically(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand CADCommand => new RelayCommand(CAD, CanExecuteCommand);
+        private void CAD(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenSettingsFileCommand => new RelayCommand(OpenSettingsFile, CanExecuteCommand);
+        private void OpenSettingsFile(object obj) {
+            try {
+                throw new NotImplementedException();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
