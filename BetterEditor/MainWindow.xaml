@@ -17,6 +17,7 @@
         <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
         <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
         <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding CloseAppCommand}"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -26,22 +27,26 @@
             <Setter Property="Background" Value="Lightgray"/>
         </Style>
     </Window.Resources>
-    <Grid Background="{Binding Settings.SVM.BGTE}" MouseLeftButtonDown="Window_MouseLeftButtonDown" MouseMove="MouseMoves">
+    <Grid Background="{Binding Settings.SVM.BGTE}" MouseLeftButtonUp="Window_MouseLeftButtonUp">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5,0,0,0">
+        <Grid Grid.Row="0" Margin="5,0,0,0" MouseLeftButtonDown="Window_MouseLeftButtonDown" MouseMove="MouseMoves">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="11*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="40px"/>
                 <ColumnDefinition Width="40px"/>
                 <ColumnDefinition Width="40px"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="BetterEditor" Grid.Column="0" Foreground="{Binding Settings.SVM.Foreground}"/>
-            <Button HorizontalAlignment="Right" Grid.Column="1" Width="40px" Content="🗕" Click="MinimizeWindow"/>
-            <Button HorizontalAlignment="Right" Grid.Column="2" Width="40px" Content="{Binding Path=DataContext.ChangeSizeButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}" Click="ChangeWindowSize"/>
-            <Button HorizontalAlignment="Right" Grid.Column="3" Width="40px" Content="🗙" Click="CloseWindow"/>
+            <TextBlock Text="BetterEditor" Grid.Column="0" Foreground="{Binding Settings.SVM.Foreground}" Grid.RowSpan="2"/>
+            <Button HorizontalAlignment="Center" Grid.Column="1" Width="40px" Content="🗕" Click="MinimizeWindow" Grid.RowSpan="2"/>
+            <Button HorizontalAlignment="Center" Grid.Column="2" Width="40px" Content="{Binding Path=DataContext.ChangeSizeButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}" Click="ChangeWindowSize" Grid.RowSpan="2"/>
+            <Button HorizontalAlignment="Center" Grid.Column="3" Width="40px" Content="🗙" Grid.RowSpan="2" Command="{Binding CloseAppCommand}"/>
         </Grid>
         <Grid Grid.Row="1" Background="{Binding Settings.SVM.BGT}">
             <Grid.RowDefinitions>
@@ -50,15 +55,15 @@
             </Grid.RowDefinitions>
             <Menu Background="{Binding Settings.SVM.BGTE}">
                 <MenuItem Header="File">
-                    <MenuItem Header="New (Ctrl + T)"/>
+                    <MenuItem Header="New (Ctrl + T)" Command="{Binding OpenNewTabCommand}"/>
                     <MenuItem Header="Open (Ctrl + O)" Command="{Binding OpenFileCommand}"/>
                     <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
-                    <MenuItem Header="Save as (Ctrl + Alt + S)"/>
-                    <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True"/>
-                    <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True"/>
-                    <MenuItem Header="Open settings file"/>
-                    <MenuItem Header="Close tab (Ctrl + W)"/>
-                    <MenuItem Header="Close BetterEditor (Alt + F4)"/>
+                    <MenuItem Header="Save as (Ctrl + Alt + S)" Command="{Binding SaveAsCommand}"/>
+                    <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}"/>
+                    <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}"/>
+                    <MenuItem Header="Open settings file" Command="{Binding OpenSettingsFileCommand}"/>
+                    <MenuItem Header="Close tab (Ctrl + W)" Command="{Binding CloseTabCommand}"/>
+                    <MenuItem Header="Close BetterEditor (Alt + F4)" Command="{Binding CloseAppCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="Undo (Ctrl + Z)"/>
