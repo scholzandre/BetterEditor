@@ -60,7 +60,7 @@
                     <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
                     <MenuItem Header="Save as (Ctrl + Alt + S)" Command="{Binding SaveAsCommand}"/>
                     <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}"/>
-                    <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}"/>
+                    <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}" IsChecked="{Binding Settings.CAD}"/>
                     <MenuItem Header="Open settings file" Command="{Binding OpenSettingsFileCommand}"/>
                     <MenuItem Header="Close tab (Ctrl + W)" Command="{Binding CloseTabCommand}"/>
                     <MenuItem Header="Close BetterEditor (Alt + F4)" Command="{Binding CloseAppCommand}"/>
