@@ -13,6 +13,7 @@ namespace BetterEditor {
         MainViewModel _mainViewModel;
         private string _overlap = "🗗";
         private string _maximize = "🗖";
+        private bool _canSetStateNormal = false;
 
         public MainWindow() {
             InitializeComponent();
@@ -36,12 +37,9 @@ namespace BetterEditor {
             }
         }
 
-        private void CloseWindow(object sender, RoutedEventArgs e) {
-            Close();
-        }
-
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
+                _canSetStateNormal = false;
                 if (WindowState == WindowState.Maximized) {
                     WindowState = WindowState.Normal;
                 } else {
@@ -52,7 +50,7 @@ namespace BetterEditor {
 
         private void MouseMoves(object sender, System.Windows.Input.MouseEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
-                if (WindowState == WindowState.Maximized) {
+                if (WindowState == WindowState.Maximized && _canSetStateNormal) {
                     WindowState = WindowState.Normal;
                     Screen selectedScreen = Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
                     int screenWidth = selectedScreen.WorkingArea.Width;
@@ -70,6 +68,9 @@ namespace BetterEditor {
                 }
                 DragMove();
             }
+        }
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+            _canSetStateNormal = true;
         }
     }
 }
