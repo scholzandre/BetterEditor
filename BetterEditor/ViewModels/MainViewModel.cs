@@ -187,11 +187,11 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-
         public ICommand CADCommand => new RelayCommand(CAD, CanExecuteCommand);
         private void CAD(object obj) {
             try {
-                throw new NotImplementedException();
+                TextEditorViewModel.Settings = Settings;
+                DataManager.WriteSettings(Settings);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
