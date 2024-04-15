@@ -6,99 +6,148 @@
         xmlns:local="clr-namespace:BetterEditor"
         xmlns:viewmodels="clr-namespace:BetterEditor.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
-        mc:Ignorable="d"
-        MinHeight="100" MinWidth="400"
-        WindowStyle="None">
+        mc:Ignorable="d" 
+        Title="MainWindow"
+        MinHeight="100" 
+        MinWidth="400">
+    
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
-
-    <Window.InputBindings>
-        <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
-        <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
-        <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
-        <KeyBinding Key="F4" Modifiers="Alt" Command="{Binding CloseAppCommand}"/>
-    </Window.InputBindings>
+    
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="34" />
+    </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <!-- Binding to ViewModes property -->
-        <CollectionViewSource Source="{Binding Path=ViewModes}" x:Key="ViewModes"/>
-        <Style TargetType="MenuItem">
-            <Setter Property="Background" Value="Lightgray"/>
-        </Style>
+        <ResourceDictionary>
+
+            <CollectionViewSource Source="{Binding Path=ViewModes}" x:Key="ViewModes"/>
+            <Style TargetType="MenuItem">
+                <Setter Property="Background" Value="Lightgray"/>
+            </Style>
+            <Style x:Key="CaptionButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="LayoutRoot" Background="Transparent" Width="44" Height="30">
+                                <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="Segoe MDL2 Assets" FontSize="10" 
+                                   Foreground="{Binding Settings.SVM.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="LayoutRoot" Property="Background" Value="#E5E5E5"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="#000000"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+                <Setter Property="Content" Value="&#xE949;"/>
+            </Style>
+
+            <Style x:Key="MaximizeButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+                <Setter Property="Content" Value="&#xE739;"/>
+            </Style>
+
+            <Style x:Key="RestoreButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+                <Setter Property="Content" Value="&#xE923;"/>
+            </Style>
+
+            <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource CaptionButtonStyle}">
+                <Setter Property="Content" Value="&#xE106;"/>
+            </Style>
+
+        </ResourceDictionary>
     </Window.Resources>
-    <Grid Background="{Binding Settings.SVM.BGTE}" MouseLeftButtonUp="Window_MouseLeftButtonUp">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5,0,0,0" MouseLeftButtonDown="Window_MouseLeftButtonDown" MouseMove="MouseMoves">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="9*"/>
-                <RowDefinition Height="11*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="40px"/>
-                <ColumnDefinition Width="40px"/>
-                <ColumnDefinition Width="40px"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="BetterEditor" Grid.Column="0" Foreground="{Binding Settings.SVM.Foreground}" Grid.RowSpan="2"/>
-            <Button HorizontalAlignment="Center" Grid.Column="1" Width="40px" Content="🗕" Click="MinimizeWindow" Grid.RowSpan="2"/>
-            <Button HorizontalAlignment="Center" Grid.Column="2" Width="40px" Content="{Binding Path=DataContext.ChangeSizeButton, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}" Click="ChangeWindowSize" Grid.RowSpan="2"/>
-            <Button HorizontalAlignment="Center" Grid.Column="3" Width="40px" Content="🗙" Grid.RowSpan="2" Command="{Binding CloseAppCommand}"/>
-        </Grid>
-        <Grid Grid.Row="1" Background="{Binding Settings.SVM.BGT}">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Close" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Maximize" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Minimize" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed_Restore" />
+    </Window.CommandBindings>
+
+    <Border x:Name="MainWindowBorder" BorderBrush="{Binding Settings.SVM.BGTE}">
+        <Grid Background="{Binding Settings.SVM.BGTE}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Menu Background="{Binding Settings.SVM.BGTE}">
-                <MenuItem Header="File">
-                    <MenuItem Header="New (Ctrl + T)" Command="{Binding OpenNewTabCommand}"/>
-                    <MenuItem Header="Open (Ctrl + O)" Command="{Binding OpenFileCommand}"/>
-                    <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
-                    <MenuItem Header="Save as (Ctrl + Alt + S)" Command="{Binding SaveAsCommand}"/>
-                    <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}"/>
-                    <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}" IsChecked="{Binding Settings.CAD}"/>
-                    <MenuItem Header="Open settings file" Command="{Binding OpenSettingsFileCommand}"/>
-                    <MenuItem Header="Close tab (Ctrl + W)" Command="{Binding CloseTabCommand}"/>
-                    <MenuItem Header="Close BetterEditor (Alt + F4)" Command="{Binding CloseAppCommand}"/>
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Undo (Ctrl + Z)"/>
-                    <MenuItem Header="Redo (Ctrl + Y)"/>
-                    <MenuItem Header="Search (Ctrl + F)"/>
-                    <MenuItem Header="Replace (Ctrl + R)"/>
-                </MenuItem>
-                <MenuItem Header="View">
-                    <MenuItem Header="Zoom">
-                        <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}"/>
-                        <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}"/>
+            <Grid Grid.Row="0" Height="30" Background="{Binding Settings.SVM.BGTE}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <!--<Image Source="/Resources/icon.ico" Width="18" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" />-->
+                    <TextBlock Text="BetterEditor" FontFamily="Arial" Margin="4 3 0 0" Foreground="{Binding Settings.SVM.Foreground}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                    <Button Style="{StaticResource MinimizeButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Minimize"
+                            Command="{x:Static SystemCommands.MinimizeWindowCommand}"/>
+                    <Button x:Name="RestoreButton" Visibility="Collapsed" Style="{StaticResource RestoreButtonStyle}" 
+                            Command="{x:Static SystemCommands.RestoreWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Restore"/>
+                    <Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
+                            Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />
+                    <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
+                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Background="{Binding Settings.SVM.BGT}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Menu Background="{Binding Settings.SVM.BGTE}">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New (Ctrl + T)" Command="{Binding OpenNewTabCommand}"/>
+                        <MenuItem Header="Open (Ctrl + O)" Command="{Binding OpenFileCommand}"/>
+                        <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
+                        <MenuItem Header="Save as (Ctrl + Alt + S)" Command="{Binding SaveAsCommand}"/>
+                        <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}"/>
+                        <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}" IsChecked="{Binding Settings.CAD}"/>
+                        <MenuItem Header="Open settings file" Command="{Binding OpenSettingsFileCommand}"/>
+                        <MenuItem Header="Close tab (Ctrl + W)" Command="{Binding CloseTabCommand}"/>
+                        <MenuItem Header="Close BetterEditor (Alt + F4)" Command="{Binding CloseAppCommand}"/>
                     </MenuItem>
-                    <MenuItem Header="Viewmode (Ctrl + M)" >
-                        <MenuItem.ItemsSource>
-                            <!-- dynamically show list entries -->
-                            <CompositeCollection>
-                                <CollectionContainer Collection="{Binding Source={StaticResource ViewModes}}"/>
-                            </CompositeCollection>
-                        </MenuItem.ItemsSource>
-                        <MenuItem.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="MenuItem.Background" Value="white"/>
-                                <Setter Property="MenuItem.Header" Value="{Binding Label}"/>
-                                <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.ChangeViewModeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
-                                <Setter Property="MenuItem.CommandParameter" Value="{Binding}"/>
-                            </Style>
-                        </MenuItem.ItemContainerStyle>
+                    <MenuItem Header="Edit">
+                        <MenuItem Header="Undo (Ctrl + Z)"/>
+                        <MenuItem Header="Redo (Ctrl + Y)"/>
+                        <MenuItem Header="Search (Ctrl + F)"/>
+                        <MenuItem Header="Replace (Ctrl + R)"/>
                     </MenuItem>
-                </MenuItem>
-                <MenuItem Header="Help" >
-                    <MenuItem Header="Open license" />
-                    <MenuItem Header="Open program info" />
-                </MenuItem>
-            </Menu>
-            <ContentControl Content="{Binding UserControl}" Grid.Row="1"/>
+                    <MenuItem Header="View">
+                        <MenuItem Header="Zoom">
+                            <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}"/>
+                            <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}"/>
+                        </MenuItem>
+                        <MenuItem Header="Viewmode (Ctrl + M)" >
+                            <MenuItem.ItemsSource>
+                                <!-- dynamically show list entries -->
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource ViewModes}}"/>
+                                </CompositeCollection>
+                            </MenuItem.ItemsSource>
+                            <MenuItem.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="MenuItem.Background" Value="white"/>
+                                    <Setter Property="MenuItem.Header" Value="{Binding Label}"/>
+                                    <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.ChangeViewModeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
+                                    <Setter Property="MenuItem.CommandParameter" Value="{Binding}"/>
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Help" >
+                        <MenuItem Header="Open license" />
+                        <MenuItem Header="Open program info" />
+                    </MenuItem>
+                </Menu>
+                <ContentControl Content="{Binding UserControl}" Grid.Row="1"/>
+            </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </Window>
