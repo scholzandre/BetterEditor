@@ -92,7 +92,7 @@
                     <Button x:Name="MaximizeButton" Visibility="Visible" Style="{StaticResource MaximizeButtonStyle}" 
                             Command="{x:Static SystemCommands.MaximizeWindowCommand}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Maximize" />
                     <Button Style="{StaticResource CloseButtonStyle}" WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="Close"
-                            Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                            Command="{Binding CloseAppCommand}"/>
                 </StackPanel>
             </Grid>
 
