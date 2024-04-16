@@ -145,7 +145,6 @@ namespace BetterEditor.ViewModels {
         private void CloseApp(object obj) {
             try {
                 TextEditorViewModel.SaveCommand.Execute(this);
-                DataManager.WriteSettings(Settings);
                 Application.Current.Shutdown();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
