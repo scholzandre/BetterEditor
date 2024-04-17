@@ -241,6 +241,8 @@ namespace BetterEditor.ViewModels {
             DataManager.WriteTabs(Tabs.ToList());
             Settings.LOT = GetTabFromTabViewModel(Tab);
             DataManager.WriteSettings(Settings);
+            if (File.Exists(Tab.FilePath))
+                File.WriteAllText(Tab.FilePath, Content);
         }
 
         public ICommand OpenFileCommand => new RelayCommand(OpenFile, CanExecuteCommand);
