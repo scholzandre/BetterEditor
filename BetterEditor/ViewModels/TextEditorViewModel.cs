@@ -38,7 +38,8 @@ namespace BetterEditor.ViewModels {
                     _staticTabs.Add(GetTabFromTabViewModel(tab));
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 _staticSettings = Settings;
-                _timer.Change(10000, Timeout.Infinite);
+                if (Settings.SA)
+                    _timer.Change(10000, Timeout.Infinite);
                 OnPropertyChanged(nameof(Content));
             } 
         }
