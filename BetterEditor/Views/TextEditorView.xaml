@@ -48,18 +48,19 @@
         </Grid.RowDefinitions>
         <Grid>
             <!--<Button Content="{Binding MoveLeftIcon}" Height="20px" Width="20px" Grid.Column="0" HorizontalAlignment="Left"/>-->
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                <StackPanel Orientation="Horizontal">
-                    <ItemsControl ItemsSource="{Binding UsedTabs}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button 
+            <StackPanel>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Horizontal">
+                        <ItemsControl ItemsSource="{Binding UsedTabs}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button 
                                         Content="{Binding TabName}" 
                                         Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}"
@@ -67,37 +68,39 @@
                                         Style="{DynamicResource TabButtonStyle}"
                                         Height="20px" 
                                         Width="175px"/>
-                                    <Button 
+                                        <Button 
                                         Content="{Binding DataContext.RenameIcon, RelativeSource={RelativeSource AncestorType={x:Type local:TextEditorView}}}" 
                                         Command="{Binding Path=DataContext.RenameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}" 
                                         Background="{Binding Path=DataContext.EditButtonBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
                                         Width="20" 
                                         Height="20">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding FilePath}" Value="">
-                                                        <Setter Property="IsEnabled" Value="False"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding FilePath}" Value="">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
 
-                                    <Button 
+                                        <Button 
                                         Content="{Binding DataContext.DeleteIcon, RelativeSource={RelativeSource AncestorType={x:Type local:TextEditorView}}}" 
                                         Command="{Binding Path=DataContext.DeleteSpecificTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}" 
                                         CommandParameter="{Binding}" 
                                         Background="{Binding Path=DataContext.DeleteButtonBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TextEditorView}}}"
                                         Width="20" 
                                         Height="20"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </ScrollViewer>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+                <UserControl/>
+            </StackPanel>
             <!--<Button Content="{Binding MoveRightIcon}" Height="20" Width="20" Grid.Column="2" HorizontalAlignment="Right"/>-->
         </Grid>
         <TextBox 
