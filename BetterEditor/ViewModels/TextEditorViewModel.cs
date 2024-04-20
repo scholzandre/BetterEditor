@@ -21,14 +21,17 @@ namespace BetterEditor.ViewModels {
         private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
         private static Settings _staticSettings;
         private static bool _appStart = true;
+        private static bool _isChanged = false;
         private string _content = string.Empty;
-        public string Content { 
+        public static event Func<string, string, string> SaveRequested;
+        public string Content {
             get => _content;
             set {
                 _content = value;
+                _isChanged = true;
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
-                usedTabs[index].TabName = CreateTabName(Tab.FilePath, value);
+                usedTabs[index].TabName = OnSaveRequested(Tab.FilePath, value);
                 usedTabs[index].Content = Content;
                 UsedTabs = usedTabs;
                 Tabs[index].Content = value;
@@ -86,6 +89,7 @@ namespace BetterEditor.ViewModels {
             EditButtonBackground = editBackgroundColor;
             DeleteButtonBackground = deleteBackgroundColor;
             _parent = parent;
+            SaveRequested += CreateTabname;
         }
 
         private TabViewModel _tab = new TabViewModel();
@@ -167,7 +171,7 @@ namespace BetterEditor.ViewModels {
                 Tabs[index].Content = Content;
                 ObservableCollection<TabViewModel> tempUsedTabs = new ObservableCollection<TabViewModel>(UsedTabs);
                 tempUsedTabs[index].Content = Content;
-                tempUsedTabs[index].TabName = CreateTabName(tempUsedTabs[index].FilePath, tempUsedTabs[index].Content);
+                tempUsedTabs[index].TabName = OnSaveRequested(tempUsedTabs[index].FilePath, tempUsedTabs[index].Content);
                 UsedTabs = tempUsedTabs;
                 DataManager.WriteTabs(Tabs.ToList());
 
@@ -203,9 +207,11 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<TabViewModel> TabsToUsedTabs(ObservableCollection<Tab> tabs) {
             ObservableCollection<TabViewModel> usedTabs = new ObservableCollection<TabViewModel>();
             try {
+                if (SaveRequested == null)
+                    SaveRequested += CreateTabname;
                 Counter = 0;
                 foreach (Tab tab in tabs) {
-                    string tabName = CreateTabName(tab.FilePath, tab.Content);
+                    string tabName = OnSaveRequested(tab.FilePath, tab.Content);
                     usedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, tabName, false, Counter));
                     Counter++;
                 }
@@ -269,10 +275,11 @@ namespace BetterEditor.ViewModels {
                 DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
                 Tab.Content = Content;
+                Tab.TabName = OnSaveRequested(Tab.FilePath, Content);
                 Tabs[index].Content = Content;
                 Tabs[index].MD = todaysDate;
-                UsedTabs[index].Content = Content;
-                UsedTabs[index].MD = todaysDate;
+                _isChanged = false;
+                UsedTabs = TabsToUsedTabs(Tabs);
                 DataManager.WriteTabs(Tabs.ToList());
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 DataManager.WriteSettings(Settings);
@@ -301,13 +308,45 @@ namespace BetterEditor.ViewModels {
         private static void SaveAutomatically(object? state) {
             try {
                 if (!_appStart) {
+                    _isChanged = false;
                     DataManager.WriteTabs(_staticTabs.ToList());
                     DataManager.WriteSettings(_staticSettings);
+                    var result = OnSaveRequested(null, null);
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+        private static string OnSaveRequested(string filePath, string content) {
+            if (filePath == "")
+                filePath = "tempFilePath";
+            return SaveRequested?.Invoke(filePath, content) ?? string.Empty;
+        }
+
+        public string CreateTabname(string filePath, string newContent) {
+            string tabName = "tempFilePath";
+            if (filePath == null)
+                filePath = Tab.FilePath;
+            if (newContent == null)
+                newContent = Tab.Content;
+            tabName = (_isChanged && !_appStart) ? "*" : string.Empty;
+            try {
+                if (File.Exists(filePath)) {
+                    tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                } else {
+                    string tempSubstring = (newContent.Length > 30) ? newContent.Substring(0, 27) + "..." : newContent;
+                    if (tempSubstring.Contains("\n"))
+                        tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\n"));
+                    if (tempSubstring.Contains("\r"))
+                        tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\r"));
+                    tabName += tempSubstring.Trim();
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+            return tabName;
+        }
+
 
         private Tab GetTabFromTabViewModel(TabViewModel tabViewModel) {
             try {
@@ -359,23 +398,23 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private string CreateTabName(string filePath, string newContent) {
-            string tabName = "";
-            try {
-                if (File.Exists(filePath)) {
-                    tabName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                } else {
-                    string tempSubstring = (newContent.Length > 30) ? newContent.Substring(0, 27) + "..." : newContent;
-                    if (tempSubstring.Contains("\n"))
-                        tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\n"));
-                    if (tempSubstring.Contains("\r"))
-                        tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\r"));
-                    tabName = tempSubstring.Trim();
-                }
-            } catch (Exception e) { 
-                BaseViewModel.ShowErrorMessage(e);
-            }
-            return tabName;
-        }
+        //private string CreateTabName(string filePath, string newContent) {
+        //    string tabName = (_isChanged && !_appStart)? "*" : string.Empty;
+        //    try {
+        //        if (File.Exists(filePath)) {
+        //            tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
+        //        } else {
+        //            string tempSubstring = (newContent.Length > 30) ? newContent.Substring(0, 27) + "..." : newContent;
+        //            if (tempSubstring.Contains("\n"))
+        //                tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\n"));
+        //            if (tempSubstring.Contains("\r"))
+        //                tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\r"));
+        //            tabName += tempSubstring.Trim();
+        //        }
+        //    } catch (Exception e) { 
+        //        BaseViewModel.ShowErrorMessage(e);
+        //    }
+        //    return tabName;
+        //}
     }
 }
