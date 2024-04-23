@@ -1,22 +1,27 @@
 ﻿using BetterEditor.Models;
+using BetterEditor.Views;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Principal;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
+        private UserControl _userControl = new UserControl();
+        public UserControl UserControl {
+            get => _userControl;
+            set {
+                _userControl = value;
+                OnPropertyChanged(nameof(UserControl));
+            }
+        }
         private Timer _timer = new Timer(SaveAutomatically, null, 10000, Timeout.Infinite);
         private static ObservableCollection<Tab> _staticTabs = new ObservableCollection<Tab>();
         private static Settings _staticSettings;
@@ -77,8 +82,22 @@ namespace BetterEditor.ViewModels {
         public string DeleteIcon { get; set; } = "✖";
         public string EditButtonBackground { get; set; }
         public string DeleteButtonBackground { get; set; }
-        private MainViewModel _parent;
 
+        private Type _searchView = typeof(SearchView);
+        private SearchViewModel _searchViewModel = new SearchViewModel();
+
+        private Type _replaceView = typeof(ReplaceView);
+        private ReplaceViewModel _replaceViewModel = new ReplaceViewModel();
+
+        private MainViewModel _parent;
+        private Visibility _visibility = Visibility.Collapsed;
+        public Visibility Visibility { 
+            get => _visibility;
+            set {
+                _visibility = value; 
+                OnPropertyChanged(nameof(Visibility));
+            } 
+        }
         public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor, MainViewModel parent) {
             Tabs = new ObservableCollection<Tab>(tabs);
             Settings = settings;
