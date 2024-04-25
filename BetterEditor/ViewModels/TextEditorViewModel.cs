@@ -31,8 +31,8 @@ namespace BetterEditor.ViewModels {
                 _content = value;
                 int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
                 Tabs[index].Content = value;
-                Tab.Content = value;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
+                Tab.Content = value;
                 UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 _staticTabs = new ObservableCollection<Tab>(Tabs);
                 Settings.LOT = GetTabFromTabViewModel(Tab);
@@ -287,6 +287,7 @@ namespace BetterEditor.ViewModels {
                 Tabs[index].Content = Content;
                 Tabs[index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
+                UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 DataManager.WriteTabs(Tabs.ToList());
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 DataManager.WriteSettings(Settings);
