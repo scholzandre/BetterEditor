@@ -315,9 +315,11 @@ namespace BetterEditor.ViewModels {
         private static void SaveAutomatically(object? state) {
             try {
                 if (!_appStart) {
-                    DataManager.WriteTabs(_staticTabs.ToList());
-                    DataManager.WriteSettings(_staticSettings);
-                    _contentChanged?.Invoke(null, EventArgs.Empty);
+                    Application.Current.Dispatcher.Invoke(() => {
+                        DataManager.WriteTabs(_staticTabs.ToList());
+                        DataManager.WriteSettings(_staticSettings);
+                        _contentChanged?.Invoke(null, EventArgs.Empty);
+                    });
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
