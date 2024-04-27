@@ -29,8 +29,8 @@ namespace BetterEditor.ViewModels {
             get => _content;
             set {
                 _content = value;
-                int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
-                Tabs[index].Content = value;
+                _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+                Tabs[_index].Content = value;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 Tab.Content = value;
                 UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
@@ -180,12 +180,13 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-
+        private int _index = 0;
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
-                int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
-                Tabs[index].Content = Content;
+                _tabSwitch = true;
+                _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+                Tabs[_index].Content = Content;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 DataManager.WriteTabs(Tabs.ToList());
 
@@ -196,8 +197,8 @@ namespace BetterEditor.ViewModels {
                         DeleteSpecificTabCommand.Execute(tempTabViewModel);
                         return;
                     } else {
-                        index = UsedTabs.IndexOf(UsedTabs.Where(x => x.FilePath == tempTabViewModel.FilePath).First());
-                        Tabs[index].FilePath = "";
+                        _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.FilePath == tempTabViewModel.FilePath).First());
+                        Tabs[_index].FilePath = "";
                         tempTabViewModel.FilePath = "";
                         DataManager.WriteTabs(Tabs.ToList());
                     }
@@ -211,6 +212,7 @@ namespace BetterEditor.ViewModels {
                     UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 }
                 DataManager.WriteSettings(Settings);
+                _tabSwitch = false;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -221,7 +223,7 @@ namespace BetterEditor.ViewModels {
             try {
                 Counter = 0;
                 foreach (Tab tab in Tabs) {
-                    UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content), true, Counter));
+                    UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
                     Counter++;
                 }
             } catch (Exception e) { 
@@ -281,11 +283,10 @@ namespace BetterEditor.ViewModels {
         private void Save(object obj) {
             try {
                 DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
-                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
                 Tab.Content = Content;
-                Tab.TabName = CreateTabname(Tab.FilePath, Content);
-                Tabs[index].Content = Content;
-                Tabs[index].MD = todaysDate;
+                Tab.TabName = CreateTabname(Tab.FilePath, Content, _index);
+                Tabs[_index].Content = Content;
+                Tabs[_index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 DataManager.WriteTabs(Tabs.ToList());
@@ -326,13 +327,13 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-
-        public string CreateTabname(string filePath, string newContent) {
+        private bool _tabSwitch = false;
+        public string CreateTabname(string filePath, string newContent, int tabIndex) {
             if (filePath == null)
                 filePath = Tab.FilePath;
             if (newContent == null)
                 newContent = Tab.Content;
-            string tabName = (!_appStart && Tab.Content != newContent) ? "*" : string.Empty;
+            string tabName = (!_appStart && Tab.Content != newContent && tabIndex == _index && !_tabSwitch) ? "*" : string.Empty;
             try {
                 if (File.Exists(filePath)) {
                     tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
@@ -359,7 +360,7 @@ namespace BetterEditor.ViewModels {
                 return new Tab();
             }
         }
-
+        
         public ICommand OpenNextTabCommand => new RelayCommand(OpenNextTab, CanExecuteCommand);
         private void OpenNextTab(object obj) {
             try {
