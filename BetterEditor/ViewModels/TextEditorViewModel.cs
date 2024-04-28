@@ -96,6 +96,8 @@ namespace BetterEditor.ViewModels {
         private static ObservableCollection<Tab> _staticTabs;
         private static Settings _staticSettings;
         private static bool _appStart = true;
+        private int _index = 0;
+        private bool _tabSwitch = false;
         public string MoveLeftIcon { get; set; } = "<";
         public string MoveRightIcon { get; set; } = ">";
         public string RenameIcon { get; set; } = "🖉";
@@ -180,7 +182,6 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-        private int _index = 0;
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
@@ -327,7 +328,6 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-        private bool _tabSwitch = false;
         public string CreateTabname(string filePath, string newContent, int tabIndex) {
             if (filePath == null)
                 filePath = Tab.FilePath;
