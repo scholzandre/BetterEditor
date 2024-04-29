@@ -113,6 +113,7 @@
             Foreground="{Binding Settings.SVM.Foreground}"
             AcceptsTab="True"
             FontSize="{Binding Settings.FontSize}"
+            BorderThickness="0"
             >
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
