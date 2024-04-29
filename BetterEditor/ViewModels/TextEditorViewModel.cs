@@ -33,7 +33,6 @@ namespace BetterEditor.ViewModels {
                 Tabs[_index].Content = value;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 Tab.Content = value;
-                UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 _staticTabs = new ObservableCollection<Tab>(Tabs);
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 _staticSettings = Settings;
@@ -227,6 +226,7 @@ namespace BetterEditor.ViewModels {
                     UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
                     Counter++;
                 }
+                UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -289,7 +289,6 @@ namespace BetterEditor.ViewModels {
                 Tabs[_index].Content = Content;
                 Tabs[_index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
-                UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 DataManager.WriteTabs(Tabs.ToList());
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 DataManager.WriteSettings(Settings);
