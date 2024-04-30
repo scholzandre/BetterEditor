@@ -107,7 +107,7 @@
                         <MenuItem Header="Open (Ctrl + O)" Command="{Binding OpenFileCommand}"/>
                         <MenuItem Header="Save (Ctrl + S)" Command="{Binding SaveCommand}"/>
                         <MenuItem Header="Save as (Ctrl + Alt + S)" Command="{Binding SaveAsCommand}"/>
-                        <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}"/>
+                        <MenuItem Header="Save automatically" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding SaveAutomaticallyCommand}" IsChecked="{Binding Settings.SA}"/>
                         <MenuItem Header="Close and delete" IsCheckable="True" StaysOpenOnClick="True" Command="{Binding CADCommand}" IsChecked="{Binding Settings.CAD}"/>
                         <MenuItem Header="Open settings file" Command="{Binding OpenSettingsFileCommand}"/>
                         <MenuItem Header="Close tab (Ctrl + W)" Command="{Binding CloseTabCommand}"/>
