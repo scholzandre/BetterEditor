@@ -178,16 +178,9 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        public ICommand SaveAutomaticallyCommand => new RelayCommand(SaveAutomatically, CanExecuteCommand);
-        private void SaveAutomatically(object obj) {
-            try {
-                throw new NotImplementedException();
-            } catch (Exception e) {
-                BaseViewModel.ShowErrorMessage(e);
-            }
-        }
-        public ICommand CADCommand => new RelayCommand(CAD, CanExecuteCommand);
-        private void CAD(object obj) {
+        public ICommand SaveAutomaticallyCommand => new RelayCommand(SaveSettings, CanExecuteCommand);
+        public ICommand CADCommand => new RelayCommand(SaveSettings, CanExecuteCommand);
+        private void SaveSettings(object obj) {
             try {
                 TextEditorViewModel.Settings = Settings;
                 DataManager.WriteSettings(Settings);
