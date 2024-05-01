@@ -302,9 +302,12 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenFileCommand => new RelayCommand(OpenFile, CanExecuteCommand);
         private void OpenFile(object obj) {
             try {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.ShowDialog();
-                string filePath = openFileDialog.FileName;
+                string filePath = obj?.ToString();
+                if (!File.Exists(filePath)) {
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.ShowDialog();
+                    filePath = openFileDialog.FileName;
+                }
                 string content = File.ReadAllText(filePath);
                 DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
                 Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
