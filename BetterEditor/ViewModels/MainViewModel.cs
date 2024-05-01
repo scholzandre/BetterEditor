@@ -192,7 +192,7 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenSettingsFileCommand => new RelayCommand(OpenSettingsFile, CanExecuteCommand);
         private void OpenSettingsFile(object obj) {
             try {
-                throw new NotImplementedException();
+                TextEditorViewModel.OpenFileCommand.Execute(DataManager.GetFilePath());
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
