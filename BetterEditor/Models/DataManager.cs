@@ -210,10 +210,10 @@ namespace BetterEditor.Models {
         /// </summary>
         /// <param name="tab"></param>
         /// <returns>if deleting was successful</returns>
-        public static bool DeleteFile(Tab tab) {
+        public static bool DeleteFile(string filePath) {
             try {
-                if (File.Exists(tab.FilePath)) {
-                    File.Delete(tab.FilePath);
+                if (File.Exists(filePath)) {
+                    File.Delete(filePath);
                     return true;
                 }
             } catch (Exception e) {
