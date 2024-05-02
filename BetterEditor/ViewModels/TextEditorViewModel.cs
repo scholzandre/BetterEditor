@@ -157,11 +157,11 @@ namespace BetterEditor.ViewModels {
             try {
                 Tabs.Remove(Tabs[index]);
                 if (Settings.CAD && File.Exists(Tab.FilePath))
-                    File.Delete(Tab.FilePath);
+                    DataManager.DeleteFile(Tab.FilePath);
                 else if (!Settings.CAD && File.Exists(Tab.FilePath)) { 
                     MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {Tab.TabName}", "Delete file", MessageBoxButton.YesNo);
                     if (messageBoxResult == MessageBoxResult.Yes) {
-                        File.Delete(Tab.FilePath);
+                        DataManager.DeleteFile(Tab.FilePath);
                     }
                 }
                 UsedTabs.Remove(Tab);
