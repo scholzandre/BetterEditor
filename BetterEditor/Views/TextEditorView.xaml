@@ -118,6 +118,7 @@
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
                 <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+                <KeyBinding Key="S" Modifiers="Control+Alt" Command="{Binding SaveAsCommand}"/>
                 <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
                 <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
                 <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
