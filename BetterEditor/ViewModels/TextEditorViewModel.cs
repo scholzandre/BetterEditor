@@ -316,6 +316,22 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+        public ICommand SaveAsCommand => new RelayCommand(SaveAs, CanExecuteCommand);
+        private void SaveAs(object obj) {
+            try {
+                using (var openFolderDialog = new System.Windows.Forms.FolderBrowserDialog()) {
+                    openFolderDialog.ShowDialog();
+                    string filePath = openFolderDialog.SelectedPath + "\\";
+                    if (Tab.FilePath != "")
+                        filePath += Tab.FilePath;
+                    else
+                        filePath += (Tab.Content.Length >= 30)? Tab.Content.Substring(0, 30) + ".txt" : Tab.Content + ".txt";
+                    File.WriteAllText(filePath, Tab.Content);
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
 
         private static void SaveAutomatically(object? state) {
             try {
