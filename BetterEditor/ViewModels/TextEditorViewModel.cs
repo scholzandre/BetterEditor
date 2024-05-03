@@ -326,6 +326,10 @@ namespace BetterEditor.ViewModels {
                         filePath += Tab.FilePath;
                     else
                         filePath += (Tab.Content.Length >= 30)? Tab.Content.Substring(0, 30) + ".txt" : Tab.Content + ".txt";
+                    Tab.FilePath = filePath;
+                    Tabs[_index].FilePath = filePath;
+                    UsedTabs[_index].FilePath = filePath;
+                    SaveCommand.Execute(UsedTabs.Last());
                     File.WriteAllText(filePath, Tab.Content);
                 }
             } catch (Exception e) {
