@@ -244,7 +244,6 @@ namespace BetterEditor.ViewModels {
                         }
                         Tab = UsedTabs.Last();
                         OpenTabCommand.Execute(UsedTabs.Last());
-                        return;
                     } else {
                         if (Tabs.Contains(Settings.LOT)) {
                             int index = Tabs.IndexOf(Settings.LOT);
@@ -253,8 +252,20 @@ namespace BetterEditor.ViewModels {
                         }
                         Settings.LOT.FilePath = "";
                     }
-                }
-                if (!Tabs.Contains(Settings.LOT)) {
+                } else if (Settings.LOT.FilePath != "" &&
+                           File.Exists(Settings.LOT.FilePath) &&
+                           Settings.LOT.Content != File.ReadAllText(Settings.LOT.FilePath)) { 
+                    MessageBoxResult messageBoxResult = MessageBox.Show($"{Settings.LOT.FilePath} has changed.\nDo you want to update the tab?", "File has changed", MessageBoxButton.YesNo);
+                    if (messageBoxResult == MessageBoxResult.Yes ) { 
+                        int index = Tabs.IndexOf(Settings.LOT);
+                        Settings.LOT.Content = File.ReadAllText(Settings.LOT.FilePath);
+                        DataManager.WriteSettings(Settings);
+                        Tabs[index].Content = Settings.LOT.Content;
+                        UsedTabs[index].Content = Settings.LOT.Content;
+                        Tab.Content = Settings.LOT.Content;
+                        DataManager.WriteTabs(Tabs.ToList());
+                    }
+                } else if (!Tabs.Contains(Settings.LOT)) {
                     Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
                     Tab = UsedTabs.Last();
                     DataManager.WriteTabs(Tabs.ToList());
