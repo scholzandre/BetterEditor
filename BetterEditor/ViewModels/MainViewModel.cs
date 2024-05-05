@@ -172,7 +172,7 @@ namespace BetterEditor.ViewModels {
         public ICommand SaveAsCommand => new RelayCommand(SaveAs, CanExecuteCommand);
         private void SaveAs(object obj) {
             try {
-                throw new NotImplementedException();
+                TextEditorViewModel.SaveAsCommand.Execute(DataManager.GetFilePath());
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
