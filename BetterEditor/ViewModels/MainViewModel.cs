@@ -133,9 +133,11 @@ namespace BetterEditor.ViewModels {
         public ICommand ZoomOutCommand => new RelayCommand(ZoomOut, CanExecuteCommand);
         private void ZoomOut(object obj) {
             try {
-                Settings.FontSize -= 2;
-                TextEditorViewModel.Settings = Settings;
-                DataManager.WriteSettings(Settings);
+                if (Settings.FontSize > 0) { 
+                    Settings.FontSize = (Settings.FontSize - 2 > 0)? Settings.FontSize - 2 : 2;
+                    TextEditorViewModel.Settings = Settings;
+                    DataManager.WriteSettings(Settings);
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
