@@ -319,10 +319,12 @@ namespace BetterEditor.ViewModels {
                     openFileDialog.ShowDialog();
                     filePath = openFileDialog.FileName;
                 }
-                string content = File.ReadAllText(filePath);
-                DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
-                Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
-                OpenTabCommand.Execute(UsedTabs.Last());
+                if (File.Exists(filePath)) { 
+                    string content = File.ReadAllText(filePath);
+                    DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
+                    Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
+                    OpenTabCommand.Execute(UsedTabs.Last());
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
