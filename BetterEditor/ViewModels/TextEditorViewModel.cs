@@ -332,18 +332,21 @@ namespace BetterEditor.ViewModels {
         public ICommand SaveAsCommand => new RelayCommand(SaveAs, CanExecuteCommand);
         private void SaveAs(object obj) {
             try {
+                SaveCommand.Execute(UsedTabs.Last());
                 using (var openFolderDialog = new System.Windows.Forms.FolderBrowserDialog()) {
                     openFolderDialog.ShowDialog();
-                    string filePath = openFolderDialog.SelectedPath + "\\";
-                    if (Tab.FilePath != "")
-                        filePath += Tab.FilePath;
-                    else
-                        filePath += (Tab.Content.Length >= 30)? Tab.Content.Substring(0, 30) + ".txt" : Tab.Content + ".txt";
-                    Tab.FilePath = filePath;
-                    Tabs[_index].FilePath = filePath;
-                    UsedTabs[_index].FilePath = filePath;
-                    SaveCommand.Execute(UsedTabs.Last());
-                    File.WriteAllText(filePath, Tab.Content);
+                    if (openFolderDialog.SelectedPath != "" && Directory.Exists(openFolderDialog.SelectedPath)) { 
+                        string filePath = openFolderDialog.SelectedPath + "\\";
+                        if (Tab.FilePath != "")
+                            filePath += Tab.FilePath;
+                        else
+                            filePath += (Tab.Content.Length >= 30)? Tab.Content.Substring(0, 30) + ".txt" : Tab.Content + ".txt";
+                        Tab.FilePath = filePath;
+                        Tabs[_index].FilePath = filePath;
+                        UsedTabs[_index].FilePath = filePath;
+                        SaveCommand.Execute(UsedTabs.Last());
+                        File.WriteAllText(filePath, Tab.Content);
+                    }
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
