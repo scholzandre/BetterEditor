@@ -194,7 +194,7 @@ namespace BetterEditor.Models {
                     new ViewMode("Darkmode", "#525252", "#7F7D8A", "#FFFFFF")
                 };
 
-                Settings settings = new Settings(new Tab(), viewModes[0], true, false, 14);
+                Settings settings = new Settings(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day)), viewModes[0], true, false, 14);
                 List<Tab> tabs = new List<Tab>();
                 DataManager dataManager = new DataManager(settings, viewModes, tabs);
 
