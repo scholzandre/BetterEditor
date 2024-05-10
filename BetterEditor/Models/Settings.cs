@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BetterEditor.ViewModels {
+﻿namespace BetterEditor.ViewModels {
     internal class Settings {
         /// <summary>
         /// LOT = Last Opened Tab Instance
