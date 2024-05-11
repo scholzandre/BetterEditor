@@ -300,6 +300,7 @@ namespace BetterEditor.ViewModels {
                 Tabs[_index].Content = Content;
                 Tabs[_index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
+                _parent.Tabs = Tabs.ToList();
                 DataManager.WriteTabs(Tabs.ToList());
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 DataManager.WriteSettings(Settings);
