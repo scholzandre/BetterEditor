@@ -221,12 +221,14 @@ namespace BetterEditor.ViewModels {
         private void TabsToUsedTabs(object sender, EventArgs args) {
             UsedTabs.Clear();
             try {
-                Counter = 0;
-                foreach (Tab tab in Tabs) {
-                    UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
-                    Counter++;
+                if (Tabs.Count > 0) { 
+                    Counter = 0;
+                    foreach (Tab tab in Tabs) {
+                        UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
+                        Counter++;
+                    }
+                    UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
                 }
-                UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
