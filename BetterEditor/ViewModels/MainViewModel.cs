@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using VocabTrainer.Models;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel{
@@ -195,6 +196,15 @@ namespace BetterEditor.ViewModels {
         private void OpenSettingsFile(object obj) {
             try {
                 TextEditorViewModel.OpenFileCommand.Execute(DataManager.GetFilePath());
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand SwitchViewModeCommand => new RelayCommand(SwitchViewMode, CanExecuteCommand);
+        private void SwitchViewMode(object obj) {
+            try {
+                throw new NotImplementedException();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
