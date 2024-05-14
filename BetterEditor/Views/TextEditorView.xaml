@@ -123,6 +123,7 @@
                 <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
                 <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
                 <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}"/>
+                <KeyBinding Key="M" Modifiers="Ctrl" Command="{Binding SwitchViewModeCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>
