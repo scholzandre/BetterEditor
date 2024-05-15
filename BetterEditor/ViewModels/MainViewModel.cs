@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using VocabTrainer.Models;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel{
@@ -204,7 +203,15 @@ namespace BetterEditor.ViewModels {
         public ICommand SwitchViewModeCommand => new RelayCommand(SwitchViewMode, CanExecuteCommand);
         private void SwitchViewMode(object obj) {
             try {
-                throw new NotImplementedException();
+                int index = ViewModes.IndexOf(Settings.SVM);
+                if (index != -1 && index != ViewModes.Count-1) {
+                    Settings.SVM = ViewModes[index+1];
+                } else { 
+                    Settings.SVM = ViewModes[0];
+                }
+                OnPropertyChanged(nameof(Settings));
+                TextEditorViewModel.Settings = Settings;
+                DataManager.WriteSettings(Settings);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
