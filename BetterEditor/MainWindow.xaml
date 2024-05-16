@@ -11,6 +11,17 @@
         MinHeight="100" 
         MinWidth="400">
     
+    <Window.InputBindings>
+        <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control+Alt" Command="{Binding SaveAsCommand}"/>
+        <KeyBinding Key="Tab" Modifiers="Shift" Command="{Binding ChangeUserControlCommand}"/>
+        <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding ZoomInCommand}"/>
+        <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}"/>
+        <KeyBinding Key="M" Modifiers="Ctrl" Command="{Binding SwitchViewModeCommand}"/>
+    </Window.InputBindings>
+    
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
