@@ -216,5 +216,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand CreateNewTabCommand => new RelayCommand(CreateNewTab, CanExecuteCommand);
+        private void CreateNewTab(object obj) {
+            try {
+                TextEditorViewModel.CreateNewTabCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
