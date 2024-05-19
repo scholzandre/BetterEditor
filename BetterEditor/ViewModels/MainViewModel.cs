@@ -225,5 +225,23 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenNextTabCommand => new RelayCommand(OpenNextTab, CanExecuteCommand);
+        private void OpenNextTab(object obj) {
+            try {
+                TextEditorViewModel.OpenNextTabCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteCommand);
+        private void DeleteCurrentTab(object obj) {
+            try {
+                TextEditorViewModel.DeleteCurrentTabCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
