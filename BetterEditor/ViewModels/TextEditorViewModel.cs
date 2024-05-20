@@ -155,28 +155,30 @@ namespace BetterEditor.ViewModels {
 
         private void DeleteTab(int index) {
             try {
-                Tabs.Remove(Tabs[index]);
-                if (Settings.CAD && File.Exists(Tab.FilePath))
-                    DataManager.DeleteFile(Tab.FilePath);
-                else if (!Settings.CAD && File.Exists(Tab.FilePath)) { 
-                    MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {Tab.TabName}", "Delete file", MessageBoxButton.YesNo);
-                    if (messageBoxResult == MessageBoxResult.Yes) {
+                if (Tabs.Count > 0) { 
+                    Tabs.Remove(Tabs[index]);
+                    if (Settings.CAD && File.Exists(Tab.FilePath))
                         DataManager.DeleteFile(Tab.FilePath);
+                    else if (!Settings.CAD && File.Exists(Tab.FilePath)) { 
+                        MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {Tab.TabName}", "Delete file", MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes) {
+                            DataManager.DeleteFile(Tab.FilePath);
+                        }
                     }
+                    UsedTabs.Remove(UsedTabs[index]);
+                    if (UsedTabs.Count == 0) {
+                        Counter = 0;
+                        CreateNewTab(this);
+                        return;
+                    } else if (index == UsedTabs.Count) {
+                        index--;
+                    }
+                    UsedTabs[index].IsActive = false;
+                    Tab = UsedTabs[index];
+                    DataManager.WriteTabs(Tabs.ToList());
+                    Settings.LOT = GetTabFromTabViewModel(Tab);
+                    DataManager.WriteSettings(Settings);
                 }
-                UsedTabs.Remove(Tab);
-                if (UsedTabs.Count == 0) {
-                    Counter = 0;
-                    CreateNewTab(this);
-                    return;
-                } else if (index == UsedTabs.Count) {
-                    index--;
-                }
-                UsedTabs[index].IsActive = false;
-                Tab = UsedTabs[index];
-                DataManager.WriteTabs(Tabs.ToList());
-                Settings.LOT = GetTabFromTabViewModel(Tab);
-                DataManager.WriteSettings(Settings);
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
