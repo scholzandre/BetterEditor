@@ -287,7 +287,9 @@ namespace BetterEditor.ViewModels {
         public ICommand CreateNewTabCommand => new RelayCommand(CreateNewTab, CanExecuteCommand);
         private void CreateNewTab(object obj) {
             try { 
-                Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day))));
+                Tabs.Add(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day)));
+                UsedTabs.Add(new TabViewModel("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day), "", false, Counter++));
+                OnPropertyChanged(nameof(Tabs));
                 Tab = UsedTabs.Last();
                 OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
             } catch (Exception e) { 
