@@ -308,6 +308,7 @@ namespace BetterEditor.ViewModels {
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 _parent.Tabs = Tabs.ToList();
                 DataManager.WriteTabs(Tabs.ToList());
+                _parent.Tabs = Tabs.ToList();
                 Settings.LOT = GetTabFromTabViewModel(Tab);
                 DataManager.WriteSettings(Settings);
                 if (File.Exists(Tab.FilePath))
