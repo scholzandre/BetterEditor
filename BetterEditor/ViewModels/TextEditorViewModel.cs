@@ -229,7 +229,10 @@ namespace BetterEditor.ViewModels {
                         UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
                         Counter++;
                     }
-                    UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
+                    if (UsedTabs.Count > 1)
+                        UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
+                    else 
+                        UsedTabs[0].IsActive = false;
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
