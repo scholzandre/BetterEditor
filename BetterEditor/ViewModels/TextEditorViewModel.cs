@@ -459,5 +459,23 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenSearchViewCommand => new RelayCommand(OpenSearchView, CanExecuteCommand);
+        private void OpenSearchView(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplaceView, CanExecuteCommand);
+        private void OpenReplaceView(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
