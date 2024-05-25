@@ -124,6 +124,8 @@
                 <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="{Binding ZoomOutCommand}"/>
                 <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}"/>
                 <KeyBinding Key="M" Modifiers="Ctrl" Command="{Binding SwitchViewModeCommand}"/>
+                <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding OpenSearchViewCommand}"/>
+                <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding OpenReplaceViewCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>
