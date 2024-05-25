@@ -103,10 +103,8 @@ namespace BetterEditor.ViewModels {
         public string DeleteIcon { get; set; } = "✖";
         public string EditButtonBackground { get; set; }
         public string DeleteButtonBackground { get; set; }
-        private Type _searchView = typeof(SearchView);
-        private SearchViewModel _searchViewModel = new SearchViewModel();
-        private Type _replaceView = typeof(ReplaceView);
-        private ReplaceViewModel _replaceViewModel = new ReplaceViewModel();
+        private UserControl _searchUserControl;
+        private UserControl _replaceUserControl;
         private MainViewModel _parent;
         #endregion
 
@@ -119,6 +117,10 @@ namespace BetterEditor.ViewModels {
             EditButtonBackground = editBackgroundColor;
             DeleteButtonBackground = deleteBackgroundColor;
             _parent = parent;
+            _searchUserControl = (UserControl)Activator.CreateInstance(typeof(SearchView));
+            _searchUserControl.DataContext = new SearchViewModel();
+            _replaceUserControl = (UserControl)Activator.CreateInstance(typeof(ReplaceView));
+            _replaceUserControl.DataContext = new ReplaceViewModel();
         }
 
         private bool CanExecuteCommand(object arg) {
@@ -463,7 +465,13 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenSearchViewCommand => new RelayCommand(OpenSearchView, CanExecuteCommand);
         private void OpenSearchView(object obj) {
             try {
-                throw new NotImplementedException();
+                if (UserControl.GetType() != _searchUserControl.GetType()) {
+                    UserControl = _searchUserControl;
+                }
+                if (Visibility == Visibility.Collapsed)
+                    Visibility = Visibility.Visible;
+                else 
+                    Visibility = Visibility.Collapsed;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -472,7 +480,13 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplaceView, CanExecuteCommand);
         private void OpenReplaceView(object obj) {
             try {
-                throw new NotImplementedException();
+                if (UserControl.GetType() != _replaceUserControl.GetType()) {
+                    UserControl = _replaceUserControl;
+                }
+                if (Visibility == Visibility.Collapsed)
+                    Visibility = Visibility.Visible;
+                else
+                    Visibility = Visibility.Collapsed;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
