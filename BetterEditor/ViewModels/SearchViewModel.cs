@@ -12,8 +12,9 @@ namespace BetterEditor.ViewModels {
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
         public bool SAT { get; set; }
-        public SearchViewModel() { 
-            
+        private TextEditorViewModel _parent;
+        public SearchViewModel(TextEditorViewModel parent) { 
+            _parent = parent;
         }
 
         private bool CanExecuteCommand(object arg) {
