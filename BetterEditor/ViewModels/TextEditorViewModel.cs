@@ -118,7 +118,7 @@ namespace BetterEditor.ViewModels {
             DeleteButtonBackground = deleteBackgroundColor;
             _parent = parent;
             _searchUserControl = (UserControl)Activator.CreateInstance(typeof(SearchView));
-            _searchUserControl.DataContext = new SearchViewModel();
+            _searchUserControl.DataContext = new SearchViewModel(this);
             _replaceUserControl = (UserControl)Activator.CreateInstance(typeof(ReplaceView));
             _replaceUserControl.DataContext = new ReplaceViewModel();
         }
