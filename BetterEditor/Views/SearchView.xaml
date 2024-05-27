@@ -28,7 +28,7 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="1" Content="˅" Height="20" Command="{Binding ReplaceViewCommand}"/>
-        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}"/>
+        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}"/>
         <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="Search all tabs" Height="20"/>
         <CheckBox Grid.Column="5" Height="20" IsChecked="{Binding SAT}"/>
         <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}"/>
