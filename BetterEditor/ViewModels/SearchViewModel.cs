@@ -25,7 +25,7 @@ namespace BetterEditor.ViewModels {
         public ICommand ReplaceViewCommand => new RelayCommand(ReplaceView, CanExecuteCommand);
         private void ReplaceView(object obj) {
             try {
-                throw new NotImplementedException();
+                _parent.OpenReplaceViewCommand.Execute(obj);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
