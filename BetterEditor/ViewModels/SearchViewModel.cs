@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,13 @@ namespace BetterEditor.ViewModels {
         public string SearchText { get; set; }
         public bool SAT { get; set; }
         private TextEditorViewModel _parent;
+        private ObservableCollection<TabViewModel> _tabs;
+        private ObservableCollection<int> _matchingTabs;
+        private TabViewModel _tab;
         public SearchViewModel(TextEditorViewModel parent) { 
             _parent = parent;
+            _tabs = _parent.UsedTabs;
+            _tab = _parent.Tab; 
         }
 
         private bool CanExecuteCommand(object arg) {
@@ -64,6 +70,13 @@ namespace BetterEditor.ViewModels {
                 throw new NotImplementedException();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        private void GetFilteredTabIds() { 
+            for (int i = 0; i < _tabs.Count; i++) {
+                if (_tabs[i].Content.Contains(SearchText))
+                    _matchingTabs.Add(_tabs[i].Index);
             }
         }
     }
