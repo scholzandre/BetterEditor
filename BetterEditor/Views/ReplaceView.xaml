@@ -5,9 +5,43 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BetterEditor.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800">
+      Width="auto" Height="auto">
 
-    <Grid>
-        
+    <Grid Margin="10,10" Background="{Binding BackgroundColorGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button Grid.Column="1" Content="˅" Height="20" Command="{Binding ReplaceViewCommand}"/>
+        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}"/>
+        <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="Search all tabs" Height="20"/>
+        <CheckBox Grid.Column="5" Height="20" IsChecked="{Binding SAT}"/>
+        <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}"/>
+        <Button Grid.Column="9" Content="↓" Height="20" Command="{Binding SearchNextCommand}"/>
+        <Button Grid.Column="11" Content="↑" Height="20" Command="{Binding SearchPreviousCommand}"/>
+        <Button Grid.Column="13" Content="✖" Height="20" Command="{Binding CloseSearchBarCommand}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}"/>
+        <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" Grid.ColumnSpan="10">
+            <Button Content="replace" Margin="10,0,15,0" Width="100"/>
+            <Button Content="replace all" Width="100"/>
+        </StackPanel>
     </Grid>
 </UserControl>
