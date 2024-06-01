@@ -37,7 +37,7 @@
         <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}"/>
         <Button Grid.Column="9" Content="↓" Height="20" Command="{Binding SearchNextCommand}"/>
         <Button Grid.Column="11" Content="↑" Height="20" Command="{Binding SearchPreviousCommand}"/>
-        <Button Grid.Column="13" Content="✖" Height="20" Command="{Binding CloseSearchBarCommand}"/>
+        <Button Grid.Column="13" Content="✖" Height="20" Command="{Binding CloseReplaceBarCommand}"/>
         <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}"/>
         <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" Grid.ColumnSpan="10">
             <Button Content="replace" Margin="10,0,15,0" Width="100" Command="{Binding ReplaceCommand}"/>
