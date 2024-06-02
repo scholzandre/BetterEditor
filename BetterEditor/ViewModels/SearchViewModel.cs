@@ -13,6 +13,7 @@ namespace BetterEditor.ViewModels {
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
         public string SearchText { get; set; }
+        private bool _textChanged = false;
         public bool SAT { get; set; }
         private TextEditorViewModel _parent;
         private ObservableCollection<TabViewModel> _tabs;
@@ -40,6 +41,8 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchCommand => new RelayCommand(Search, CanExecuteCommand);
         private void Search(object obj) {
             try {
+                if (_textChanged)
+                    GetFilteredTabIds();
                 throw new NotImplementedException();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
