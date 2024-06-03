@@ -70,7 +70,7 @@ namespace BetterEditor.ViewModels {
         public ICommand CloseSearchBarCommand => new RelayCommand(CloseSearchBar, CanExecuteCommand);
         private void CloseSearchBar(object obj) {
             try {
-                throw new NotImplementedException();
+                _parent.OpenSearchViewCommand.Execute(this);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
