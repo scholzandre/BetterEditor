@@ -9,7 +9,10 @@ using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class ReplaceViewModel {
-        public ReplaceViewModel() { }
+        TextEditorViewModel _parent;
+        public ReplaceViewModel(TextEditorViewModel parent) { 
+            _parent = parent;
+        }
         private bool CanExecuteCommand(object arg) {
             return true;
         }
@@ -52,7 +55,7 @@ namespace BetterEditor.ViewModels {
         public ICommand CloseReplaceBarCommand => new RelayCommand(CloseSearchBar, CanExecuteCommand);
         private void CloseSearchBar(object obj) {
             try {
-                throw new NotImplementedException();
+                _parent.OpenReplaceViewCommand.Execute(this);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
