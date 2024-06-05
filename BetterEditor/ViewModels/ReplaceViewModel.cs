@@ -28,7 +28,7 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchViewCommand => new RelayCommand(SearchView, CanExecuteCommand);
         private void SearchView(object obj) {
             try {
-                throw new NotImplementedException();
+                _parent.OpenSearchViewCommand.Execute(obj);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
