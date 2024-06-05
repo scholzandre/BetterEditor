@@ -9,6 +9,12 @@ using VocabTrainer.Models;
 
 namespace BetterEditor.ViewModels {
     internal class ReplaceViewModel {
+        public string BackgroundColorGrid { get; set; }
+        public string BackgroundColorTextbox { get; set; }
+        public string ForegroundColorTextbox { get; set; }
+        public string SearchText { get; set; }
+        private bool _textChanged = false;
+        public bool SAT { get; set; }
         TextEditorViewModel _parent;
         public ReplaceViewModel(TextEditorViewModel parent) { 
             _parent = parent;
