@@ -18,6 +18,9 @@ namespace BetterEditor.ViewModels {
         TextEditorViewModel _parent;
         public ReplaceViewModel(TextEditorViewModel parent) { 
             _parent = parent;
+            BackgroundColorGrid = _parent.Settings.SVM.BGT;
+            BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
+            ForegroundColorTextbox = _parent.Settings.SVM.Foreground;
         }
         private bool CanExecuteCommand(object arg) {
             return true;
