@@ -465,13 +465,13 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenSearchViewCommand => new RelayCommand(OpenSearchView, CanExecuteCommand);
         private void OpenSearchView(object obj) {
             try {
+                if (Visibility == Visibility.Collapsed)
+                    Visibility = Visibility.Visible;
+                else if (UserControl.GetType() == _searchUserControl.GetType())
+                    Visibility = Visibility.Collapsed;
                 if (UserControl.GetType() != _searchUserControl.GetType()) {
                     UserControl = _searchUserControl;
                 }
-                if (Visibility == Visibility.Collapsed)
-                    Visibility = Visibility.Visible;
-                else 
-                    Visibility = Visibility.Collapsed;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -480,13 +480,13 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplaceView, CanExecuteCommand);
         private void OpenReplaceView(object obj) {
             try {
+                if (Visibility == Visibility.Collapsed)
+                    Visibility = Visibility.Visible;
+                else if (UserControl.GetType() == _replaceUserControl.GetType())
+                    Visibility = Visibility.Collapsed;
                 if (UserControl.GetType() != _replaceUserControl.GetType()) {
                     UserControl = _replaceUserControl;
                 }
-                if (Visibility == Visibility.Collapsed)
-                    Visibility = Visibility.Visible;
-                else
-                    Visibility = Visibility.Collapsed;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
