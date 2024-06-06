@@ -12,12 +12,20 @@ namespace BetterEditor.ViewModels {
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
-        public string SearchText { get; set; }
+        public string _searchText = string.Empty;
+        public string SearchText {
+            get => _searchText;
+            set {
+                _searchText = value;
+                _textChanged = true;    
+            } 
+        }
         private bool _textChanged = false;
         public bool SAT { get; set; }
         private TextEditorViewModel _parent;
         private ObservableCollection<TabViewModel> _tabs;
-        private ObservableCollection<int> _matchingTabs;
+        private int _openedMatch = 0;
+        private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
         private TabViewModel _tab;
         public SearchViewModel(TextEditorViewModel parent) { 
             _parent = parent;
@@ -44,9 +52,14 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchCommand => new RelayCommand(Search, CanExecuteCommand);
         private void Search(object obj) {
             try {
-                if (_textChanged)
+                if (_textChanged) {
                     GetFilteredTabIds();
-                throw new NotImplementedException();
+                    _openedMatch = 0;
+                    _textChanged = false;
+                } else if (_openedMatch == _matchingTabs.Count)
+                    _openedMatch = 0;
+                _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                _openedMatch++;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
