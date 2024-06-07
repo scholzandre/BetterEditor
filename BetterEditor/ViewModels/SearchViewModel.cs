@@ -52,14 +52,16 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchCommand => new RelayCommand(Search, CanExecuteCommand);
         private void Search(object obj) {
             try {
-                if (_textChanged) {
-                    GetFilteredTabIds();
-                    _openedMatch = 0;
-                    _textChanged = false;
-                } else if (_openedMatch == _matchingTabs.Count)
-                    _openedMatch = 0;
-                _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                _openedMatch++;
+                if (SearchText != string.Empty) { 
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = 0;
+                        _textChanged = false;
+                    } else if (_openedMatch == _matchingTabs.Count)
+                        _openedMatch = 0;
+                    _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                    _openedMatch++;
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -92,11 +94,16 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private void GetFilteredTabIds() { 
+        private void GetFilteredTabIds() {
+            bool matchesChanged = false;
             for (int i = 0; i < _tabs.Count; i++) {
-                if (_tabs[i].Content.Contains(SearchText))
+                if (_tabs[i].Content.Contains(SearchText)) { 
                     _matchingTabs.Add(_tabs[i].Index);
+                    matchesChanged = true;
+                }
             }
+            if (!matchesChanged)
+                _matchingTabs = new ObservableCollection<int>();
         }
     }
 }
