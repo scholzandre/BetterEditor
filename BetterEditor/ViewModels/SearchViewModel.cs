@@ -59,8 +59,10 @@ namespace BetterEditor.ViewModels {
                         _textChanged = false;
                     } else if (_openedMatch == _matchingTabs.Count)
                         _openedMatch = 0;
-                    _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                    _openedMatch++;
+                    if (_matchingTabs.Count > 0) { 
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch++;
+                    }
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
