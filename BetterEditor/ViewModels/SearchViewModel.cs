@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using VocabTrainer.Models;
 
@@ -72,7 +73,18 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchNextCommand => new RelayCommand(SearchNext, CanExecuteCommand);
         private void SearchNext(object obj) {
             try {
-                throw new NotImplementedException();
+                if (SearchText != string.Empty) {
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = 0;
+                        _textChanged = false;
+                    } else if (_openedMatch == _matchingTabs.Count)
+                        MessageBox.Show("No further matches found!");
+                    else if (_matchingTabs.Count > 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch++;
+                    }
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
