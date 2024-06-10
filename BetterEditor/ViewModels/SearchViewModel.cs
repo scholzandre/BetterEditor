@@ -80,7 +80,7 @@ namespace BetterEditor.ViewModels {
                         _textChanged = false;
                     } else if (_openedMatch == _matchingTabs.Count)
                         MessageBox.Show("No further matches found!");
-                    else if (_matchingTabs.Count > 0) {
+                    if (_matchingTabs.Count > 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
                         _openedMatch++;
                     }
@@ -93,7 +93,18 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchPreviousCommand => new RelayCommand(SearchPrevious, CanExecuteCommand);
         private void SearchPrevious(object obj) {
             try {
-                throw new NotImplementedException();
+                if (SearchText != string.Empty) {
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = _matchingTabs.Count-1;
+                        _textChanged = false;
+                    } else if (_openedMatch == 0)
+                        MessageBox.Show("No further matches found!");
+                    if (_matchingTabs.Count > 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch--;
+                    }
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
