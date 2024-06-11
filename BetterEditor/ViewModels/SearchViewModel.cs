@@ -98,9 +98,9 @@ namespace BetterEditor.ViewModels {
                         GetFilteredTabIds();
                         _openedMatch = _matchingTabs.Count-1;
                         _textChanged = false;
-                    } else if (_openedMatch == 0)
+                    } else if (_openedMatch < 0)
                         MessageBox.Show("No further matches found!");
-                    if (_matchingTabs.Count > 0) {
+                    if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
                         _openedMatch--;
                     }
