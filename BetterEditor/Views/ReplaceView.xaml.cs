@@ -21,5 +21,12 @@ namespace BetterEditor.Views {
         public ReplaceView() {
             InitializeComponent();
         }
+
+        private void ViewLoaded(object sender, RoutedEventArgs e) {
+            var textBox = sender as TextBox;
+            if (textBox != null) {
+                textBox.Focus();
+            }
+        }
     }
 }
