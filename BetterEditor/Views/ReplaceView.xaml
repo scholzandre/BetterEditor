@@ -33,10 +33,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Grid.Column="1" Content="˄" Height="20" Command="{Binding SearchViewCommand}"/>
-        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}"/>
+        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}" Loaded="ViewLoaded"/>
         <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="Search all tabs" Height="20"/>
         <CheckBox Grid.Column="5" Height="20" IsChecked="{Binding SAT}"/>
-        <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}"/>
+        <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}" IsDefault="True"/>
         <Button Grid.Column="9" Content="↓" Height="20" Command="{Binding SearchNextCommand}"/>
         <Button Grid.Column="11" Content="↑" Height="20" Command="{Binding SearchPreviousCommand}"/>
         <Button Grid.Column="13" Content="✖" Height="20" Command="{Binding CloseReplaceBarCommand}"/>
