@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using VocabTrainer.Models;
+using System.Collections.ObjectModel;
 
 namespace BetterEditor.ViewModels {
     internal class ReplaceViewModel {
@@ -16,6 +17,10 @@ namespace BetterEditor.ViewModels {
         private bool _textChanged = false;
         public bool SAT { get; set; }
         TextEditorViewModel _parent;
+        private ObservableCollection<TabViewModel> _tabs;
+        private int _openedMatch = 0;
+        private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
+        private TabViewModel _tab;
         public ReplaceViewModel(TextEditorViewModel parent) { 
             _parent = parent;
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
@@ -37,7 +42,18 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchCommand => new RelayCommand(Search, CanExecuteCommand);
         private void Search(object obj) {
             try {
-                throw new NotImplementedException();
+                if (SearchText != string.Empty) {
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = 0;
+                        _textChanged = false;
+                    } else if (_openedMatch == _matchingTabs.Count)
+                        _openedMatch = 0;
+                    if (_matchingTabs.Count > 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch++;
+                    }
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -46,7 +62,18 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchNextCommand => new RelayCommand(SearchNext, CanExecuteCommand);
         private void SearchNext(object obj) {
             try {
-                throw new NotImplementedException();
+                if (SearchText != string.Empty) {
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = 0;
+                        _textChanged = false;
+                    } else if (_openedMatch == _matchingTabs.Count)
+                        MessageBox.Show("No further matches found!");
+                    if (_matchingTabs.Count > 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch++;
+                    }
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -55,7 +82,18 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchPreviousCommand => new RelayCommand(SearchPrevious, CanExecuteCommand);
         private void SearchPrevious(object obj) {
             try {
-                throw new NotImplementedException();
+                if (SearchText != string.Empty) {
+                    if (_textChanged) {
+                        GetFilteredTabIds();
+                        _openedMatch = _matchingTabs.Count - 1;
+                        _textChanged = false;
+                    } else if (_openedMatch < 0)
+                        MessageBox.Show("No further matches found!");
+                    if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _openedMatch--;
+                    }
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -86,6 +124,18 @@ namespace BetterEditor.ViewModels {
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
+        }
+
+        private void GetFilteredTabIds() {
+            bool matchesChanged = false;
+            for (int i = 0; i < _tabs.Count; i++) {
+                if (_tabs[i].Content.Contains(SearchText)) {
+                    _matchingTabs.Add(_tabs[i].Index);
+                    matchesChanged = true;
+                }
+            }
+            if (!matchesChanged)
+                _matchingTabs = new ObservableCollection<int>();
         }
     }
 }
