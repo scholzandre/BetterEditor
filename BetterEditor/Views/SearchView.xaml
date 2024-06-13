@@ -22,6 +22,7 @@
                                        Text="Searching..." 
                                        Margin="2,0,0,3" 
                                        Foreground="Black" 
+                                       Background="White"
                                        IsHitTestVisible="False"
                                        VerticalAlignment="Center"
                                        Visibility="Collapsed"/>
