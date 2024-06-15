@@ -13,7 +13,14 @@ namespace BetterEditor.ViewModels {
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
-        public string SearchText { get; set; }
+        public string _searchText = string.Empty;
+        public string SearchText {
+            get => _searchText;
+            set {
+                _searchText = value;
+                _textChanged = true;
+            }
+        }
         private bool _textChanged = false;
         public bool SAT { get; set; }
         TextEditorViewModel _parent;
@@ -23,6 +30,7 @@ namespace BetterEditor.ViewModels {
         private TabViewModel _tab;
         public ReplaceViewModel(TextEditorViewModel parent) { 
             _parent = parent;
+            _tabs = _parent.UsedTabs;
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
             ForegroundColorTextbox = _parent.Settings.SVM.Foreground;
