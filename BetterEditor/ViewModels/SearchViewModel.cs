@@ -80,7 +80,7 @@ namespace BetterEditor.ViewModels {
                         _textChanged = false;
                     } else if (_openedMatch == _matchingTabs.Count)
                         MessageBox.Show("No further matches found!");
-                    if (_matchingTabs.Count > 0) {
+                    if (_matchingTabs.Count > 0 && _openedMatch < _matchingTabs.Count) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
                         _openedMatch++;
                     }
