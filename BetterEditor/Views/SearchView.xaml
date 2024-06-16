@@ -7,7 +7,8 @@
       xmlns:viewmodels="clr-namespace:BetterEditor.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewModel}"
       mc:Ignorable="d" 
-      Height="auto" Width="auto">
+      Height="auto" Width="auto"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <UserControl.Resources>
         <Style x:Key="TextBoxPlaceholderStyle" TargetType="TextBox">
             <Setter Property="Template">
@@ -15,15 +16,15 @@
                     <ControlTemplate TargetType="TextBox">
                         <Grid>
                             <TextBox x:Name="textBox"
-                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Background="Transparent"/>
+                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="Transparent"/>
                             <TextBlock x:Name="Placeholder" 
-                                       Text="Searching..." 
-                                       Margin="2,0,0,3" 
-                                       Foreground="Black" 
-                                       IsHitTestVisible="False"
-                                       VerticalAlignment="Center"
-                                       Visibility="Collapsed"/>
+                                   Text="Searching..." 
+                                   Margin="2,0,0,3" 
+                                   Foreground="Black" 
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Center"
+                                   Visibility="Collapsed"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="Text" Value="">
@@ -32,8 +33,8 @@
                             <Trigger Property="Text" Value="{x:Null}">
                                 <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
                             </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="Placeholder" Property="Visibility" Value="Collapsed" />
+                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -41,7 +42,8 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
+
     <Grid Margin="10,10" Background="{Binding BackgroundColorGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
