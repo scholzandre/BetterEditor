@@ -7,8 +7,74 @@
       xmlns:viewmodels="clr-namespace:BetterEditor.ViewModels"
       d:DataContext="{d:DesignInstance Type=viewmodels:ReplaceViewModel}"
       mc:Ignorable="d" 
-      Width="auto" Height="auto">
+      Width="auto" Height="auto"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <UserControl.Resources>
+        <Style x:Key="TextBoxPlaceholderStyleSearchBox" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <TextBox x:Name="textBox"
+                             Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Background="Transparent"/>
+                            <TextBlock x:Name="Placeholder" 
+                               Text="Searching..." 
+                               Margin="2,0,0,3" 
+                               Foreground="Black" 
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Visibility="Collapsed"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TextBoxPlaceholderStyleReplaceBox" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <TextBox x:Name="textBox"
+                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Background="Transparent"/>
+                            <TextBlock x:Name="Placeholder" 
+                       Text="Replacing..." 
+                       Margin="2,0,0,3" 
+                       Foreground="Black" 
+                       IsHitTestVisible="False"
+                       VerticalAlignment="Center"
+                       Visibility="Collapsed"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                <Setter TargetName="Placeholder" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid Margin="10,10" Background="{Binding BackgroundColorGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -33,14 +99,14 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button Grid.Column="1" Content="˄" Height="20" Command="{Binding SearchViewCommand}"/>
-        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}" Loaded="ViewLoaded"/>
+        <TextBox Grid.Column="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Text="{Binding SearchText}" Loaded="ViewLoaded" Style="{StaticResource TextBoxPlaceholderStyleSearchBox}"/>
         <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="Search all tabs" Height="20"/>
         <CheckBox Grid.Column="5" Height="20" IsChecked="{Binding SAT}"/>
         <Button Grid.Column="7" Content="🔍" Height="20" Command="{Binding SearchCommand}" IsDefault="True"/>
         <Button Grid.Column="9" Content="↓" Height="20" Command="{Binding SearchNextCommand}"/>
         <Button Grid.Column="11" Content="↑" Height="20" Command="{Binding SearchPreviousCommand}"/>
         <Button Grid.Column="13" Content="✖" Height="20" Command="{Binding CloseReplaceBarCommand}"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Height="20" Background="{Binding BackgroundColorTextbox}" Foreground="{Binding ForegroundColorTextbox}" Style="{StaticResource TextBoxPlaceholderStyleReplaceBox}"/>
         <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" Grid.ColumnSpan="10">
             <Button Content="replace" Margin="10,0,15,0" Width="100" Command="{Binding ReplaceCommand}"/>
             <Button Content="replace all" Width="100" Command="{Binding ReplaceAllCommand}"/>
