@@ -28,6 +28,7 @@ namespace BetterEditor.ViewModels {
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
         private TabViewModel _tab;
+        private string _noMatchesText = "No further matches found";
         public SearchViewModel(TextEditorViewModel parent) { 
             _parent = parent;
             _tabs = _parent.UsedTabs;
@@ -79,7 +80,7 @@ namespace BetterEditor.ViewModels {
                         _openedMatch = 0;
                         _textChanged = false;
                     } else if (_openedMatch == _matchingTabs.Count)
-                        MessageBox.Show("No further matches found!");
+                        MessageBox.Show(_noMatchesText);
                     if (_matchingTabs.Count > 0 && _openedMatch < _matchingTabs.Count) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
                         _openedMatch++;
@@ -99,7 +100,7 @@ namespace BetterEditor.ViewModels {
                         _openedMatch = _matchingTabs.Count-1;
                         _textChanged = false;
                     } else if (_openedMatch < 0)
-                        MessageBox.Show("No further matches found!");
+                        MessageBox.Show(_noMatchesText);
                     if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
                         _openedMatch--;
