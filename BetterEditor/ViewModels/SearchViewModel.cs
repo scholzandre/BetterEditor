@@ -29,6 +29,11 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
         private TabViewModel _tab;
         private string _noMatchesText = "No further matches found";
+        private bool _tabsChangedSearch = false;
+        private bool _tabsChangedSearchNext = false;
+        private bool _tabsChangedSearchPrevious = false;
+        private int _prevTabsCount = 0;
+
         public SearchViewModel(TextEditorViewModel parent) { 
             _parent = parent;
             _tabs = _parent.UsedTabs;
@@ -54,11 +59,13 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchCommand => new RelayCommand(Search, CanExecuteCommand);
         private void Search(object obj) {
             try {
-                if (SearchText != string.Empty) { 
-                    if (_textChanged) {
+                if (SearchText != string.Empty) {
+                    CheckTabs();
+                    if (_textChanged || _tabsChangedSearch) {
                         GetFilteredTabIds();
                         _openedMatch = 0;
                         _textChanged = false;
+                        _tabsChangedSearch = false;
                     } else if (_openedMatch == _matchingTabs.Count)
                         _openedMatch = 0;
                     if (_matchingTabs.Count > 0) { 
@@ -75,10 +82,12 @@ namespace BetterEditor.ViewModels {
         private void SearchNext(object obj) {
             try {
                 if (SearchText != string.Empty) {
-                    if (_textChanged) {
+                    CheckTabs();
+                    if (_textChanged || _tabsChangedSearchNext) {
                         GetFilteredTabIds();
                         _openedMatch = 0;
                         _textChanged = false;
+                        _tabsChangedSearchNext = false;
                     } else if (_openedMatch == _matchingTabs.Count)
                         MessageBox.Show(_noMatchesText);
                     if (_matchingTabs.Count > 0 && _openedMatch < _matchingTabs.Count) {
@@ -95,10 +104,12 @@ namespace BetterEditor.ViewModels {
         private void SearchPrevious(object obj) {
             try {
                 if (SearchText != string.Empty) {
-                    if (_textChanged) {
+                    CheckTabs();
+                    if (_textChanged || _tabsChangedSearchPrevious) {
                         GetFilteredTabIds();
                         _openedMatch = _matchingTabs.Count-1;
                         _textChanged = false;
+                        _tabsChangedSearchPrevious = false;
                     } else if (_openedMatch < 0)
                         MessageBox.Show(_noMatchesText);
                     if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
@@ -130,6 +141,15 @@ namespace BetterEditor.ViewModels {
             }
             if (!matchesChanged)
                 _matchingTabs = new ObservableCollection<int>();
+        }
+
+        private void CheckTabs() {
+            if (_tabs.Count != _prevTabsCount) { 
+                _prevTabsCount = _tabs.Count;
+                _tabsChangedSearch = true;
+                _tabsChangedSearchNext = true;
+                _tabsChangedSearchPrevious = true; 
+            }
         }
     }
 }
