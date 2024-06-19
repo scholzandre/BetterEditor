@@ -11,7 +11,7 @@
      xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <UserControl.InputBindings>
         <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding CloseSearchBarCommand}"/>
-        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding OpenReplaceViewCommand}"/>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding ReplaceViewCommand}"/>
     </UserControl.InputBindings>
     <UserControl.Resources>
         <Style x:Key="TextBoxPlaceholderStyle" TargetType="TextBox">
