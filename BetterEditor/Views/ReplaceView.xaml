@@ -9,7 +9,10 @@
       mc:Ignorable="d" 
       Width="auto" Height="auto"
       xmlns:sys="clr-namespace:System;assembly=mscorlib">
-
+    <UserControl.InputBindings>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding CloseReplaceBarCommand}"/>
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding SearchViewCommand}"/>
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <Style x:Key="TextBoxPlaceholderStyleSearchBox" TargetType="TextBox">
             <Setter Property="Template">
