@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
-using VocabTrainer.Models;
+using BetterEditor.Models;
 using System.Collections.ObjectModel;
 
 namespace BetterEditor.ViewModels {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace VocabTrainer.Models {
+namespace BetterEditor.Models {
     class RelayCommand : ICommand {
         private readonly Action<object> execute;
         private readonly Func<object, bool> canExecute;

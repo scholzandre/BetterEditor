@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using VocabTrainer.Models;
+using BetterEditor.Models;
 
 namespace BetterEditor.ViewModels {
     internal class SearchViewModel {

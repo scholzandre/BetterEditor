@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VocabTrainer.Models;
+using BetterEditor.Models;
 using System.Windows;
 
 namespace BetterEditor.ViewModels {
