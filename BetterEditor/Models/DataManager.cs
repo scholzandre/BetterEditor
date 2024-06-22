@@ -212,10 +212,10 @@ namespace BetterEditor.Models {
         /// <returns>if deleting was successful</returns>
         public static bool DeleteFile(string filePath) {
             try {
-                if (File.Exists(filePath)) {
+                if (File.Exists(filePath) && filePath != _filePath) {
                     File.Delete(filePath);
-                    return true;
                 }
+                return true;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
