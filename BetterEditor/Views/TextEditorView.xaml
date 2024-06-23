@@ -114,7 +114,8 @@
             AcceptsTab="True"
             FontSize="{Binding Settings.FontSize}"
             BorderThickness="0"
-            >
+            SelectionStart="{Binding SelectionStart}"
+            SelectionLength="{Binding SelectionLength}">
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
                 <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
