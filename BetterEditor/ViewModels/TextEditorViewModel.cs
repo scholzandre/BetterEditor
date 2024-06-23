@@ -87,6 +87,24 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(Tab));
             }
         }
+
+        private int _selectionStart = 0;
+        public int SelectionStart {
+            get => _selectionStart;
+            set {
+                _selectionStart = value;
+                OnPropertyChanged(nameof(SelectionStart));
+            }
+        }
+
+        private int _selectionLength = 0;
+        public int SelectionLength {
+            get => _selectionLength;
+            set {
+                _selectionLength = value;
+                OnPropertyChanged(nameof(SelectionLength));
+            }
+        }
         #endregion
 
         #region Fields
