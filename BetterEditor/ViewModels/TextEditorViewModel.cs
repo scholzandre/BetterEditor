@@ -141,6 +141,9 @@ namespace BetterEditor.ViewModels {
             _replaceUserControl.DataContext = new ReplaceViewModel(this);
         }
 
+        public TextEditorViewModel() {
+        }
+
         private bool CanExecuteCommand(object arg) {
             return true;
         }
