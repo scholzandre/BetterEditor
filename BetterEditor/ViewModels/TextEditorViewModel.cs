@@ -10,7 +10,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BetterEditor.Models;
 
 namespace BetterEditor.ViewModels {
     internal class TextEditorViewModel : BaseViewModel {
