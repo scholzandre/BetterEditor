@@ -103,6 +103,7 @@
             </StackPanel>
         </Grid>
         <TextBox 
+            x:Name="textbox"
             Text="{Binding Content, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
             TextWrapping="Wrap" 
             AcceptsReturn="True" 
@@ -113,9 +114,7 @@
             Foreground="{Binding Settings.SVM.Foreground}"
             AcceptsTab="True"
             FontSize="{Binding Settings.FontSize}"
-            BorderThickness="0"
-            SelectionStart="{Binding SelectionStart}"
-            SelectionLength="{Binding SelectionLength}">
+            BorderThickness="0">
             <TextBox.InputBindings>
                 <KeyBinding Key="T" Modifiers="Control" Command="{Binding CreateNewTabCommand}"/>
                 <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
