@@ -13,7 +13,7 @@ namespace BetterEditor.ViewModels {
         public string SearchText {
             get => _searchText;
             set {
-                _searchText = value;
+                _searchText = value.Trim();
                 _textChanged = true;    
             } 
         }
