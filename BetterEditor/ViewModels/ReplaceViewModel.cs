@@ -13,7 +13,7 @@ namespace BetterEditor.ViewModels {
         public string SearchText {
             get => _searchText;
             set {
-                _searchText = value;
+                _searchText = value.Trim();
                 _textChanged = true;
             }
         }
@@ -55,6 +55,8 @@ namespace BetterEditor.ViewModels {
                         _openedMatch = 0;
                     if (_matchingTabs.Count > 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _parent.SelectionStart = _parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText);
+                        _parent.SelectionLength = SearchText.Length;
                         _openedMatch++;
                     }
                 }
