@@ -22,6 +22,7 @@
         <KeyBinding Key="M" Modifiers="Ctrl" Command="{Binding SwitchViewModeCommand}"/>
         <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding OpenNextTabCommand}"/>
         <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding DeleteCurrentTabCommand}"/>
+        <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding OpenSearchViewCommand}"/>
     </Window.InputBindings>
     
     <Window.DataContext>
