@@ -242,5 +242,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenSearchViewCommand => new RelayCommand(OpenSearch, CanExecuteCommand);
+        private void OpenSearch(object obj) {
+            try {
+                TextEditorViewModel.OpenSearchViewCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
