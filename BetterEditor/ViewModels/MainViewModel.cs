@@ -251,5 +251,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplace, CanExecuteCommand);
+        private void OpenReplace(object obj) {
+            try {
+                TextEditorViewModel.OpenReplaceViewCommand.Execute(this);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
