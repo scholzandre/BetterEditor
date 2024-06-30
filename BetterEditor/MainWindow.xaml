@@ -23,6 +23,7 @@
         <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding OpenNextTabCommand}"/>
         <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding DeleteCurrentTabCommand}"/>
         <KeyBinding Key="F" Modifiers="Ctrl" Command="{Binding OpenSearchViewCommand}"/>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding OpenReplaceViewCommand}"/>
     </Window.InputBindings>
     
     <Window.DataContext>
