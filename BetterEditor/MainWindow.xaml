@@ -157,7 +157,7 @@
                         </MenuItem>
                     </MenuItem>
                     <MenuItem Header="Help" >
-                        <MenuItem Header="Open license" />
+                        <MenuItem Header="Open license" Command="{Binding OpenLicenseFileCommand}"/>
                         <MenuItem Header="Open program info" />
                     </MenuItem>
                 </Menu>
