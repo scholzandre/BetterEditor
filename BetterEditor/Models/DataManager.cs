@@ -9,6 +9,7 @@ namespace BetterEditor.Models {
         public Settings Settings { get; set; }
         public List<ViewMode> ViewModes { get; set; }
         public List<Tab> Tabs { get; set; }
+        private static string _folderPath = GetFolderPath();
         private static string _filePath = GetFilePath();
 
         public DataManager(Settings settings, List<ViewMode> viewModes, List<Tab> tabs) {
@@ -160,6 +161,21 @@ namespace BetterEditor.Models {
             }
         }
 
+        /// <summary>
+        /// Gets folder path
+        /// </summary>
+        /// <returns>folder path as a string</returns>
+        public static string GetFolderPath() {
+            try {
+                string currDirectory = Directory.GetCurrentDirectory();
+                int indexFolder = currDirectory.LastIndexOf("bin");
+                string folderPath = currDirectory.Substring(0, indexFolder);
+                return folderPath;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+                return "";
+            }
+        }
 
         /// <summary>
         /// Gets file path of AppData.json
@@ -167,10 +183,7 @@ namespace BetterEditor.Models {
         /// <returns>file path as a string</returns>
         public static string GetFilePath() {
             try {
-                string currDirectory = Directory.GetCurrentDirectory();
-                int indexFolder = currDirectory.LastIndexOf("bin");
-                string folderPath = currDirectory.Substring(0, indexFolder);
-                string filePath = folderPath + "AppData.json";
+                string filePath = _folderPath + "AppData.json";
 
                 if (!File.Exists(filePath)) {
                     CreateDefaultAppData(filePath);
