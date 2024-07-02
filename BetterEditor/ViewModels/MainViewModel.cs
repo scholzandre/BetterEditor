@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using System.Linq;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel{
@@ -194,6 +195,17 @@ namespace BetterEditor.ViewModels {
         private void OpenSettingsFile(object obj) {
             try {
                 TextEditorViewModel.OpenFileCommand.Execute(DataManager.GetFilePath());
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenLicenseFileCommand => new RelayCommand(OpenLicenseFile, CanExecuteCommand);
+        private void OpenLicenseFile(object obj) {
+            try {
+                string filePath = DataManager.GetFolderPath();
+                filePath = filePath.Substring(0,filePath.Length - "BetterEditor".Length-1) + "LICENSE.txt";
+                TextEditorViewModel.OpenFileCommand.Execute(filePath);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
