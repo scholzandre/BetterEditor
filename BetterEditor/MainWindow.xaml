@@ -131,8 +131,8 @@
                     <MenuItem Header="Edit">
                         <MenuItem Header="Undo (Ctrl + Z)"/>
                         <MenuItem Header="Redo (Ctrl + Y)"/>
-                        <MenuItem Header="Search (Ctrl + F)"/>
-                        <MenuItem Header="Replace (Ctrl + R)"/>
+                        <MenuItem Header="Search (Ctrl + F)" Command="{Binding OpenSearchViewCommand}"/>
+                        <MenuItem Header="Replace (Ctrl + R)" Command="{Binding OpenReplaceViewCommand}"/>
                     </MenuItem>
                     <MenuItem Header="View">
                         <MenuItem Header="Zoom">
