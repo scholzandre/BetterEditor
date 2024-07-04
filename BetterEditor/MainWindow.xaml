@@ -152,6 +152,7 @@
                                     <Setter Property="MenuItem.Header" Value="{Binding Label}"/>
                                     <Setter Property="MenuItem.Command" Value="{Binding Path=DataContext.ChangeViewModeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
                                     <Setter Property="MenuItem.CommandParameter" Value="{Binding}"/>
+                                    <Setter Property="MenuItem.StaysOpenOnClick" Value="True"/>
                                 </Style>
                             </MenuItem.ItemContainerStyle>
                         </MenuItem>
