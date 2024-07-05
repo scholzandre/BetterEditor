@@ -328,6 +328,7 @@ namespace BetterEditor.ViewModels {
                 DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
                 Tab.Content = Content;
                 Tab.TabName = CreateTabname(Tab.FilePath, Content, _index);
+                Tab.MD = todaysDate;
                 Tabs[_index].Content = Content;
                 Tabs[_index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
