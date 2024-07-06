@@ -8,5 +8,10 @@ namespace BetterEditor.Views {
         public TextEditorView() {
             InitializeComponent();
         }
+
+        private void SelectText(int selectionStart, int selectionLength) {
+            textbox.Focus();
+            textbox.Select(selectionStart, selectionLength);
+        }
     }
 }
