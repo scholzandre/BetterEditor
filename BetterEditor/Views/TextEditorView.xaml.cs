@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using BetterEditor.ViewModels;
+using System.Windows.Controls;
 
 namespace BetterEditor.Views {
     /// <summary>
@@ -9,7 +10,7 @@ namespace BetterEditor.Views {
             InitializeComponent();
         }
 
-        private void SelectText(int selectionStart, int selectionLength) {
+        public void OnSelectText(int selectionStart, int selectionLength) {
             textbox.Focus();
             textbox.Select(selectionStart, selectionLength);
         }
