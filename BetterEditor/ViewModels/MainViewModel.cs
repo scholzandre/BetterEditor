@@ -17,6 +17,7 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(UserControl));
             }
         }
+        private UserControl _textEditorUserControl = new UserControl();
         private Type _textEditorViewType = typeof(TextEditorView);
         private TextEditorViewModel _textEditorViewModel;
         public TextEditorViewModel TextEditorViewModel { 
@@ -60,8 +61,13 @@ namespace BetterEditor.ViewModels {
         private string _deleteButtonBackground = "#FECAC6";
 
         public MainViewModel() {
-            try { 
+            try {
                 TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground, this);
+                TextEditorView textEditorView = new TextEditorView();
+                textEditorView.DataContext = TextEditorViewModel;
+                TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
+                _textEditorUserControl.Content = textEditorView;
+
                 ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
@@ -76,8 +82,7 @@ namespace BetterEditor.ViewModels {
         private void ChangeUserControl(object obj) {
             try {
                 if (UserControl.DataContext == null || UserControl.GetType() == _listTabsViewType) {
-                    UserControl = (UserControl)Activator.CreateInstance(_textEditorViewType);
-                    UserControl.DataContext = TextEditorViewModel;
+                    UserControl = _textEditorUserControl;
                 } else {
                     TextEditorViewModel.SaveCommand.Execute(this);
                     UserControl = (UserControl)Activator.CreateInstance(_listTabsViewType);
