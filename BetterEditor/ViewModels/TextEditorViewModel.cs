@@ -512,5 +512,10 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public event Action<int, int> SelectTextRequested;
+        public void RequestSelectText(int start, int length) {
+            SelectTextRequested?.Invoke(start, length);
+        }
     }
 }
