@@ -66,6 +66,7 @@ namespace BetterEditor.ViewModels {
                         _openedMatch = 0;
                     if (_matchingTabs.Count > 0) { 
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch++;
                     }
                 }
