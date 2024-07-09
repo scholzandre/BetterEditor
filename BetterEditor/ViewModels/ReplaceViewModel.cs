@@ -54,8 +54,7 @@ namespace BetterEditor.ViewModels {
                         _openedMatch = 0;
                     if (_matchingTabs.Count > 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.SelectionStart = _parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText);
-                        _parent.SelectionLength = SearchText.Length;
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch++;
                     }
                 }
@@ -76,6 +75,7 @@ namespace BetterEditor.ViewModels {
                         MessageBox.Show("No further matches found!");
                     if (_matchingTabs.Count > 0 && _openedMatch != _matchingTabs.Count) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch++;
                     }
                 }
@@ -96,6 +96,7 @@ namespace BetterEditor.ViewModels {
                         MessageBox.Show("No further matches found!");
                     if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
                         _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch--;
                     }
                 }
