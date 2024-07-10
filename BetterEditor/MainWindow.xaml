@@ -136,8 +136,8 @@
                     </MenuItem>
                     <MenuItem Header="View">
                         <MenuItem Header="Zoom">
-                            <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}"/>
-                            <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}"/>
+                            <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}" StaysOpenOnClick="True"/>
+                            <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}" StaysOpenOnClick="True"/>
                         </MenuItem>
                         <MenuItem Header="Viewmode (Ctrl + M)" >
                             <MenuItem.ItemsSource>
