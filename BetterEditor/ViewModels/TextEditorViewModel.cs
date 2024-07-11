@@ -86,6 +86,9 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(Tab));
             }
         }
+
+        public event Action<int, int> SelectTextRequested;
+        public event Action SelectTextbox;
         #endregion
 
         #region Fields
@@ -219,6 +222,7 @@ namespace BetterEditor.ViewModels {
                 }
                 DataManager.WriteSettings(Settings);
                 _tabSwitch = false;
+                SelectTextboxMethod();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -495,9 +499,12 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        public event Action<int, int> SelectTextRequested;
         public void RequestSelectText(int start, int length) {
             SelectTextRequested?.Invoke(start, length);
+        }
+
+        public void SelectTextboxMethod() {
+            SelectTextbox?.Invoke();
         }
     }
 }
