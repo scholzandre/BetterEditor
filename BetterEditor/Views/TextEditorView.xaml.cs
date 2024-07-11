@@ -11,8 +11,12 @@ namespace BetterEditor.Views {
         }
 
         public void OnSelectText(int selectionStart, int selectionLength) {
-            textbox.Focus();
+            OnFocusTextBox();
             textbox.Select(selectionStart, selectionLength);
+        }
+
+        public void OnFocusTextBox() { 
+            textbox.Focus();
         }
     }
 }
