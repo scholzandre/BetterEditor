@@ -66,6 +66,7 @@ namespace BetterEditor.ViewModels {
                 TextEditorView textEditorView = new TextEditorView();
                 textEditorView.DataContext = TextEditorViewModel;
                 TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
+                TextEditorViewModel.SelectTextbox += textEditorView.OnFocusTextBox;
                 _textEditorUserControl.Content = textEditorView;
 
                 ListTabsViewModel = new ListTabsViewModel();
