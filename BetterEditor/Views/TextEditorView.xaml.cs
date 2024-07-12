@@ -17,6 +17,7 @@ namespace BetterEditor.Views {
 
         public void OnFocusTextBox() { 
             textbox.Focus();
+            textbox.SelectionStart = textbox.Text.Length;
         }
     }
 }
