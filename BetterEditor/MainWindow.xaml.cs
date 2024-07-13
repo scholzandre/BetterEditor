@@ -12,12 +12,8 @@ namespace BetterEditor {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        MainViewModel _mainViewModel;
-        private bool _canSetStateNormal = false;
-
         public MainWindow() {
             InitializeComponent();
-            _mainViewModel = (MainViewModel)DataContext;
             StateChanged += MainWindowStateChangeRaised;
         }
 
