@@ -60,18 +60,22 @@ namespace BetterEditor.ViewModels {
 
         public MainViewModel() {
             try {
-                TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground, this);
-                TextEditorView textEditorView = new TextEditorView();
-                textEditorView.DataContext = TextEditorViewModel;
-                TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
-                TextEditorViewModel.SelectTextbox += textEditorView.OnFocusTextBox;
-                _textEditorUserControl.Content = textEditorView;
+                CreateTextEditorView();
 
                 ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
+        }
+
+        private void CreateTextEditorView() {
+            TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground, this);
+            TextEditorView textEditorView = new TextEditorView();
+            textEditorView.DataContext = TextEditorViewModel;
+            TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
+            TextEditorViewModel.SelectTextbox += textEditorView.OnFocusTextBox;
+            _textEditorUserControl.Content = textEditorView;
         }
 
         private bool CanExecuteCommand(object arg) {
