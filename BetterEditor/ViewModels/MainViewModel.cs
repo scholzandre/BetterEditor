@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
-using System.Linq;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel{
@@ -18,7 +17,6 @@ namespace BetterEditor.ViewModels {
             }
         }
         private UserControl _textEditorUserControl = new UserControl();
-        private Type _textEditorViewType = typeof(TextEditorView);
         private TextEditorViewModel _textEditorViewModel;
         public TextEditorViewModel TextEditorViewModel { 
             get => _textEditorViewModel;
