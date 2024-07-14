@@ -132,11 +132,7 @@ namespace BetterEditor.ViewModels {
             return true;
         }
 
-        private bool CanExecuteRenameCommand(object arg) {
-            return true;
-        }
-
-        public ICommand RenameCommand => new RelayCommand(Rename, CanExecuteRenameCommand);
+        public ICommand RenameCommand => new RelayCommand(Rename, CanExecuteCommand);
         private void Rename(object obj) {
             throw new NotImplementedException();
         }
