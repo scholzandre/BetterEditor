@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Controls;
 
 namespace BetterEditor.Models {
     internal class DataManager : BaseViewModel {
@@ -225,7 +226,8 @@ namespace BetterEditor.Models {
         /// <returns>if deleting was successful</returns>
         public static bool DeleteFile(string filePath) {
             try {
-                if (File.Exists(filePath) && filePath != _filePath) {
+                string licensePath = _filePath.Substring(0, _filePath.Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt";
+                if (File.Exists(filePath) && filePath != _filePath && filePath != licensePath) {
                     File.Delete(filePath);
                 }
                 return true;
