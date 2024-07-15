@@ -137,7 +137,7 @@ namespace BetterEditor.ViewModels {
             throw new NotImplementedException();
         }
 
-        public ICommand DeleteSpecificTabCommand => new RelayCommand(DeleteTab, CanExecuteRenameCommand);
+        public ICommand DeleteSpecificTabCommand => new RelayCommand(DeleteTab, CanExecuteCommand);
         private void DeleteTab(object obj) {
             try {
                 TabViewModel tab = (TabViewModel)obj;
@@ -147,7 +147,7 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteRenameCommand);
+        public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteCommand);
         private void DeleteCurrentTab(object obj) {
             try {
                 DeleteTab(UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First()));
