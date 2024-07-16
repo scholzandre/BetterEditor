@@ -162,7 +162,7 @@ namespace BetterEditor.ViewModels {
                     Tabs.Remove(Tabs[index]);
                     if (Settings.CAD && File.Exists(Tab.FilePath))
                         DataManager.DeleteFile(Tab.FilePath);
-                    else if (!Settings.CAD && File.Exists(Tab.FilePath)) { 
+                    else if (!Settings.CAD && File.Exists(Tab.FilePath) && Tab.FilePath != DataManager.GetFilePath() && Tab.FilePath != DataManager.GetFilePath().Substring(0, DataManager.GetFilePath().Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt") { 
                         MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {Tab.TabName}", "Delete file", MessageBoxButton.YesNo);
                         if (messageBoxResult == MessageBoxResult.Yes) {
                             DataManager.DeleteFile(Tab.FilePath);
