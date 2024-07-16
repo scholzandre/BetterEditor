@@ -23,7 +23,6 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<TabViewModel> _tabs;
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
-        private TabViewModel _tab;
         private string _noMatchesText = "No further matches found";
         private bool _tabsChangedSearch = false;
         private bool _tabsChangedSearchNext = false;
