@@ -32,7 +32,6 @@ namespace BetterEditor.ViewModels {
         public SearchViewModel(TextEditorViewModel parent) { 
             _parent = parent;
             _tabs = _parent.UsedTabs;
-            _tab = _parent.Tab;
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
             ForegroundColorTextbox = _parent.Settings.SVM.Foreground;
@@ -130,6 +129,7 @@ namespace BetterEditor.ViewModels {
         }
 
         private void GetFilteredTabIds() {
+            _matchingTabs = new ObservableCollection<int>();
             bool matchesChanged = false;
             for (int i = 0; i < _tabs.Count; i++) {
                 if (_tabs[i].Content.Contains(SearchText)) { 
