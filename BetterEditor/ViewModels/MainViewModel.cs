@@ -272,6 +272,24 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        public ICommand UndoCommand => new RelayCommand(Undo, CanExecuteCommand);
+        private void Undo(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand RedoCommand => new RelayCommand(Redo, CanExecuteCommand);
+        private void Redo(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
         public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplace, CanExecuteCommand);
         private void OpenReplace(object obj) {
             try {
