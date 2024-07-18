@@ -1,5 +1,4 @@
-﻿using BetterEditor.ViewModels;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace BetterEditor.Views {
     /// <summary>
@@ -18,6 +17,14 @@ namespace BetterEditor.Views {
         public void OnFocusTextBox() { 
             textbox.Focus();
             textbox.SelectionStart = textbox.Text.Length;
+        }
+
+        public void UndoChange() {
+            textbox.Undo();
+        }
+
+        public void RedoChange() {
+            textbox.Undo();
         }
     }
 }
