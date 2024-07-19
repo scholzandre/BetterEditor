@@ -129,8 +129,8 @@
                         <MenuItem Header="Close BetterEditor (Alt + F4)" Command="{Binding CloseAppCommand}"/>
                     </MenuItem>
                     <MenuItem Header="Edit">
-                        <MenuItem Header="Undo (Ctrl + Z)" Command="{Binding UndoCommand}"/>
-                        <MenuItem Header="Redo (Ctrl + Y)" Command="{Binding RedoCommand}"/>
+                        <MenuItem Header="Undo (Ctrl + Z)" Command="{Binding UndoCommand}" StaysOpenOnClick="True"/>
+                        <MenuItem Header="Redo (Ctrl + Y)" Command="{Binding RedoCommand}" StaysOpenOnClick="True"/>
                         <MenuItem Header="Search (Ctrl + F)" Command="{Binding OpenSearchViewCommand}"/>
                         <MenuItem Header="Replace (Ctrl + R)" Command="{Binding OpenReplaceViewCommand}"/>
                     </MenuItem>
