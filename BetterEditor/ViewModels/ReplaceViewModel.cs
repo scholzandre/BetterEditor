@@ -23,13 +23,18 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<TabViewModel> _tabs;
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
-        public ReplaceViewModel(TextEditorViewModel parent) { 
+        public ReplaceViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.UsedTabs;
+            SetColors();
+        }
+
+        private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
             ForegroundColorTextbox = _parent.Settings.SVM.Foreground;
         }
+
         private bool CanExecuteCommand(object arg) {
             return true;
         }
