@@ -18,5 +18,13 @@ namespace BetterEditor.ViewModels {
             TabViewModel otherEntry = (TabViewModel)obj;
             return this.Index == otherEntry.Index;
         }
+
+        public override int GetHashCode() {
+            int hash = 17;
+            hash = hash * 31 + TabName.GetHashCode();
+            hash = hash * 31 + IsActive.GetHashCode();
+            hash = hash * 31 + Index.GetHashCode();
+            return hash;
+        }
     }
 }

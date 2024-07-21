@@ -33,5 +33,13 @@ namespace BetterEditor.ViewModels {
                    this.Content == otherTab.Content &&
                    this.MD == otherTab.MD;
         }
+
+        public override int GetHashCode() {
+            int hash = 17;
+            hash = hash * 31 + FilePath.GetHashCode();
+            hash = hash * 31 + Content.GetHashCode();
+            hash = hash * 31 + MD.GetHashCode();
+            return hash;
+        }
     }
 }
