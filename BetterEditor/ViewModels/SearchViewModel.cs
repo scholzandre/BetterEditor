@@ -29,9 +29,13 @@ namespace BetterEditor.ViewModels {
         private bool _tabsChangedSearchPrevious = false;
         private int _prevTabsCount = 0;
 
-        public SearchViewModel(TextEditorViewModel parent) { 
+        public SearchViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.UsedTabs;
+            SetColors();
+        }
+
+        private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
             ForegroundColorTextbox = _parent.Settings.SVM.Foreground;
