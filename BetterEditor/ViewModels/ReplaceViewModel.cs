@@ -19,7 +19,7 @@ namespace BetterEditor.ViewModels {
         }
         private bool _textChanged = false;
         public bool SAT { get; set; }
-        TextEditorViewModel _parent;
+        private TextEditorViewModel _parent;
         private ObservableCollection<TabViewModel> _tabs;
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
