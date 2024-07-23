@@ -116,10 +116,14 @@ namespace BetterEditor.ViewModels {
             Settings = settings;
             OpenFirstTab();
             _appStart = false;
-            EditButtonBackground = editBackgroundColor;
-            DeleteButtonBackground = deleteBackgroundColor;
+            SetColors(editBackgroundColor, deleteBackgroundColor);
             _parent = parent;
             CreateUserControls();
+        }
+
+        private void SetColors(string editBackgroundColor, string deleteBackgroundColor) {
+            EditButtonBackground = editBackgroundColor;
+            DeleteButtonBackground = deleteBackgroundColor;
         }
 
         private void CreateUserControls() {
