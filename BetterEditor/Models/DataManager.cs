@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using System.Windows.Controls;
 
 namespace BetterEditor.Models {
     internal class DataManager : BaseViewModel {
