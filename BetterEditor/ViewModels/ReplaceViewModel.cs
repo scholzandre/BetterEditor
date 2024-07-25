@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace BetterEditor.ViewModels {
     internal class ReplaceViewModel {
+        #region properties and fields
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
@@ -23,11 +24,14 @@ namespace BetterEditor.ViewModels {
         private ObservableCollection<TabViewModel> _tabs;
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
+        #endregion
         public ReplaceViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.UsedTabs;
             SetColors();
         }
+
+        public ReplaceViewModel() { }
 
         private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;

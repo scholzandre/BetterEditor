@@ -6,6 +6,7 @@ using BetterEditor.Models;
 
 namespace BetterEditor.ViewModels {
     internal class SearchViewModel {
+        #region properties and fields
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
@@ -28,12 +29,15 @@ namespace BetterEditor.ViewModels {
         private bool _tabsChangedSearchNext = false;
         private bool _tabsChangedSearchPrevious = false;
         private int _prevTabsCount = 0;
+        #endregion
 
         public SearchViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.UsedTabs;
             SetColors();
         }
+
+        public SearchViewModel() { }
 
         private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
