@@ -57,6 +57,9 @@ namespace BetterEditor.ViewModels {
 
         private string _editButtonBackground = "#D0CEE2";
         private string _deleteButtonBackground = "#FECAC6";
+        public event Action UndoTextbox;
+        public event Action RedoTextbox;
+
 
         public MainViewModel() {
             try {
@@ -75,6 +78,8 @@ namespace BetterEditor.ViewModels {
             textEditorView.DataContext = TextEditorViewModel;
             TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
             TextEditorViewModel.SelectTextbox += textEditorView.OnFocusTextBox;
+            UndoTextbox += textEditorView.OnUndoChange;
+            RedoTextbox += textEditorView.OnRedoChange;
             _textEditorUserControl.Content = textEditorView;
         }
 
@@ -275,7 +280,7 @@ namespace BetterEditor.ViewModels {
         public ICommand UndoCommand => new RelayCommand(Undo, CanExecuteCommand);
         private void Undo(object obj) {
             try {
-                throw new NotImplementedException();
+                UndoTextbox?.Invoke();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -284,7 +289,7 @@ namespace BetterEditor.ViewModels {
         public ICommand RedoCommand => new RelayCommand(Redo, CanExecuteCommand);
         private void Redo(object obj) {
             try {
-                throw new NotImplementedException();
+                RedoTextbox?.Invoke();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
