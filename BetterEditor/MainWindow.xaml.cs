@@ -1,11 +1,6 @@
-﻿using BetterEditor.ViewModels;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace BetterEditor {
     /// <summary>
