@@ -19,12 +19,12 @@ namespace BetterEditor.Views {
             textbox.SelectionStart = textbox.Text.Length;
         }
 
-        public void UndoChange() {
+        public void OnUndoChange() {
             textbox.Undo();
         }
 
-        public void RedoChange() {
-            textbox.Undo();
+        public void OnRedoChange() {
+            textbox.Redo();
         }
     }
 }
