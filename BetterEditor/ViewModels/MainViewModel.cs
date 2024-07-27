@@ -25,7 +25,8 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(TextEditorViewModel));
             }
         }
-        private Type _listTabsViewType = typeof(ListTabsView);
+
+        private UserControl _listTabsUserControl = new UserControl();
         private ListTabsViewModel _listTabsView;
         public ListTabsViewModel ListTabsViewModel {
             get => _listTabsView;
@@ -55,6 +56,7 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        private bool _textEditorOpened = false;
         private string _editButtonBackground = "#D0CEE2";
         private string _deleteButtonBackground = "#FECAC6";
         public event Action UndoTextbox;
@@ -83,18 +85,25 @@ namespace BetterEditor.ViewModels {
             _textEditorUserControl.Content = textEditorView;
         }
 
+        private void CreateListTabsView() {
+            ListTabsViewModel = new ListTabsViewModel();
+            ListTabsView listTabsView = new ListTabsView();
+            listTabsView.DataContext = ListTabsViewModel;
+            _listTabsUserControl.Content = listTabsView;
+        }
+
         private bool CanExecuteCommand(object arg) {
             return true;
         }
         public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
         private void ChangeUserControl(object obj) {
             try {
-                if (UserControl.DataContext == null || UserControl.GetType() == _listTabsViewType) {
+                if (UserControl.DataContext == null || !_textEditorOpened) {
                     UserControl = _textEditorUserControl;
+                    _textEditorOpened = true;
                 } else {
-                    TextEditorViewModel.SaveCommand.Execute(this);
-                    UserControl = (UserControl)Activator.CreateInstance(_listTabsViewType);
-                    UserControl.DataContext = ListTabsViewModel;
+                    UserControl = _listTabsUserControl;
+                    _textEditorOpened = false;
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
