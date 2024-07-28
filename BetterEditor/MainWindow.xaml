@@ -139,6 +139,8 @@
                             <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}" StaysOpenOnClick="True"/>
                             <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}" StaysOpenOnClick="True"/>
                         </MenuItem>
+                        <MenuItem Header="Open text editor" Command="{Binding OpenTextEditorCommand}"/>
+                        <MenuItem Header="Open tabs overview" Command="{Binding OpenTabsOverviewCommand}"/>
                         <MenuItem Header="Viewmode (Ctrl + M)" >
                             <MenuItem.ItemsSource>
                                 <!-- dynamically show list entries -->
