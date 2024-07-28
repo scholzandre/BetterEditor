@@ -312,5 +312,23 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenTextEditorCommand => new RelayCommand(OpenTextEditor, CanExecuteCommand);
+        private void OpenTextEditor(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenTabsOverviewCommand => new RelayCommand(OpenTabsOverview, CanExecuteCommand);
+        private void OpenTabsOverview(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
