@@ -139,8 +139,36 @@
                             <MenuItem Header="Zoom in (Ctrl + '+')" Command="{Binding ZoomInCommand}" StaysOpenOnClick="True"/>
                             <MenuItem Header="Zoom out (Ctrl + '-')" Command="{Binding ZoomOutCommand}" StaysOpenOnClick="True"/>
                         </MenuItem>
-                        <MenuItem Header="Open text editor" Command="{Binding OpenTextEditorCommand}"/>
-                        <MenuItem Header="Open tabs overview" Command="{Binding OpenTabsOverviewCommand}"/>
+                        <MenuItem Header="Open text editor" Command="{Binding OpenTextEditorCommand}" IsCheckable="True" IsChecked="{Binding TextEditorOpened}" StaysOpenOnClick="True">
+                            <MenuItem.Style>
+                                <Style TargetType="MenuItem">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TextEditorOpened}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding TextEditorOpened}" Value="False">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </MenuItem.Style>
+                        </MenuItem>
+                        <MenuItem Header="Open tabs overview" Command="{Binding OpenTabsOverviewCommand}" StaysOpenOnClick="True">
+                            <MenuItem.Style>
+                                <Style TargetType="MenuItem">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TextEditorOpened}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Setter Property="IsChecked" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding TextEditorOpened}" Value="False">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="IsChecked" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </MenuItem.Style>
+                        </MenuItem>
                         <MenuItem Header="Viewmode (Ctrl + M)" >
                             <MenuItem.ItemsSource>
                                 <!-- dynamically show list entries -->
