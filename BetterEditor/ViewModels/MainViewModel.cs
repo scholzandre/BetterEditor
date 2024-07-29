@@ -57,6 +57,13 @@ namespace BetterEditor.ViewModels {
         }
 
         private bool _textEditorOpened = false;
+        public bool TextEditorOpened { 
+            get => _textEditorOpened;
+            set {
+                _textEditorOpened = value;
+                OnPropertyChanged(nameof(TextEditorOpened));
+            }
+        }
         private string _editButtonBackground = "#D0CEE2";
         private string _deleteButtonBackground = "#FECAC6";
         public event Action UndoTextbox;
@@ -98,12 +105,12 @@ namespace BetterEditor.ViewModels {
         public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
         private void ChangeUserControl(object obj) {
             try {
-                if (UserControl.DataContext == null || !_textEditorOpened) {
+                if (UserControl.DataContext == null || !TextEditorOpened) {
                     UserControl = _textEditorUserControl;
-                    _textEditorOpened = true;
+                    TextEditorOpened = true;
                 } else {
                     UserControl = _listTabsUserControl;
-                    _textEditorOpened = false;
+                    TextEditorOpened = false;
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
