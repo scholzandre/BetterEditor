@@ -323,7 +323,10 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTextEditorCommand => new RelayCommand(OpenTextEditor, CanExecuteCommand);
         private void OpenTextEditor(object obj) {
             try {
-                throw new NotImplementedException();
+                if (UserControl.DataContext != null) {
+                    UserControl = _textEditorUserControl;
+                    TextEditorOpened = true;
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -332,7 +335,10 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabsOverviewCommand => new RelayCommand(OpenTabsOverview, CanExecuteCommand);
         private void OpenTabsOverview(object obj) {
             try {
-                throw new NotImplementedException();
+                if (UserControl.DataContext != null) {
+                    TextEditorOpened = false;
+                    UserControl = _listTabsUserControl;
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
