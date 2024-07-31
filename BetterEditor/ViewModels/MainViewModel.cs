@@ -343,5 +343,14 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenProgramInfoCommand => new RelayCommand(OpenProgramInfo, CanExecuteCommand);
+        private void OpenProgramInfo(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
     }
 }
