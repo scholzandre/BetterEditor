@@ -189,7 +189,7 @@
                     </MenuItem>
                     <MenuItem Header="Help" >
                         <MenuItem Header="Open license" Command="{Binding OpenLicenseFileCommand}"/>
-                        <MenuItem Header="Open program info" />
+                        <MenuItem Header="Open program info" Command="{Binding OpenProgramInfoCommand}"/>
                     </MenuItem>
                 </Menu>
                 <ContentControl Content="{Binding UserControl}" Grid.Row="1"/>
