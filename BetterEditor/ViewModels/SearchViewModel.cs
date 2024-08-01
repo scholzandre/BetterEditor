@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -22,6 +23,8 @@ namespace BetterEditor.ViewModels {
         public bool SAT { get; set; }
         private TextEditorViewModel _parent;
         private ObservableCollection<TabViewModel> _tabs;
+        private List<List<int>> _tabMatchings = new List<List<int>>();
+        private int _openedMatchingTab = 0;
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
         private string _noMatchesText = "No further matches found";
@@ -65,15 +68,26 @@ namespace BetterEditor.ViewModels {
                     CheckTabs();
                     if (_textChanged || _tabsChangedSearch) {
                         GetFilteredTabIds();
+                        _openedMatchingTab = 0;
                         _openedMatch = 0;
                         _textChanged = false;
                         _tabsChangedSearch = false;
-                    } else if (_openedMatch == _matchingTabs.Count)
+                    } else if (_openedMatchingTab == _matchingTabs.Count-1) { 
+                        _openedMatchingTab = 0;
                         _openedMatch = 0;
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                    }
                     if (_matchingTabs.Count > 0) { 
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
-                        _openedMatch++;
+                        if (_openedMatch < _tabMatchings[_openedMatchingTab].Count) {
+                            _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
+                            _openedMatch++;
+                        } else {
+                            _openedMatchingTab++;
+                            _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                            _openedMatch = 0;
+                            _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
+                            _openedMatch++;
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -88,15 +102,15 @@ namespace BetterEditor.ViewModels {
                     CheckTabs();
                     if (_textChanged || _tabsChangedSearchNext) {
                         GetFilteredTabIds();
-                        _openedMatch = 0;
+                        _openedMatchingTab = 0;
                         _textChanged = false;
                         _tabsChangedSearchNext = false;
-                    } else if (_openedMatch == _matchingTabs.Count)
+                    } else if (_openedMatchingTab == _matchingTabs.Count)
                         MessageBox.Show(_noMatchesText);
-                    if (_matchingTabs.Count > 0 && _openedMatch < _matchingTabs.Count) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
-                        _openedMatch++;
+                    if (_matchingTabs.Count > 0 && _openedMatchingTab < _matchingTabs.Count) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]].Content.IndexOf(SearchText), SearchText.Length);
+                        _openedMatchingTab++;
                     }
                 }
             } catch (Exception e) {
@@ -111,15 +125,15 @@ namespace BetterEditor.ViewModels {
                     CheckTabs();
                     if (_textChanged || _tabsChangedSearchPrevious) {
                         GetFilteredTabIds();
-                        _openedMatch = _matchingTabs.Count-1;
+                        _openedMatchingTab = _matchingTabs.Count-1;
                         _textChanged = false;
                         _tabsChangedSearchPrevious = false;
-                    } else if (_openedMatch < 0)
+                    } else if (_openedMatchingTab < 0)
                         MessageBox.Show(_noMatchesText);
-                    if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
-                        _openedMatch--;
+                    if (_matchingTabs.Count > 0 && _openedMatchingTab >= 0) {
+                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]].Content.IndexOf(SearchText), SearchText.Length);
+                        _openedMatchingTab--;
                     }
                 }
             } catch (Exception e) {
@@ -140,13 +154,21 @@ namespace BetterEditor.ViewModels {
             _matchingTabs = new ObservableCollection<int>();
             bool matchesChanged = false;
             for (int i = 0; i < _tabs.Count; i++) {
-                if (_tabs[i].Content.Contains(SearchText)) { 
+                if (_tabs[i].Content.Contains(SearchText)) {
+                    _tabMatchings.Add(new List<int>());
                     _matchingTabs.Add(_tabs[i].Index);
+                    int index = 0;
+                    while ((index = _tabs[i].Content.IndexOf(SearchText, index, StringComparison.OrdinalIgnoreCase)) != -1) {
+                        _tabMatchings[_tabMatchings.Count - 1].Add(index);
+                        index += SearchText.Length;
+                    }
                     matchesChanged = true;
                 }
             }
             if (!matchesChanged)
                 _matchingTabs = new ObservableCollection<int>();
+            else if (_matchingTabs.Count > 0) 
+                _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[0]]);
         }
 
         private void CheckTabs() {
