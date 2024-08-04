@@ -138,9 +138,16 @@ namespace BetterEditor.ViewModels {
                     } else if (_openedMatchingTab < 0)
                         MessageBox.Show(_noMatchesText);
                     if (_matchingTabs.Count > 0 && _openedMatchingTab >= 0) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]].Content.IndexOf(SearchText), SearchText.Length);
-                        _openedMatchingTab--;
+                        if (_openedMatch > 0) {
+                            _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
+                            _openedMatch--;
+                        } else if (_openedMatchingTab != 0) {
+                            _openedMatchingTab--;
+                            _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                            _openedMatch = _tabMatchings[_openedMatchingTab].Count - 1;
+                            _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
+                            _openedMatch--;
+                        }
                     }
                 }
             } catch (Exception e) {
