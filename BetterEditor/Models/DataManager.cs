@@ -226,7 +226,8 @@ namespace BetterEditor.Models {
         public static bool DeleteFile(string filePath) {
             try {
                 string licensePath = _filePath.Substring(0, _filePath.Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt";
-                if (File.Exists(filePath) && filePath != _filePath && filePath != licensePath) {
+                string readmePath = _filePath.Substring(0, _filePath.Length - "BetterEditor".Length * 2 - 1) + "README.md";
+                if (File.Exists(filePath) && filePath != _filePath && filePath != licensePath && filePath != readmePath) {
                     File.Delete(filePath);
                 }
                 return true;
