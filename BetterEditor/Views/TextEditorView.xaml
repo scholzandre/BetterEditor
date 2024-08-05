@@ -99,7 +99,6 @@
                         </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
-                <UserControl/>
             </StackPanel>
         </Grid>
         <TextBox 
