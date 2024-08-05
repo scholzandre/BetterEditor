@@ -347,7 +347,9 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenProgramInfoCommand => new RelayCommand(OpenProgramInfo, CanExecuteCommand);
         private void OpenProgramInfo(object obj) {
             try {
-                throw new NotImplementedException();
+                string filePath = DataManager.GetFolderPath();
+                filePath = filePath.Substring(0, filePath.Length - "BetterEditor".Length - 1) + "README.md";
+                TextEditorViewModel.OpenFileCommand.Execute(filePath);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
