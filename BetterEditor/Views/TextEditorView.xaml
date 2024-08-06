@@ -49,7 +49,7 @@
         <Grid>
             <StackPanel>
                 <UserControl Visibility="{Binding Visibility}" Content="{Binding UserControl}"/>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" x:Name="TabsScrollViewer">
                     <StackPanel Orientation="Horizontal">
                         <ItemsControl ItemsSource="{Binding UsedTabs}">
                             <ItemsControl.ItemsPanel>
