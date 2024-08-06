@@ -26,5 +26,18 @@ namespace BetterEditor.Views {
         public void OnRedoChange() {
             textbox.Redo();
         }
+
+        public void OnMoveScrollbarLeft() {
+            TabsScrollViewer.ScrollToLeftEnd();
+        }
+
+        public void OnMoveScrollbarRight() {
+            TabsScrollViewer.ScrollToRightEnd();
+        }
+
+        public void OnMoveScrollbar(int tabIndex) {
+            // one tab is 215 px wide
+            TabsScrollViewer.ScrollToHorizontalOffset(tabIndex*215);
+        }
     }
 }
