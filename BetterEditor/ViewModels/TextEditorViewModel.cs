@@ -89,6 +89,8 @@ namespace BetterEditor.ViewModels {
 
         public event Action<int, int> SelectTextRequested;
         public event Action SelectTextbox;
+        public event Action ScrollLeftEnd;
+        public event Action ScrollRightEnd;
         #endregion
 
         #region Fields
@@ -199,6 +201,10 @@ namespace BetterEditor.ViewModels {
             try {
                 _tabSwitch = true;
                 _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+
+                if (_index == 0)
+                    ScrollLeftEnd();
+
                 Tabs[_index].Content = Content;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 DataManager.WriteTabs(Tabs.ToList());
