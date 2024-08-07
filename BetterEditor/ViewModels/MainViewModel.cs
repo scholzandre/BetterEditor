@@ -87,6 +87,8 @@ namespace BetterEditor.ViewModels {
             textEditorView.DataContext = TextEditorViewModel;
             TextEditorViewModel.SelectTextRequested += textEditorView.OnSelectText;
             TextEditorViewModel.SelectTextbox += textEditorView.OnFocusTextBox;
+            TextEditorViewModel.ScrollLeftEnd += textEditorView.OnMoveScrollbarLeft;
+            TextEditorViewModel.ScrollRightEnd += textEditorView.OnMoveScrollbarRight;
             UndoTextbox += textEditorView.OnUndoChange;
             RedoTextbox += textEditorView.OnRedoChange;
             _textEditorUserControl.Content = textEditorView;
