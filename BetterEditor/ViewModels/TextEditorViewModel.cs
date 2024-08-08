@@ -204,6 +204,8 @@ namespace BetterEditor.ViewModels {
 
                 if (_index == 0)
                     ScrollLeftEnd();
+                else if (_index == UsedTabs.Count)
+                    ScrollRightEnd();
 
                 Tabs[_index].Content = Content;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
