@@ -106,7 +106,7 @@ namespace BetterEditor.ViewModels {
         #endregion
 
         public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor, MainViewModel parent) {
-            _contentChanged += TabsToUsedTabs;
+            _contentChanged += TabsToTabViewModels;
             Tabs = new ObservableCollection<Tab>(tabs);
             Settings = settings;
             OpenFirstTab();
@@ -153,7 +153,7 @@ namespace BetterEditor.ViewModels {
         public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteCommand);
         private void DeleteCurrentTab(object obj) {
             try {
-                DeleteTab(TabViewModels.IndexOf(TabViewModels.Where(x => x.Index == OpenedTab.Index).First()));
+                DeleteTab(_index);
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -235,7 +235,7 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private void TabsToUsedTabs(object sender, EventArgs args) {
+        private void TabsToTabViewModels(object sender, EventArgs args) {
             TabViewModels.Clear();
             try {
                 if (Tabs.Count > 0) { 
@@ -244,10 +244,7 @@ namespace BetterEditor.ViewModels {
                         TabViewModels.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, TabCounter), true, TabCounter));
                         TabCounter++;
                     }
-                    if (TabViewModels.Count > 1)
-                        TabViewModels[TabViewModels.IndexOf(OpenedTab)].IsActive = false;
-                    else 
-                        TabViewModels[0].IsActive = false;
+                    TabViewModels[TabViewModels.IndexOf(OpenedTab)].IsActive = false;
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
