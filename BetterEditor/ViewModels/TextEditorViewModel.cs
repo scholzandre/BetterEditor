@@ -43,11 +43,11 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private ObservableCollection<TabViewModel> _usedTabs = new ObservableCollection<TabViewModel>();
-        public ObservableCollection<TabViewModel> UsedTabs {
-            get => _usedTabs;
+        private ObservableCollection<TabViewModel> _tabViewModels = new ObservableCollection<TabViewModel>();
+        public ObservableCollection<TabViewModel> TabViewModels {
+            get => _tabViewModels;
             set {
-                _usedTabs = value;
+                _tabViewModels = value;
             }
         }
         public int TabCounter { get; set; }
@@ -60,23 +60,23 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private Visibility _visibility = Visibility.Collapsed;
-        public Visibility Visibility { 
-            get => _visibility;
+        private Visibility _userControlVisibility = Visibility.Collapsed;
+        public Visibility UserControlVisibility { 
+            get => _userControlVisibility;
             set {
-                _visibility = value; 
-                OnPropertyChanged(nameof(Visibility));
+                _userControlVisibility = value; 
+                OnPropertyChanged(nameof(UserControlVisibility));
             } 
         }
 
 
-        private TabViewModel _tab = new TabViewModel();
-        public TabViewModel Tab {
-            get => _tab;
+        private TabViewModel _openedTab = new TabViewModel();
+        public TabViewModel OpenedTab {
+            get => _openedTab;
             set {
-                _tab = value;
+                _openedTab = value;
                 Content = value.Content;
-                OnPropertyChanged(nameof(Tab));
+                OnPropertyChanged(nameof(OpenedTab));
             }
         }
 
@@ -144,7 +144,7 @@ namespace BetterEditor.ViewModels {
         private void DeleteTab(object obj) {
             try {
                 TabViewModel tab = (TabViewModel)obj;
-                DeleteTab(UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == tab.Index).First()));
+                DeleteTab(TabViewModels.IndexOf(TabViewModels.Where(x => x.Index == tab.Index).First()));
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -153,7 +153,7 @@ namespace BetterEditor.ViewModels {
         public ICommand DeleteCurrentTabCommand => new RelayCommand(DeleteCurrentTab, CanExecuteCommand);
         private void DeleteCurrentTab(object obj) {
             try {
-                DeleteTab(UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First()));
+                DeleteTab(TabViewModels.IndexOf(TabViewModels.Where(x => x.Index == OpenedTab.Index).First()));
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -163,26 +163,26 @@ namespace BetterEditor.ViewModels {
             try {
                 if (Tabs.Count > 0) { 
                     Tabs.Remove(Tabs[index]);
-                    if (Settings.CAD && File.Exists(Tab.FilePath))
-                        DataManager.DeleteFile(Tab.FilePath);
-                    else if (!Settings.CAD && File.Exists(Tab.FilePath) && Tab.FilePath != DataManager.GetFilePath() && Tab.FilePath != DataManager.GetFilePath().Substring(0, DataManager.GetFilePath().Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt") { 
-                        MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {Tab.TabName}", "Delete file", MessageBoxButton.YesNo);
+                    if (Settings.CAD && File.Exists(OpenedTab.FilePath))
+                        DataManager.DeleteFile(OpenedTab.FilePath);
+                    else if (!Settings.CAD && File.Exists(OpenedTab.FilePath) && OpenedTab.FilePath != DataManager.GetFilePath() && OpenedTab.FilePath != DataManager.GetFilePath().Substring(0, DataManager.GetFilePath().Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt") { 
+                        MessageBoxResult messageBoxResult = MessageBox.Show($"Do you want to delete the following file: {OpenedTab.TabName}", "Delete file", MessageBoxButton.YesNo);
                         if (messageBoxResult == MessageBoxResult.Yes) {
-                            DataManager.DeleteFile(Tab.FilePath);
+                            DataManager.DeleteFile(OpenedTab.FilePath);
                         }
                     }
-                    UsedTabs.Remove(UsedTabs[index]);
-                    if (UsedTabs.Count == 0) {
+                    TabViewModels.Remove(TabViewModels[index]);
+                    if (TabViewModels.Count == 0) {
                         TabCounter = 0;
                         CreateNewTab(this);
                         return;
-                    } else if (index == UsedTabs.Count) {
+                    } else if (index == TabViewModels.Count) {
                         index--;
                     }
-                    UsedTabs[index].IsActive = false;
-                    Tab = UsedTabs[index];
+                    TabViewModels[index].IsActive = false;
+                    OpenedTab = TabViewModels[index];
                     DataManager.WriteTabs(Tabs.ToList());
-                    Settings.LOT = GetTabFromTabViewModel(Tab);
+                    Settings.LOT = GetTabFromTabViewModel(OpenedTab);
                     DataManager.WriteSettings(Settings);
                 }
             } catch (Exception e) { 
@@ -212,13 +212,13 @@ namespace BetterEditor.ViewModels {
                         DataManager.WriteTabs(Tabs.ToList());
                     }
                 }
-                Tab = tempTabViewModel;
-                Content = Tab.Content;
-                Settings.LOT = GetTabFromTabViewModel(Tab);
-                if (UsedTabs.Count > 0) { 
-                    for (int i = 0; i < UsedTabs.Count; i++)
-                        UsedTabs[i].IsActive = true;
-                    UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
+                OpenedTab = tempTabViewModel;
+                Content = OpenedTab.Content;
+                Settings.LOT = GetTabFromTabViewModel(OpenedTab);
+                if (TabViewModels.Count > 0) { 
+                    for (int i = 0; i < TabViewModels.Count; i++)
+                        TabViewModels[i].IsActive = true;
+                    TabViewModels[TabViewModels.IndexOf(OpenedTab)].IsActive = false;
                 }
                 DataManager.WriteSettings(Settings);
                 _tabSwitch = false;
@@ -228,7 +228,7 @@ namespace BetterEditor.ViewModels {
 
                 if (_index == 0 && ScrollLeftEnd != null)
                     ScrollLeftEnd();
-                else if (_index == UsedTabs.Count-1 && ScrollRightEnd != null)
+                else if (_index == TabViewModels.Count-1 && ScrollRightEnd != null)
                     ScrollRightEnd();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -236,18 +236,18 @@ namespace BetterEditor.ViewModels {
         }
 
         private void TabsToUsedTabs(object sender, EventArgs args) {
-            UsedTabs.Clear();
+            TabViewModels.Clear();
             try {
                 if (Tabs.Count > 0) { 
                     TabCounter = 0;
                     foreach (Tab tab in Tabs) {
-                        UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, TabCounter), true, TabCounter));
+                        TabViewModels.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, TabCounter), true, TabCounter));
                         TabCounter++;
                     }
-                    if (UsedTabs.Count > 1)
-                        UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
+                    if (TabViewModels.Count > 1)
+                        TabViewModels[TabViewModels.IndexOf(OpenedTab)].IsActive = false;
                     else 
-                        UsedTabs[0].IsActive = false;
+                        TabViewModels[0].IsActive = false;
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
@@ -264,13 +264,13 @@ namespace BetterEditor.ViewModels {
                             _contentChanged?.Invoke(this, EventArgs.Empty);
                             DataManager.WriteTabs(Tabs.ToList());
                         }
-                        Tab = UsedTabs.Last();
-                        OpenTabCommand.Execute(UsedTabs.Last());
+                        OpenedTab = TabViewModels.Last();
+                        OpenTabCommand.Execute(TabViewModels.Last());
                     } else {
                         if (Tabs.Contains(Settings.LOT)) {
                             int index = Tabs.IndexOf(Settings.LOT);
                             Tabs[index].FilePath = "";
-                            UsedTabs[index].FilePath = "";
+                            TabViewModels[index].FilePath = "";
                         }
                         Settings.LOT.FilePath = "";
                     }
@@ -283,19 +283,19 @@ namespace BetterEditor.ViewModels {
                         Settings.LOT.Content = File.ReadAllText(Settings.LOT.FilePath);
                         DataManager.WriteSettings(Settings);
                         Tabs[index].Content = Settings.LOT.Content;
-                        UsedTabs[index].Content = Settings.LOT.Content;
-                        Tab.Content = Settings.LOT.Content;
+                        TabViewModels[index].Content = Settings.LOT.Content;
+                        OpenedTab.Content = Settings.LOT.Content;
                         DataManager.WriteTabs(Tabs.ToList());
                     }
                 } else if (!Tabs.Contains(Settings.LOT)) {
                     Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
-                    Tab = UsedTabs.Last();
+                    OpenedTab = TabViewModels.Last();
                     DataManager.WriteTabs(Tabs.ToList());
-                    OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
+                    OpenTabCommand.Execute(TabViewModels[TabViewModels.Count - 1]);
                 } else {
                     int index = Tabs.IndexOf(Settings.LOT);
-                    Tab = UsedTabs[index];
-                    OpenTabCommand.Execute(UsedTabs[index]);
+                    OpenedTab = TabViewModels[index];
+                    OpenTabCommand.Execute(TabViewModels[index]);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -306,10 +306,10 @@ namespace BetterEditor.ViewModels {
         private void CreateNewTab(object obj) {
             try { 
                 Tabs.Add(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day)));
-                UsedTabs.Add(new TabViewModel("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day), "", false, TabCounter++));
+                TabViewModels.Add(new TabViewModel("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day), "", false, TabCounter++));
                 OnPropertyChanged(nameof(Tabs));
-                Tab = UsedTabs.Last();
-                OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
+                OpenedTab = TabViewModels.Last();
+                OpenTabCommand.Execute(TabViewModels[TabViewModels.Count - 1]);
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -319,19 +319,19 @@ namespace BetterEditor.ViewModels {
         private void Save(object obj) {
             try {
                 DateOnly todaysDate = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
-                Tab.Content = Content;
-                Tab.TabName = CreateTabname(Tab.FilePath, Content, _index);
-                Tab.MD = todaysDate;
+                OpenedTab.Content = Content;
+                OpenedTab.TabName = CreateTabname(OpenedTab.FilePath, Content, _index);
+                OpenedTab.MD = todaysDate;
                 Tabs[_index].Content = Content;
                 Tabs[_index].MD = todaysDate;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 _parent.Tabs = Tabs.ToList();
                 DataManager.WriteTabs(Tabs.ToList());
                 _parent.Tabs = Tabs.ToList();
-                Settings.LOT = GetTabFromTabViewModel(Tab);
+                Settings.LOT = GetTabFromTabViewModel(OpenedTab);
                 DataManager.WriteSettings(Settings);
-                if (File.Exists(Tab.FilePath))
-                    File.WriteAllText(Tab.FilePath, Content);
+                if (File.Exists(OpenedTab.FilePath))
+                    File.WriteAllText(OpenedTab.FilePath, Content);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
@@ -350,7 +350,7 @@ namespace BetterEditor.ViewModels {
                     string content = File.ReadAllText(filePath);
                     DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
                     Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
-                    OpenTabCommand.Execute(UsedTabs.Last());
+                    OpenTabCommand.Execute(TabViewModels.Last());
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -359,20 +359,20 @@ namespace BetterEditor.ViewModels {
         public ICommand SaveAsCommand => new RelayCommand(SaveAs, CanExecuteCommand);
         private void SaveAs(object obj) {
             try {
-                SaveCommand.Execute(UsedTabs.Last());
+                SaveCommand.Execute(TabViewModels.Last());
                 using (var openFolderDialog = new System.Windows.Forms.FolderBrowserDialog()) {
                     openFolderDialog.ShowDialog();
                     if (openFolderDialog.SelectedPath != "" && Directory.Exists(openFolderDialog.SelectedPath)) { 
                         string filePath = openFolderDialog.SelectedPath + "\\";
-                        if (Tab.FilePath != "")
-                            filePath += Tab.FilePath;
+                        if (OpenedTab.FilePath != "")
+                            filePath += OpenedTab.FilePath;
                         else
-                            filePath += (Tab.Content.Length >= 30)? Tab.Content.Substring(0, 30) + ".txt" : Tab.Content + ".txt";
-                        Tab.FilePath = filePath;
+                            filePath += (OpenedTab.Content.Length >= 30)? OpenedTab.Content.Substring(0, 30) + ".txt" : OpenedTab.Content + ".txt";
+                        OpenedTab.FilePath = filePath;
                         Tabs[_index].FilePath = filePath;
-                        UsedTabs[_index].FilePath = filePath;
-                        SaveCommand.Execute(UsedTabs.Last());
-                        File.WriteAllText(filePath, Tab.Content);
+                        TabViewModels[_index].FilePath = filePath;
+                        SaveCommand.Execute(TabViewModels.Last());
+                        File.WriteAllText(filePath, OpenedTab.Content);
                     }
                 }
             } catch (Exception e) {
@@ -395,10 +395,10 @@ namespace BetterEditor.ViewModels {
         }
         public string CreateTabname(string filePath, string newContent, int tabIndex) {
             if (filePath == null)
-                filePath = Tab.FilePath;
+                filePath = OpenedTab.FilePath;
             if (newContent == null)
-                newContent = Tab.Content;
-            string tabName = (!_appStart && Tab.Content != newContent && tabIndex == _index && !_tabSwitch) ? "*" : string.Empty;
+                newContent = OpenedTab.Content;
+            string tabName = (!_appStart && OpenedTab.Content != newContent && tabIndex == _index && !_tabSwitch) ? "*" : string.Empty;
             try {
                 if (File.Exists(filePath)) {
                     tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
@@ -430,9 +430,9 @@ namespace BetterEditor.ViewModels {
         private void OpenNextTab(object obj) {
             try {
                 if (_index >= Tabs.Count - 1) {
-                    OpenTabCommand.Execute(UsedTabs[0]);
+                    OpenTabCommand.Execute(TabViewModels[0]);
                 } else { 
-                    OpenTabCommand.Execute(UsedTabs[_index + 1]);
+                    OpenTabCommand.Execute(TabViewModels[_index + 1]);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -443,9 +443,9 @@ namespace BetterEditor.ViewModels {
         private void OpenPreviousTab(object obj) {
             try {
                 if (_index == 0) {
-                    OpenTabCommand.Execute(UsedTabs[UsedTabs.Count-1]);
+                    OpenTabCommand.Execute(TabViewModels[TabViewModels.Count-1]);
                 } else {
-                    OpenTabCommand.Execute(UsedTabs[_index - 1]);
+                    OpenTabCommand.Execute(TabViewModels[_index - 1]);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -491,10 +491,10 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenSearchViewCommand => new RelayCommand(OpenSearchView, CanExecuteCommand);
         private void OpenSearchView(object obj) {
             try {
-                if (Visibility == Visibility.Collapsed)
-                    Visibility = Visibility.Visible;
+                if (UserControlVisibility == Visibility.Collapsed)
+                    UserControlVisibility = Visibility.Visible;
                 else if (UserControl.GetType() == _searchUserControl.GetType())
-                    Visibility = Visibility.Collapsed;
+                    UserControlVisibility = Visibility.Collapsed;
                 if (UserControl.GetType() != _searchUserControl.GetType()) {
                     UserControl = _searchUserControl;
                 }
@@ -506,10 +506,10 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenReplaceViewCommand => new RelayCommand(OpenReplaceView, CanExecuteCommand);
         private void OpenReplaceView(object obj) {
             try {
-                if (Visibility == Visibility.Collapsed)
-                    Visibility = Visibility.Visible;
+                if (UserControlVisibility == Visibility.Collapsed)
+                    UserControlVisibility = Visibility.Visible;
                 else if (UserControl.GetType() == _replaceUserControl.GetType())
-                    Visibility = Visibility.Collapsed;
+                    UserControlVisibility = Visibility.Collapsed;
                 if (UserControl.GetType() != _replaceUserControl.GetType()) {
                     UserControl = _replaceUserControl;
                 }
@@ -527,15 +527,15 @@ namespace BetterEditor.ViewModels {
         }
 
         private int GetCurrentIndex()
-            => UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+            => TabViewModels.IndexOf(TabViewModels.Where(x => x.Index == OpenedTab.Index).First());
 
         private void ContentUpdated(string value) {
             _index = GetCurrentIndex();
             Tabs[_index].Content = value;
             _contentChanged?.Invoke(this, EventArgs.Empty);
-            Tab.Content = value;
+            OpenedTab.Content = value;
             _staticTabs = new ObservableCollection<Tab>(Tabs);
-            Settings.LOT = GetTabFromTabViewModel(Tab);
+            Settings.LOT = GetTabFromTabViewModel(OpenedTab);
             _staticSettings = Settings;
             if (Settings.SA)
                 _timer.Change(10000, Timeout.Infinite);

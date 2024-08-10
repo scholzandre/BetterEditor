@@ -27,7 +27,7 @@ namespace BetterEditor.ViewModels {
         #endregion
         public ReplaceViewModel(TextEditorViewModel parent) {
             _parent = parent;
-            _tabs = _parent.UsedTabs;
+            _tabs = _parent.TabViewModels;
             SetColors();
         }
 
@@ -62,8 +62,8 @@ namespace BetterEditor.ViewModels {
                     } else if (_openedMatch == _matchingTabs.Count)
                         _openedMatch = 0;
                     if (_matchingTabs.Count > 0) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
+                        _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.TabViewModels[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch++;
                     }
                 }
@@ -83,8 +83,8 @@ namespace BetterEditor.ViewModels {
                     } else if (_openedMatch == _matchingTabs.Count)
                         MessageBox.Show("No further matches found!");
                     if (_matchingTabs.Count > 0 && _openedMatch != _matchingTabs.Count) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
+                        _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.TabViewModels[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch++;
                     }
                 }
@@ -104,8 +104,8 @@ namespace BetterEditor.ViewModels {
                     } else if (_openedMatch < 0)
                         MessageBox.Show("No further matches found!");
                     if (_matchingTabs.Count > 0 && _openedMatch >= 0) {
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatch]]);
-                        _parent.RequestSelectText(_parent.UsedTabs[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
+                        _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatch]]);
+                        _parent.RequestSelectText(_parent.TabViewModels[_matchingTabs[_openedMatch]].Content.IndexOf(SearchText), SearchText.Length);
                         _openedMatch--;
                     }
                 }

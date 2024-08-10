@@ -36,7 +36,7 @@ namespace BetterEditor.ViewModels {
 
         public SearchViewModel(TextEditorViewModel parent) {
             _parent = parent;
-            _tabs = _parent.UsedTabs;
+            _tabs = _parent.TabViewModels;
             SetColors();
         }
 
@@ -75,7 +75,7 @@ namespace BetterEditor.ViewModels {
                     } else if (_openedMatchingTab == _matchingTabs.Count-1) { 
                         _openedMatchingTab = 0;
                         _openedMatch = 0;
-                        _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                        _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatchingTab]]);
                     }
                     if (_matchingTabs.Count > 0) { 
                         if (_openedMatch < _tabMatchings[_openedMatchingTab].Count) {
@@ -83,7 +83,7 @@ namespace BetterEditor.ViewModels {
                             _openedMatch++;
                         } else {
                             _openedMatchingTab++;
-                            _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                            _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatchingTab]]);
                             _openedMatch = 0;
                             _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
                             _openedMatch++;
@@ -113,7 +113,7 @@ namespace BetterEditor.ViewModels {
                             _openedMatch++;
                         } else if (_openedMatchingTab != _tabMatchings.Count-1) {
                             _openedMatchingTab++;
-                            _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                            _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatchingTab]]);
                             _openedMatch = 0;
                             _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
                             _openedMatch++;
@@ -143,7 +143,7 @@ namespace BetterEditor.ViewModels {
                             _openedMatch--;
                         } else if (_openedMatchingTab != 0) {
                             _openedMatchingTab--;
-                            _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[_openedMatchingTab]]);
+                            _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatchingTab]]);
                             _openedMatch = _tabMatchings[_openedMatchingTab].Count - 1;
                             _parent.RequestSelectText(_tabMatchings[_openedMatchingTab][_openedMatch], SearchText.Length);
                             _openedMatch--;
@@ -182,7 +182,7 @@ namespace BetterEditor.ViewModels {
             if (!matchesChanged)
                 _matchingTabs = new ObservableCollection<int>();
             else if (_matchingTabs.Count > 0) 
-                _parent.OpenTabCommand.Execute(_parent.UsedTabs[_matchingTabs[0]]);
+                _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[0]]);
         }
 
         private void CheckTabs() {
