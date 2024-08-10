@@ -436,7 +436,8 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenNextTabCommand => new RelayCommand(OpenNextTab, CanExecuteCommand);
         private void OpenNextTab(object obj) {
             try {
-                int index = Tabs.IndexOf(GetTabFromTabViewModel(Tab));
+                int index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).FirstOrDefault());
+
                 if (index >= Tabs.Count - 1) {
                     OpenTabCommand.Execute(UsedTabs[0]);
                 } else { 
