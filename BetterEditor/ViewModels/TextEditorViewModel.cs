@@ -50,7 +50,7 @@ namespace BetterEditor.ViewModels {
                 _usedTabs = value;
             }
         }
-        public int Counter { get; set; }
+        public int TabCounter { get; set; }
         private Settings _settings;
         public Settings Settings { 
             get => _settings;
@@ -173,7 +173,7 @@ namespace BetterEditor.ViewModels {
                     }
                     UsedTabs.Remove(UsedTabs[index]);
                     if (UsedTabs.Count == 0) {
-                        Counter = 0;
+                        TabCounter = 0;
                         CreateNewTab(this);
                         return;
                     } else if (index == UsedTabs.Count) {
@@ -239,10 +239,10 @@ namespace BetterEditor.ViewModels {
             UsedTabs.Clear();
             try {
                 if (Tabs.Count > 0) { 
-                    Counter = 0;
+                    TabCounter = 0;
                     foreach (Tab tab in Tabs) {
-                        UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, Counter), true, Counter));
-                        Counter++;
+                        UsedTabs.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content, TabCounter), true, TabCounter));
+                        TabCounter++;
                     }
                     if (UsedTabs.Count > 1)
                         UsedTabs[UsedTabs.IndexOf(Tab)].IsActive = false;
@@ -306,7 +306,7 @@ namespace BetterEditor.ViewModels {
         private void CreateNewTab(object obj) {
             try { 
                 Tabs.Add(new Tab("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day)));
-                UsedTabs.Add(new TabViewModel("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day), "", false, Counter++));
+                UsedTabs.Add(new TabViewModel("", "", new DateOnly(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day), "", false, TabCounter++));
                 OnPropertyChanged(nameof(Tabs));
                 Tab = UsedTabs.Last();
                 OpenTabCommand.Execute(UsedTabs[UsedTabs.Count - 1]);
