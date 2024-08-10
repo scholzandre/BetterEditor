@@ -91,6 +91,12 @@ namespace BetterEditor.ViewModels {
         public event Action SelectTextbox;
         public event Action ScrollLeftEnd;
         public event Action ScrollRightEnd;
+        public string MoveLeftIcon { get; set; } = "<";
+        public string MoveRightIcon { get; set; } = ">";
+        public string RenameIcon { get; set; } = "🖉";
+        public string DeleteIcon { get; set; } = "✖";
+        public string EditButtonBackground { get; set; }
+        public string DeleteButtonBackground { get; set; }
         #endregion
 
         #region Fields
@@ -101,12 +107,6 @@ namespace BetterEditor.ViewModels {
         private static bool _appStart = true;
         private int _index = 0;
         private bool _tabSwitch = false;
-        public string MoveLeftIcon { get; set; } = "<";
-        public string MoveRightIcon { get; set; } = ">";
-        public string RenameIcon { get; set; } = "🖉";
-        public string DeleteIcon { get; set; } = "✖";
-        public string EditButtonBackground { get; set; }
-        public string DeleteButtonBackground { get; set; }
         private UserControl _searchUserControl;
         private UserControl _replaceUserControl;
         private MainViewModel _parent;
