@@ -38,6 +38,7 @@
 
     <UserControl.InputBindings>
         <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding OpenNextTabCommand}"/>
+        <KeyBinding Key="Tab" Modifiers="Ctrl+Shift" Command="{Binding OpenPreviousTabCommand}"/>
         <KeyBinding Key="W" Modifiers="Ctrl" Command="{Binding DeleteCurrentTabCommand}"/>
     </UserControl.InputBindings>
 
