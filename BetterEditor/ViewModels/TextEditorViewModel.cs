@@ -446,6 +446,19 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        public ICommand OpenPreviousTabCommand => new RelayCommand(OpenPreviousTab, CanExecuteCommand);
+        private void OpenPreviousTab(object obj) {
+            try {
+                if (_index == 0) {
+                    OpenTabCommand.Execute(UsedTabs[UsedTabs.Count-1]);
+                } else {
+                    OpenTabCommand.Execute(UsedTabs[_index - 1]);
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
         public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
         private void ChangeUserControl(object obj) {
             try {
