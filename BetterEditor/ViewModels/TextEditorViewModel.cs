@@ -28,18 +28,11 @@ namespace BetterEditor.ViewModels {
             get => _content;
             set {
                 _content = value;
-                _index = GetCurrentIndex();
-                Tabs[_index].Content = value;
-                _contentChanged?.Invoke(this, EventArgs.Empty);
-                Tab.Content = value;
-                _staticTabs = new ObservableCollection<Tab>(Tabs);
-                Settings.LOT = GetTabFromTabViewModel(Tab);
-                _staticSettings = Settings;
-                if (Settings.SA)
-                    _timer.Change(10000, Timeout.Infinite);
+                ContentUpdated(value);
                 OnPropertyChanged(nameof(Content));
-            } 
+            }
         }
+
 
         private ObservableCollection<Tab> _tabs = new ObservableCollection<Tab>();
         public ObservableCollection<Tab> Tabs {
@@ -535,5 +528,17 @@ namespace BetterEditor.ViewModels {
 
         private int GetCurrentIndex()
             => UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+
+        private void ContentUpdated(string value) {
+            _index = GetCurrentIndex();
+            Tabs[_index].Content = value;
+            _contentChanged?.Invoke(this, EventArgs.Empty);
+            Tab.Content = value;
+            _staticTabs = new ObservableCollection<Tab>(Tabs);
+            Settings.LOT = GetTabFromTabViewModel(Tab);
+            _staticSettings = Settings;
+            if (Settings.SA)
+                _timer.Change(10000, Timeout.Infinite);
+        }
     }
 }
