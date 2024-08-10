@@ -28,7 +28,7 @@ namespace BetterEditor.ViewModels {
             get => _content;
             set {
                 _content = value;
-                _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+                _index = GetCurrentIndex();
                 Tabs[_index].Content = value;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
                 Tab.Content = value;
@@ -200,7 +200,7 @@ namespace BetterEditor.ViewModels {
         private void OpenTab(object obj) {
             try {
                 _tabSwitch = true;
-                _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+                _index = GetCurrentIndex();
 
                 Tabs[_index].Content = Content;
                 _contentChanged?.Invoke(this, EventArgs.Empty);
@@ -213,7 +213,7 @@ namespace BetterEditor.ViewModels {
                         DeleteSpecificTabCommand.Execute(tempTabViewModel);
                         return;
                     } else {
-                        _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.FilePath == tempTabViewModel.FilePath).First());
+                        _index = GetCurrentIndex();
                         Tabs[_index].FilePath = "";
                         tempTabViewModel.FilePath = "";
                         DataManager.WriteTabs(Tabs.ToList());
@@ -231,7 +231,7 @@ namespace BetterEditor.ViewModels {
                 _tabSwitch = false;
                 SelectTextboxMethod();
 
-                _index = UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
+                _index = GetCurrentIndex();
 
                 if (_index == 0 && ScrollLeftEnd != null)
                     ScrollLeftEnd();
@@ -532,5 +532,8 @@ namespace BetterEditor.ViewModels {
         public void SelectTextboxMethod() {
             SelectTextbox?.Invoke();
         }
+
+        private int GetCurrentIndex()
+            => UsedTabs.IndexOf(UsedTabs.Where(x => x.Index == Tab.Index).First());
     }
 }
