@@ -6,7 +6,8 @@ using System.Collections.ObjectModel;
 
 namespace BetterEditor.ViewModels {
     internal class ReplaceViewModel {
-        #region properties and fields
+
+        #region Properties
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
@@ -18,6 +19,9 @@ namespace BetterEditor.ViewModels {
                 _textChanged = true;
             }
         }
+        #endregion
+
+        #region Fields
         private bool _textChanged = false;
         public bool SAT { get; set; }
         private TextEditorViewModel _parent;
@@ -25,6 +29,8 @@ namespace BetterEditor.ViewModels {
         private int _openedMatch = 0;
         private ObservableCollection<int> _matchingTabs = new ObservableCollection<int>();
         #endregion
+
+        #region Constructor
         public ReplaceViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.TabViewModels;
@@ -32,7 +38,9 @@ namespace BetterEditor.ViewModels {
         }
 
         public ReplaceViewModel() { }
+        #endregion
 
+        #region Commands and Methods
         private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
@@ -152,5 +160,6 @@ namespace BetterEditor.ViewModels {
             if (!matchesChanged)
                 _matchingTabs = new ObservableCollection<int>();
         }
+        #endregion
     }
 }
