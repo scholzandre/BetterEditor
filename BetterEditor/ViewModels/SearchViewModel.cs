@@ -7,7 +7,8 @@ using BetterEditor.Models;
 
 namespace BetterEditor.ViewModels {
     internal class SearchViewModel {
-        #region properties and fields
+
+        #region Properties
         public string BackgroundColorGrid { get; set; }
         public string BackgroundColorTextbox { get; set; }
         public string ForegroundColorTextbox { get; set; }
@@ -19,8 +20,11 @@ namespace BetterEditor.ViewModels {
                 _textChanged = true;    
             } 
         }
-        private bool _textChanged = false;
         public bool SAT { get; set; }
+        #endregion
+
+        #region Fields
+        private bool _textChanged = false;
         private TextEditorViewModel _parent;
         private ObservableCollection<TabViewModel> _tabs;
         private List<List<int>> _tabMatchings = new List<List<int>>();
@@ -34,6 +38,7 @@ namespace BetterEditor.ViewModels {
         private int _prevTabsCount = 0;
         #endregion
 
+        #region Constructors
         public SearchViewModel(TextEditorViewModel parent) {
             _parent = parent;
             _tabs = _parent.TabViewModels;
@@ -41,7 +46,9 @@ namespace BetterEditor.ViewModels {
         }
 
         public SearchViewModel() { }
+        #endregion
 
+        #region Commands and Methods
         private void SetColors() {
             BackgroundColorGrid = _parent.Settings.SVM.BGT;
             BackgroundColorTextbox = _parent.Settings.SVM.BGTE;
@@ -193,5 +200,6 @@ namespace BetterEditor.ViewModels {
                 _tabsChangedSearchPrevious = true; 
             }
         }
+        #endregion
     }
 }
