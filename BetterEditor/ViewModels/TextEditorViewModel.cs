@@ -105,6 +105,7 @@ namespace BetterEditor.ViewModels {
         private MainViewModel _parent;
         #endregion
 
+        #region Constructors
         public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor, MainViewModel parent) {
             _contentChanged += TabsToTabViewModels;
             Tabs = new ObservableCollection<Tab>(tabs);
@@ -130,7 +131,9 @@ namespace BetterEditor.ViewModels {
 
         public TextEditorViewModel() {
         }
+        #endregion
 
+        #region Commands and Methods
         private bool CanExecuteCommand(object arg) {
             return true;
         }
@@ -537,5 +540,6 @@ namespace BetterEditor.ViewModels {
             if (Settings.SA)
                 _timer.Change(10000, Timeout.Infinite);
         }
+        #endregion
     }
 }
