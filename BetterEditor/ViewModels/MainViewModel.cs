@@ -7,7 +7,9 @@ using System.Windows.Input;
 using System.Windows;
 
 namespace BetterEditor.ViewModels {
-    internal class MainViewModel : BaseViewModel{
+    internal class MainViewModel : BaseViewModel {
+
+        #region Properties
         private UserControl _userControl = new UserControl();
         public UserControl UserControl {
             get => _userControl;
@@ -64,12 +66,16 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(TextEditorOpened));
             }
         }
+        #endregion
+
+        #region Fields
         private string _editButtonBackground = "#D0CEE2";
         private string _deleteButtonBackground = "#FECAC6";
         public event Action UndoTextbox;
         public event Action RedoTextbox;
+        #endregion
 
-
+        #region Constructors
         public MainViewModel() {
             try {
                 CreateTextEditorView();
@@ -80,7 +86,9 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+        #endregion
 
+        #region Commands and Methods
         private void CreateTextEditorView() {
             TextEditorViewModel = new TextEditorViewModel(Tabs, Settings, _editButtonBackground, _deleteButtonBackground, this);
             TextEditorView textEditorView = new TextEditorView();
@@ -356,5 +364,6 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+        #endregion
     }
 }
