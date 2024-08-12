@@ -84,9 +84,8 @@ namespace BetterEditor.ViewModels {
                         GetFilteredTabIds();
                         _openedMatchingTab = 0;
                         _openedMatch = 0;
-                        _textChanged = false;
                         _tabsChangedSearch = false;
-                    } else if (_openedMatchingTab == _matchingTabs.Count - 1) {
+                    } else if (_openedMatchingTab == _tabMatchings.Count - 1 && _openedMatch - 1 == _tabMatchings[_openedMatchingTab].Count - 1) {
                         _openedMatchingTab = 0;
                         _openedMatch = 0;
                         _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[_openedMatchingTab]]);
@@ -117,7 +116,6 @@ namespace BetterEditor.ViewModels {
                     if (_textChanged || _tabsChangedSearchNext) {
                         GetFilteredTabIds();
                         _openedMatchingTab = 0;
-                        _textChanged = false;
                         _tabsChangedSearchNext = false;
                     } else if (_openedMatchingTab == _matchingTabs.Count - 1 && _openedMatch == _tabMatchings[_tabMatchings.Count - 1].Count)
                         MessageBox.Show(_noMatchesText);
@@ -147,7 +145,6 @@ namespace BetterEditor.ViewModels {
                     if (_textChanged || _tabsChangedSearchPrevious) {
                         GetFilteredTabIds();
                         _openedMatchingTab = _matchingTabs.Count - 1;
-                        _textChanged = false;
                         _tabsChangedSearchPrevious = false;
                     } else if (_openedMatchingTab < 0)
                         MessageBox.Show(_noMatchesText);
@@ -215,6 +212,7 @@ namespace BetterEditor.ViewModels {
                 _matchingTabs = new ObservableCollection<int>();
             else if (_matchingTabs.Count > 0)
                 _parent.OpenTabCommand.Execute(_parent.TabViewModels[_matchingTabs[0]]);
+            _textChanged = false;
         }
 
         private void CheckTabs() {
