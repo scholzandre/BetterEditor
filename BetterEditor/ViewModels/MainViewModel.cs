@@ -79,7 +79,7 @@ namespace BetterEditor.ViewModels {
         public MainViewModel() {
             try {
                 CreateTextEditorView();
-
+                CreateListTabsView();
                 ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
