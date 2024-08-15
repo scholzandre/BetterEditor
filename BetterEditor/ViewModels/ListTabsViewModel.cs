@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BetterEditor.ViewModels {
     internal class ListTabsViewModel : BaseViewModel {
+        #region Properties
         private string _searchText = string.Empty;
         public string SearchText {
             get => _searchText;
@@ -14,6 +15,13 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(SearchText));
             }
         }
-        public ListTabsViewModel() { }  
+        #endregion
+        #region Fields
+        #endregion
+        #region Constructors
+        public ListTabsViewModel() { }
+        #endregion
+        #region Commands and methods
+        #endregion
     }
 }
