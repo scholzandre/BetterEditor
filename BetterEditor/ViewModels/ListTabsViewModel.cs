@@ -17,8 +17,12 @@ namespace BetterEditor.ViewModels {
         }
         #endregion
         #region Fields
+        private MainViewModel _parent;
         #endregion
         #region Constructors
+        public ListTabsViewModel(MainViewModel parent) { 
+            _parent = parent;
+        }
         public ListTabsViewModel() { }
         #endregion
         #region Commands and methods
