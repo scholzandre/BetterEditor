@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BetterEditor.Models;
+using System;
+using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
     internal class ListTabsViewModel : BaseViewModel {
@@ -26,6 +24,17 @@ namespace BetterEditor.ViewModels {
         public ListTabsViewModel() { }
         #endregion
         #region Commands and methods
+        private bool CanExecuteCommand(object arg) {
+            return true;
+        }
+        public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
+        private void ChangeUserControl(object obj) {
+            try {
+                _parent.ChangeUserControlCommand.Execute(null);
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
