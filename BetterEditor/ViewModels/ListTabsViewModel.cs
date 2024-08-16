@@ -35,6 +35,15 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand SearchTabsCommand => new RelayCommand(SearchTabs, CanExecuteCommand);
+        private void SearchTabs(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
