@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Text="{Binding SearchText}"/>
-            <Button Grid.Column="2" Content="🔍"/>
+            <Button Grid.Column="2" Content="🔍" Command="{Binding SearchTabsCommand}"/>
             <Button Grid.Column="4" Content="✖" Command="{Binding ChangeUserControlCommand}"/>
         </Grid>
     </Grid>
