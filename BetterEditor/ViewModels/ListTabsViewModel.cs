@@ -30,7 +30,7 @@ namespace BetterEditor.ViewModels {
         public ICommand ChangeUserControlCommand => new RelayCommand(ChangeUserControl, CanExecuteCommand);
         private void ChangeUserControl(object obj) {
             try {
-                _parent.ChangeUserControlCommand.Execute(null);
+                _parent.OpenTextEditorUserControlCommand.Execute(null);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
