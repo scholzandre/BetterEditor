@@ -133,7 +133,7 @@
                         <MenuItem Header="Redo (Ctrl + Y)" Command="{Binding RedoCommand}" StaysOpenOnClick="True"/>
                         <MenuItem Header="Search (Ctrl + F)" Command="{Binding OpenSearchViewCommand}"/>
                         <MenuItem Header="Replace (Ctrl + R)" Command="{Binding OpenReplaceViewCommand}"/>
-                        <MenuItem Header="Open advanced search"/>
+                        <MenuItem Header="Open advanced search" Command="{Binding OpenAdvancedSearchUserControlCommand}" IsEnabled="{Binding TextEditorOpened}"/>
                     </MenuItem>
                     <MenuItem Header="View">
                         <MenuItem Header="Zoom">
