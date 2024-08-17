@@ -116,16 +116,35 @@ namespace BetterEditor.ViewModels {
         private void ChangeUserControl(object obj) {
             try {
                 if (UserControl.DataContext == null || !TextEditorOpened) {
-                    UserControl = _textEditorUserControl;
-                    TextEditorOpened = true;
+                    OpenTextEditorUserControlCommand.Execute(this);
                 } else {
-                    UserControl = _listTabsUserControl;
-                    TextEditorOpened = false;
+                    OpenAdvancedSearchUserControlCommand.Execute(this);
                 }
             } catch (Exception e) { 
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenTextEditorUserControlCommand => new RelayCommand(OpenTextEditorUserControl, CanExecuteCommand);
+        private void OpenTextEditorUserControl(object obj) {
+            try {
+                UserControl = _textEditorUserControl;
+                TextEditorOpened = true;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand OpenAdvancedSearchUserControlCommand => new RelayCommand(OpenAdvancedSearchUserControl, CanExecuteCommand);
+        private void OpenAdvancedSearchUserControl(object obj) {
+            try {
+                UserControl = _listTabsUserControl;
+                TextEditorOpened = false;
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
 
         public ICommand ChangeViewModeCommand => new RelayCommand(ChangeViewMode, CanExecuteCommand);
         private void ChangeViewMode(object obj) {
