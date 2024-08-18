@@ -1,5 +1,6 @@
 ﻿using BetterEditor.Models;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
@@ -13,6 +14,13 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(SearchText));
             }
         }
+        private List<Tab> _tabs = new List<Tab>();
+        public List<Tab> Tabs {
+            get => _tabs;
+            set {
+                OnPropertyChanged(nameof(Tabs));
+            }
+        }
         #endregion
         #region Fields
         private MainViewModel _parent;
@@ -20,6 +28,7 @@ namespace BetterEditor.ViewModels {
         #region Constructors
         public ListTabsViewModel(MainViewModel parent) { 
             _parent = parent;
+            Tabs = _parent.Tabs;
         }
         public ListTabsViewModel() { }
         #endregion
