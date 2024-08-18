@@ -53,6 +53,24 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
+        private void OpenTab(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand CloseTabCommand => new RelayCommand(CloseTab, CanExecuteCommand);
+        private void CloseTab(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
