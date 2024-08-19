@@ -1,6 +1,7 @@
 ﻿using BetterEditor.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
@@ -36,10 +37,21 @@ namespace BetterEditor.ViewModels {
         public ListTabsViewModel(MainViewModel parent) { 
             _parent = parent;
             Tabs = _parent.Tabs;
+            GetFileTypes();
         }
         public ListTabsViewModel() { }
         #endregion
         #region Commands and methods
+        private void GetFileTypes() {
+            for (int i = 0; i < Tabs.Count; i++) {
+                if (Tabs[i].FilePath == string.Empty && !FileTypes.Contains("None")) {
+                    FileTypes.Add("None");
+                } else if (!FileTypes.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
+                    FileTypes.Add(Path.GetExtension(Tabs[i].FilePath));
+                }
+            }
+        }
+
         private bool CanExecuteCommand(object arg) {
             return true;
         }
