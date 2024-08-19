@@ -21,6 +21,13 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(Tabs));
             }
         }
+        private List<string> _fileTypes = new List<string>();
+        public List<string> FileTypes {
+            get => _fileTypes;
+            set {
+                OnPropertyChanged(nameof(FileTypes));
+            }
+        }
         #endregion
         #region Fields
         private MainViewModel _parent;
