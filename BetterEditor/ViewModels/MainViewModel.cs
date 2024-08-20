@@ -80,7 +80,6 @@ namespace BetterEditor.ViewModels {
             try {
                 CreateTextEditorView();
                 CreateListTabsView();
-                ListTabsViewModel = new ListTabsViewModel();
                 ChangeUserControlCommand.Execute(this);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -139,6 +138,7 @@ namespace BetterEditor.ViewModels {
         private void OpenAdvancedSearchUserControl(object obj) {
             try {
                 UserControl = _listTabsUserControl;
+                ListTabsViewModel.UpdateAdvancedSearch();
                 TextEditorOpened = false;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
