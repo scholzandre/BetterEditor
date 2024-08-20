@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using System.Linq;
 
 namespace BetterEditor.ViewModels {
     internal class MainViewModel : BaseViewModel {
@@ -138,6 +139,7 @@ namespace BetterEditor.ViewModels {
         private void OpenAdvancedSearchUserControl(object obj) {
             try {
                 UserControl = _listTabsUserControl;
+                Tabs = TextEditorViewModel.Tabs.ToList();
                 ListTabsViewModel.UpdateAdvancedSearch();
                 TextEditorOpened = false;
             } catch (Exception e) {
