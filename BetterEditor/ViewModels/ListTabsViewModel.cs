@@ -42,6 +42,11 @@ namespace BetterEditor.ViewModels {
         public ListTabsViewModel() { }
         #endregion
         #region Commands and methods
+        public void UpdateAdvancedSearch() {
+            Tabs = _parent.Tabs;
+            GetFileTypes();
+        }
+
         private void GetFileTypes() {
             for (int i = 0; i < Tabs.Count; i++) {
                 if (Tabs[i].FilePath == string.Empty && !FileTypes.Contains("None")) {
