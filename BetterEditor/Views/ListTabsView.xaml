@@ -12,17 +12,32 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding SearchText}"/>
-            <Button Grid.Column="2" Content="🔍" Command="{Binding SearchTabsCommand}"/>
-            <Button Grid.Column="4" Content="✖" Command="{Binding ChangeUserControlCommand}"/>
-        </Grid>
+        <StackPanel>
+            <Grid Grid.Row="0" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding SearchText}"/>
+                <Button Grid.Column="2" Content="🔍" Command="{Binding SearchTabsCommand}"/>
+                <Button Grid.Column="4" Content="✖" Command="{Binding ChangeUserControlCommand}"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ItemsControl Grid.Column="0"/>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Sorting"/>
+                    <TextBlock Text="Search Settings"/>
+                    <TextBlock Text="Datatypes"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>
