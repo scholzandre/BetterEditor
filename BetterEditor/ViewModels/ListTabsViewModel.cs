@@ -19,6 +19,7 @@ namespace BetterEditor.ViewModels {
         public List<Tab> Tabs {
             get => _tabs;
             set {
+                _tabs = value;
                 OnPropertyChanged(nameof(Tabs));
             }
         }
@@ -26,6 +27,7 @@ namespace BetterEditor.ViewModels {
         public List<string> FileTypes {
             get => _fileTypes;
             set {
+                _fileTypes = value;
                 OnPropertyChanged(nameof(FileTypes));
             }
         }
