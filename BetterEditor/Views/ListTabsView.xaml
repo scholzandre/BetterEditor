@@ -50,7 +50,21 @@
                         <CheckBox/>
                         <TextBlock Text="sort by datatype"/>
                     </StackPanel>
+                    
                     <TextBlock Text="Search Settings"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="search tab names"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="search tab contents"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="search through everything"/>
+                    </StackPanel>
+                    
                     <TextBlock Text="Datatypes"/>
                 </StackPanel>
             </Grid>
