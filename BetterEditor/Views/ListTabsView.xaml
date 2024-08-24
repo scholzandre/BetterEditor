@@ -66,6 +66,9 @@
                     </StackPanel>
                     
                     <TextBlock Text="Datatypes"/>
+                    <ItemsControl ItemsSource="{Binding}">
+                        
+                    </ItemsControl>
                 </StackPanel>
             </Grid>
         </StackPanel>
