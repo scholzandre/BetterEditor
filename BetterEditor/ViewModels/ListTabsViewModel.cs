@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
@@ -29,6 +30,42 @@ namespace BetterEditor.ViewModels {
             set {
                 _fileTypes = value;
                 OnPropertyChanged(nameof(FileTypes));
+            }
+        }
+
+        private bool _sortInAppOrder = true;
+        public bool SortInAppOrder {
+            get => _sortInAppOrder;
+            set {
+                _sortInAppOrder = value;
+                OnPropertyChanged(nameof(SortInAppOrder));
+            }
+        }
+
+        private bool _sortAlpbabetically;
+        public bool SortAlpbabetically {
+            get => _sortAlpbabetically;
+            set {
+                _sortAlpbabetically = value;
+                OnPropertyChanged(nameof(SortAlpbabetically));
+            }
+        }
+
+        private bool _sortingByModicifcationDate;
+        public bool SortingByModicifcationDate {
+            get => _sortingByModicifcationDate;
+            set {
+                _sortingByModicifcationDate = value;
+                OnPropertyChanged(nameof(SortingByModicifcationDate));
+            }
+        }
+
+        private bool _sortByDataType;
+        public bool SortByDataType {
+            get => _sortByDataType;
+            set {
+                _sortByDataType = value;
+                OnPropertyChanged(nameof(SortByDataType));
             }
         }
         #endregion
