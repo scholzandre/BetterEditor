@@ -34,6 +34,22 @@
                 <ItemsControl Grid.Column="0"/>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Sorting"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="in app order"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"> 
+                        <CheckBox/>
+                        <TextBlock Text="sort alphabetically"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="sort by modification date"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox/>
+                        <TextBlock Text="sort by datatype"/>
+                    </StackPanel>
                     <TextBlock Text="Search Settings"/>
                     <TextBlock Text="Datatypes"/>
                 </StackPanel>
