@@ -35,19 +35,19 @@
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Sorting"/>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
+                        <CheckBox IsChecked="{Binding SortInAppOrder}"/>
                         <TextBlock Text="in app order"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"> 
-                        <CheckBox/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding SortAlpbabetically}"/>
                         <TextBlock Text="sort alphabetically"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
+                        <CheckBox IsChecked="{Binding SortByModicifcationDate}"/>
                         <TextBlock Text="sort by modification date"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
+                        <CheckBox IsChecked="{Binding SortByDataType}"/>
                         <TextBlock Text="sort by datatype"/>
                     </StackPanel>
                     
