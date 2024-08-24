@@ -51,12 +51,12 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        private bool _sortingByModicifcationDate;
-        public bool SortingByModicifcationDate {
-            get => _sortingByModicifcationDate;
+        private bool _sortByModicifcationDate;
+        public bool SortByModicifcationDate {
+            get => _sortByModicifcationDate;
             set {
-                _sortingByModicifcationDate = value;
-                OnPropertyChanged(nameof(SortingByModicifcationDate));
+                _sortByModicifcationDate = value;
+                OnPropertyChanged(nameof(SortByModicifcationDate));
             }
         }
 
