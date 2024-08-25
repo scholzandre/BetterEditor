@@ -68,6 +68,24 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(SortByDataType));
             }
         }
+
+        private bool _searchTabNames;
+        public bool SearchTabNames {
+            get => _searchTabNames;
+            set {
+                _searchTabNames = value;
+                OnPropertyChanged(nameof(SearchTabNames));
+            }
+        }
+
+        private bool _searchTabContents;
+        public bool SearchTabContents {
+            get => _searchTabContents;
+            set {
+                _searchTabContents = value;
+                OnPropertyChanged(nameof(SearchTabContents));
+            }
+        }
         #endregion
         #region Fields
         private MainViewModel _parent;
