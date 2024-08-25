@@ -60,11 +60,7 @@
                         <CheckBox/>
                         <TextBlock Text="search tab contents"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
-                        <TextBlock Text="search through everything"/>
-                    </StackPanel>
-                    
+
                     <TextBlock Text="Datatypes"/>
                     <ItemsControl ItemsSource="{Binding}">
                         
