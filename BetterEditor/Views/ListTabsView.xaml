@@ -53,11 +53,11 @@
                     
                     <TextBlock Text="Search Settings"/>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
+                        <CheckBox IsChecked="{Binding SearchTabNames}"/>
                         <TextBlock Text="search tab names"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox/>
+                        <CheckBox IsChecked="{Binding SearchTabContents}"/>
                         <TextBlock Text="search tab contents"/>
                     </StackPanel>
 
