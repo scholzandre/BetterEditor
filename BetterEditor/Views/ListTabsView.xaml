@@ -62,8 +62,15 @@
                     </StackPanel>
 
                     <TextBlock Text="File type"/>
-                    <ItemsControl ItemsSource="{Binding}">
-                        
+                    <ItemsControl ItemsSource="{Binding FileTypes}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox/>
+                                    <TextBlock Text="{Binding}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
             </Grid>
