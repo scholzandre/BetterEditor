@@ -61,7 +61,7 @@
                         <TextBlock Text="search tab contents"/>
                     </StackPanel>
 
-                    <TextBlock Text="Datatypes"/>
+                    <TextBlock Text="File type"/>
                     <ItemsControl ItemsSource="{Binding}">
                         
                     </ItemsControl>
