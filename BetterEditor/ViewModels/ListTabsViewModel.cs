@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
@@ -108,7 +107,7 @@ namespace BetterEditor.ViewModels {
             for (int i = 0; i < Tabs.Count; i++) {
                 if (Tabs[i].FilePath == string.Empty && !FileTypes.Contains("None")) {
                     FileTypes.Add("None");
-                } else if (!FileTypes.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
+                } else if (Tabs[i].FilePath != string.Empty && !FileTypes.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
                     FileTypes.Add(Path.GetExtension(Tabs[i].FilePath));
                 }
             }
