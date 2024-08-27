@@ -89,6 +89,7 @@ namespace BetterEditor.ViewModels {
         #region Fields
         private MainViewModel _parent;
         #endregion
+
         #region Constructors
         public ListTabsViewModel(MainViewModel parent) { 
             _parent = parent;
@@ -97,6 +98,7 @@ namespace BetterEditor.ViewModels {
         }
         public ListTabsViewModel() { }
         #endregion
+
         #region Commands and methods
         public void UpdateAdvancedSearch() {
             Tabs = _parent.Tabs;
@@ -104,6 +106,7 @@ namespace BetterEditor.ViewModels {
         }
 
         private void GetFileTypes() {
+            FileTypes = new List<string>();
             for (int i = 0; i < Tabs.Count; i++) {
                 if (Tabs[i].FilePath == string.Empty && !FileTypes.Contains("None")) {
                     FileTypes.Add("None");
