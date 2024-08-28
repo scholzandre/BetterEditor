@@ -31,7 +31,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ItemsControl Grid.Column="0" ItemsSource="{Binding Tabs}"/>
+                <ItemsControl Grid.Column="0" ItemsSource="{Binding Tabs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding}" Command="{Binding OpenTabCommand}" HorizontalContentAlignment="Left"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Sorting"/>
                     <StackPanel Orientation="Horizontal">
