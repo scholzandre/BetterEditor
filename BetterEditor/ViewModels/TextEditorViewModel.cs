@@ -140,7 +140,11 @@ namespace BetterEditor.ViewModels {
 
         public ICommand RenameCommand => new RelayCommand(Rename, CanExecuteCommand);
         private void Rename(object obj) {
-            throw new NotImplementedException();
+            if (obj is TabViewModel tabViewModel) { 
+                RenameTabView renameTabView = new RenameTabView();
+                renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath);
+                renameTabView.Show();
+            }
         }
 
         public ICommand DeleteSpecificTabCommand => new RelayCommand(DeleteTab, CanExecuteCommand);
