@@ -14,6 +14,34 @@ namespace BetterEditor.ViewModels
                 OnPropertyChanged(nameof(FilePath));
             }
         }
+
+        private string _originalFilename = string.Empty;
+        public string OriginalFilename {
+            get => _originalFilename;
+            set {
+                _originalFilename = value;
+                OnPropertyChanged(nameof(OriginalFilename));
+            }
+        }
+
+        private string _newFilename = string.Empty;
+        public string NewFilename {
+            get => _newFilename;
+            set {
+                _newFilename = value;
+                OnPropertyChanged(nameof(NewFilename));
+            }
+        }
+
+        private string _fileType = string.Empty;
+        public string FileType {
+            get => _fileType;
+            set {
+                _fileType = value;
+                OnPropertyChanged(nameof(FileType));
+            }
+        }
+
         public RenameTabViewModel(string filePath) {
             FilePath = filePath;
         } 
