@@ -7,27 +7,31 @@
         xmlns:viewmodels="clr-namespaces:BetterEditor.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:RenameTabViewModel}"
         mc:Ignorable="d"
-        Title="Update file name" Height="450" Width="800">
-    <Grid>
+        Title="Update file name" Height="185" Width="400" ResizeMode="NoResize">
+    <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Current file name:"/>
-        <TextBlock Grid.Row="1" Text="{Binding OriginalFilename}">
+        <TextBlock Grid.Row="0" Text="Current file name:" Margin="5"/>
+        <TextBlock Grid.Row="1" Text="{Binding OriginalFilename}" Margin="5">
             <TextBlock.ToolTip>
                 <TextBlock Text="{Binding FilePath}"/>
             </TextBlock.ToolTip>
         </TextBlock>
-        <TextBlock Grid.Row="2" Text="New file name:"/>
-        <StackPanel Grid.Row="3"  Orientation="Horizontal">
-            <TextBox Text="{Binding NewFilename, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="{Binding FileType}"/>
+        <TextBlock Grid.Row="2" Text="New file name:" Margin="5"/>
+        <StackPanel Grid.Row="3"  Orientation="Horizontal" Margin="5">
+            <TextBox Text="{Binding NewFilename, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="20" Width="290"/>
+            <TextBlock Text="{Binding FileType}" HorizontalAlignment="Stretch" Width="100">
+                <TextBlock.ToolTip>
+                    <TextBlock Text="{Binding FileType}"/>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </StackPanel>
-        <Button  Grid.Row="4" HorizontalAlignment="Left" Content="Cancel"/>
-        <Button  Grid.Row="4" HorizontalAlignment="Right"  Content="Apply"/>
+        <Button Grid.Row="4" HorizontalAlignment="Left" Content="Cancel" Width="75" Height="20"/>
+        <Button Grid.Row="4" HorizontalAlignment="Right"  Content="Apply" Width="75" Height="20"/>
     </Grid>
 </Window>
