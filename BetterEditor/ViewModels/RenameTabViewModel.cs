@@ -1,8 +1,11 @@
-﻿using System;
+﻿using BetterEditor.Models;
+using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BetterEditor.ViewModels
 {
@@ -51,6 +54,28 @@ namespace BetterEditor.ViewModels
         private void GetFilePathParts() { 
             OriginalFilename = Path.GetFileName(FilePath);
             FileType = Path.GetExtension(FilePath);
+        }
+
+        private bool CanExecuteCommand(object arg) {
+            return true;
+        }
+
+        public ICommand CancelCommand => new RelayCommand(Cancel, CanExecuteCommand);
+        private void Cancel(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public ICommand ApplyCommand => new RelayCommand(Apply, CanExecuteCommand);
+        private void Apply(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
         }
 
         ~RenameTabViewModel() { }
