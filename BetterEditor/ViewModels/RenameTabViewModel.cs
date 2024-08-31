@@ -46,11 +46,19 @@ namespace BetterEditor.ViewModels
             }
         }
 
-        public RenameTabViewModel(string filePath) {
+        #region Fields
+        private TextEditorViewModel _parent;
+        #endregion
+
+        #region Constructores
+        public RenameTabViewModel(string filePath, TextEditorViewModel parent) {
             FilePath = filePath;
+            _parent = parent;
             GetFilePathParts();
         }
+        #endregion
 
+        #region Commands and Methods
         private void GetFilePathParts() { 
             OriginalFilename = Path.GetFileName(FilePath);
             FileType = Path.GetExtension(FilePath);
@@ -77,7 +85,7 @@ namespace BetterEditor.ViewModels
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
-
+        #endregion
         ~RenameTabViewModel() { }
     }
 }
