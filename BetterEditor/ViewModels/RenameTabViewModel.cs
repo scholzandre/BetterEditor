@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,13 @@ namespace BetterEditor.ViewModels
 
         public RenameTabViewModel(string filePath) {
             FilePath = filePath;
-        } 
+            GetFilePathParts();
+        }
+
+        private void GetFilePathParts() { 
+            OriginalFilename = Path.GetFileName(FilePath);
+            FileType = Path.GetExtension(FilePath);
+        }
 
         ~RenameTabViewModel() { }
     }
