@@ -31,7 +31,7 @@
                 </TextBlock.ToolTip>
             </TextBlock>
         </StackPanel>
-        <Button Grid.Row="4" HorizontalAlignment="Left" Content="Cancel" Width="75" Height="20"/>
-        <Button Grid.Row="4" HorizontalAlignment="Right"  Content="Apply" Width="75" Height="20"/>
+        <Button Command="{Binding CancelCommand}" Grid.Row="4" HorizontalAlignment="Left" Content="Cancel" Width="75" Height="20"/>
+        <Button Command="{Binding ApplyCommand}" Grid.Row="4" HorizontalAlignment="Right"  Content="Apply" Width="75" Height="20"/>
     </Grid>
 </Window>
