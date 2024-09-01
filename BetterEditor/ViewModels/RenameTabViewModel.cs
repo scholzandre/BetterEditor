@@ -48,12 +48,14 @@ namespace BetterEditor.ViewModels
 
         #region Fields
         private TextEditorViewModel _parent;
+        private Action _closeWindow;
         #endregion
 
         #region Constructores
-        public RenameTabViewModel(string filePath, TextEditorViewModel parent) {
+        public RenameTabViewModel(string filePath, TextEditorViewModel parent, Action closeWindow) {
             FilePath = filePath;
             _parent = parent;
+            _closeWindow = closeWindow;
             GetFilePathParts();
         }
         #endregion
@@ -71,7 +73,7 @@ namespace BetterEditor.ViewModels
         public ICommand CancelCommand => new RelayCommand(Cancel, CanExecuteCommand);
         private void Cancel(object obj) {
             try {
-                throw new NotImplementedException();
+                _closeWindow();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
