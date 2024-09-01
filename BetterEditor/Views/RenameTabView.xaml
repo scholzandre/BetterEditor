@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BetterEditor.Views"
-        xmlns:viewmodels="clr-namespaces:BetterEditor.ViewModels"
+        xmlns:viewmodels="clr-namespace:BetterEditor.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewmodels:RenameTabViewModel}"
         mc:Ignorable="d"
         Title="Update file name" Height="185" Width="400" ResizeMode="NoResize">
