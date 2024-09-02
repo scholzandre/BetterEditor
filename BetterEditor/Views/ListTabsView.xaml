@@ -34,7 +34,7 @@
                     <ItemsControl Grid.Column="0" ItemsSource="{Binding Tabs}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Content="{Binding}" Command="{Binding OpenTabCommand}" HorizontalContentAlignment="Left"/>
+                                <Button Content="{Binding}" Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" HorizontalContentAlignment="Left"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
