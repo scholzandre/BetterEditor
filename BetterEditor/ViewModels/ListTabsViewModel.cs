@@ -1,6 +1,7 @@
 ﻿using BetterEditor.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
 
@@ -85,6 +86,17 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(SearchTabContents));
             }
         }
+
+        private ObservableCollection<TabViewModel> _tabViewModels = new ObservableCollection<TabViewModel>();
+        public ObservableCollection<TabViewModel> TabViewModels {
+            get => _tabViewModels;
+            set {
+                _tabViewModels = value;
+                OnPropertyChanged(nameof(TabViewModels));
+            }
+        }
+
+        public int TabCounter { get; set; } = 0;
         #endregion
         #region Fields
         private MainViewModel _parent;
@@ -102,6 +114,7 @@ namespace BetterEditor.ViewModels {
         #region Commands and methods
         public void UpdateAdvancedSearch() {
             Tabs = _parent.Tabs;
+            TabsToTabViewModels();
             GetFileTypes();
         }
 
@@ -153,6 +166,35 @@ namespace BetterEditor.ViewModels {
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
+        }
+
+        private void TabsToTabViewModels() {
+            TabViewModels.Clear();
+            try {
+                if (Tabs.Count > 0) {
+                    TabCounter = 0;
+                    foreach (Tab tab in Tabs) {
+                        TabViewModels.Add(new TabViewModel(tab.FilePath, tab.Content, tab.MD, CreateTabname(tab.FilePath, tab.Content), true, TabCounter));
+                        TabCounter++;
+                    }
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
+
+        public string CreateTabname(string filePath, string newContent) {
+            string tabName = string.Empty;
+            try {
+                if (File.Exists(filePath)) {
+                    tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
+                } else {
+                    tabName = (newContent.Length > 30) ? newContent.Substring(0, 30) : newContent;
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+            return tabName;
         }
         #endregion
     }
