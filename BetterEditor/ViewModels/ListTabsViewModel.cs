@@ -196,6 +196,15 @@ namespace BetterEditor.ViewModels {
             }
             return tabName;
         }
+
+        public ICommand SearchDataTypeCommand => new RelayCommand(SearchDataType, CanExecuteCommand);
+        private void SearchDataType(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
