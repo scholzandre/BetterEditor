@@ -74,8 +74,8 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <CheckBox Command="{Binding Path=DataContext.SearchDataTypeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}"/>
-                                        <TextBlock Text="{Binding}"/>
+                                        <CheckBox Command="{Binding Path=DataContext.SearchDataTypeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" CommandParameter="{Binding Key}"/>
+                                        <TextBlock Text="{Binding Key}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
