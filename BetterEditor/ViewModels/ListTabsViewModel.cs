@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 
 namespace BetterEditor.ViewModels {
@@ -24,8 +25,8 @@ namespace BetterEditor.ViewModels {
                 OnPropertyChanged(nameof(Tabs));
             }
         }
-        private List<string> _fileTypes = new List<string>();
-        public List<string> FileTypes {
+        private Dictionary<string, bool> _fileTypes = new Dictionary<string, bool>();
+        public Dictionary<string, bool> FileTypes {
             get => _fileTypes;
             set {
                 _fileTypes = value;
@@ -119,12 +120,12 @@ namespace BetterEditor.ViewModels {
         }
 
         private void GetFileTypes() {
-            FileTypes = new List<string>();
+            FileTypes = new Dictionary<string, bool> ();
             for (int i = 0; i < Tabs.Count; i++) {
-                if (Tabs[i].FilePath == string.Empty && !FileTypes.Contains("None")) {
-                    FileTypes.Add("None");
-                } else if (Tabs[i].FilePath != string.Empty && !FileTypes.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
-                    FileTypes.Add(Path.GetExtension(Tabs[i].FilePath));
+                if (Tabs[i].FilePath == string.Empty && !FileTypes.Keys.Contains("None")) {
+                    FileTypes.Add("None", false);
+                } else if (Tabs[i].FilePath != string.Empty && !FileTypes.Keys.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
+                    FileTypes.Add(Path.GetExtension(Tabs[i].FilePath), false);
                 }
             }
         }
