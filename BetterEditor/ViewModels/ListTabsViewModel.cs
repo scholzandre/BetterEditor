@@ -201,7 +201,7 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchDataTypeCommand => new RelayCommand(SearchDataType, CanExecuteCommand);
         private void SearchDataType(object obj) {
             try {
-                throw new NotImplementedException();
+                FileTypes[(string)obj] = !FileTypes[(string)obj];
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
