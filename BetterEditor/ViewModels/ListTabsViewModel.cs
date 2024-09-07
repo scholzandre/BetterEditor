@@ -202,6 +202,14 @@ namespace BetterEditor.ViewModels {
         private void SearchDataType(object obj) {
             try {
                 FileTypes[(string)obj] = !FileTypes[(string)obj];
+                for (int i = TabViewModels.Count; i >= 0; i++) {
+                    if (TabViewModels[i].FilePath != "" &&
+                        !FileTypes.Keys.Contains(Path.GetExtension(TabViewModels[i].FilePath)) &&
+                        FileTypes[Path.GetExtension(TabViewModels[i].FilePath)] == false)
+                        throw new NotImplementedException();
+                    else if (TabViewModels[i].FilePath == "")
+                        throw new NotImplementedException();
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
