@@ -99,6 +99,7 @@ namespace BetterEditor.ViewModels {
 
         public int TabCounter { get; set; } = 0;
         #endregion
+
         #region Fields
         private MainViewModel _parent;
         #endregion
@@ -123,11 +124,12 @@ namespace BetterEditor.ViewModels {
             FileTypes = new Dictionary<string, bool> ();
             for (int i = 0; i < Tabs.Count; i++) {
                 if (Tabs[i].FilePath == string.Empty && !FileTypes.Keys.Contains("None")) {
-                    FileTypes.Add("None", false);
+                    FileTypes.Add("None", true);
                 } else if (Tabs[i].FilePath != string.Empty && !FileTypes.Keys.Contains(Path.GetExtension(Tabs[i].FilePath))) { 
-                    FileTypes.Add(Path.GetExtension(Tabs[i].FilePath), false);
+                    FileTypes.Add(Path.GetExtension(Tabs[i].FilePath), true);
                 }
             }
+            OnPropertyChanged(nameof(FileTypes));
         }
 
         private bool CanExecuteCommand(object arg) {
@@ -201,14 +203,16 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchDataTypeCommand => new RelayCommand(SearchDataType, CanExecuteCommand);
         private void SearchDataType(object obj) {
             try {
+                TabsToTabViewModels();
                 FileTypes[(string)obj] = !FileTypes[(string)obj];
-                for (int i = TabViewModels.Count; i >= 0; i++) {
+                for (int i = TabViewModels.Count-1; i >= 0; i--) {
                     if (TabViewModels[i].FilePath != "" &&
-                        !FileTypes.Keys.Contains(Path.GetExtension(TabViewModels[i].FilePath)) &&
+                        FileTypes.Keys.Contains(Path.GetExtension(TabViewModels[i].FilePath)) &&
                         FileTypes[Path.GetExtension(TabViewModels[i].FilePath)] == false)
-                        throw new NotImplementedException();
-                    else if (TabViewModels[i].FilePath == "")
-                        throw new NotImplementedException();
+                        TabViewModels.Remove(TabViewModels[i]);
+                    else if (TabViewModels[i].FilePath == "" && 
+                        FileTypes["None"] == false)
+                        TabViewModels.Remove(TabViewModels[i]);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
