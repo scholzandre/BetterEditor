@@ -117,6 +117,12 @@ namespace BetterEditor.ViewModels {
             CreateUserControls();
         }
 
+
+        public TextEditorViewModel() {
+        }
+        #endregion
+
+        #region Commands and Methods
         private void SetColors(string editBackgroundColor, string deleteBackgroundColor) {
             EditButtonBackground = editBackgroundColor;
             DeleteButtonBackground = deleteBackgroundColor;
@@ -128,12 +134,6 @@ namespace BetterEditor.ViewModels {
             _replaceUserControl = (UserControl)Activator.CreateInstance(typeof(ReplaceView));
             _replaceUserControl.DataContext = new ReplaceViewModel(this);
         }
-
-        public TextEditorViewModel() {
-        }
-        #endregion
-
-        #region Commands and Methods
         private bool CanExecuteCommand(object arg) {
             return true;
         }
