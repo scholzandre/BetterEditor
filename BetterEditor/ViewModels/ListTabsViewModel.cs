@@ -165,7 +165,9 @@ namespace BetterEditor.ViewModels {
         public ICommand CloseTabCommand => new RelayCommand(CloseTab, CanExecuteCommand);
         private void CloseTab(object obj) {
             try {
-                throw new NotImplementedException();
+                TabViewModel tabViewModel = (TabViewModel)obj;
+                TabViewModels.Remove(TabViewModels[tabViewModel.Index]);
+                Tabs.Remove(Tabs[tabViewModel.Index]);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
