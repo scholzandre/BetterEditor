@@ -1,0 +1,39 @@
+{
+  "Settings": {
+    "LOT": {
+      "FilePath": "",
+      "Content": "",
+      "MD": "2024-09-11"
+    },
+    "SVM": {
+      "Label": "Darkmode",
+      "BGTE": "#525252",
+      "BGT": "#7F7D8A",
+      "Foreground": "#FFFFFF"
+    },
+    "SA": true,
+    "CAD": false,
+    "FontSize": 14
+  },
+  "ViewModes": [
+    {
+      "Label": "Lightmode",
+      "BGTE": "#FFFFFF",
+      "BGT": "#F5F5F5",
+      "Foreground": "#000000"
+    },
+    {
+      "Label": "Darkmode",
+      "BGTE": "#525252",
+      "BGT": "#7F7D8A",
+      "Foreground": "#FFFFFF"
+    }
+  ],
+  "Tabs": [
+    {
+      "FilePath": "",
+      "Content": "",
+      "MD": "2024-09-11"
+    }
+  ]
+}
