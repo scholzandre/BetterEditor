@@ -147,7 +147,10 @@ namespace BetterEditor.ViewModels {
         public ICommand SearchTabsCommand => new RelayCommand(SearchTabs, CanExecuteCommand);
         private void SearchTabs(object obj) {
             try {
-                throw new NotImplementedException();
+                TabsToTabViewModels();
+                for (int i = TabViewModels.Count - 1; i >= 0; i--)
+                    if (!TabViewModels[i].FilePath.ToLower().Contains(SearchText.ToLower().Trim()) && !TabViewModels[i].Content.ToLower().Contains(SearchText.ToLower().Trim()))
+                        TabViewModels.Remove(TabViewModels[i]);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
