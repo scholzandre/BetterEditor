@@ -38,9 +38,11 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="20"/>
                                     </Grid.ColumnDefinitions>
                                     <Button Grid.Column="0" Content="{Binding TabName}" Command="{Binding Path=DataContext.OpenTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" CommandParameter="{Binding}"/>
-                                    <Button Grid.Column="1" Content="✖" Command="{Binding Path=DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" CommandParameter="{Binding}"/>
+                                    <Button Grid.Column="1" Content="🖉" Command="{Binding Path=DataContext.RenameTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" CommandParameter="{Binding}"/>
+                                    <Button Grid.Column="2" Content="✖" Command="{Binding Path=DataContext.CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ListTabsView}}}" CommandParameter="{Binding}"/>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
