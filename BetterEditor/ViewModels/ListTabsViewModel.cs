@@ -223,6 +223,15 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand RenameTabCommand => new RelayCommand(RenameTab, CanExecuteCommand);
+        private void RenameTab(object obj) {
+            try {
+                throw new NotImplementedException();
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
