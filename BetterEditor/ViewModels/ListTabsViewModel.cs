@@ -1,4 +1,5 @@
 ﻿using BetterEditor.Models;
+using BetterEditor.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -227,7 +228,11 @@ namespace BetterEditor.ViewModels {
         public ICommand RenameTabCommand => new RelayCommand(RenameTab, CanExecuteCommand);
         private void RenameTab(object obj) {
             try {
-                throw new NotImplementedException();
+                if (obj is TabViewModel tabViewModel) {
+                    RenameTabView renameTabView = new RenameTabView();
+                    //renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, this, renameTabView.Close);
+                    renameTabView.Show();
+                }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
