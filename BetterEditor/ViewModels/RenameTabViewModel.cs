@@ -47,14 +47,12 @@ namespace BetterEditor.ViewModels
         }
 
         #region Fields
-        private TextEditorViewModel _parent;
         private Action _closeWindow;
         #endregion
 
         #region Constructores
-        public RenameTabViewModel(string filePath, TextEditorViewModel parent, Action closeWindow) {
+        public RenameTabViewModel(string filePath, Action closeWindow) {
             FilePath = filePath;
-            _parent = parent;
             _closeWindow = closeWindow;
             GetFilePathParts();
         }
