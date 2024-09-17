@@ -172,6 +172,8 @@ namespace BetterEditor.ViewModels {
                 TabViewModel tabViewModel = (TabViewModel)obj;
                 TabViewModels.Remove(TabViewModels[tabViewModel.Index]);
                 Tabs.Remove(Tabs[tabViewModel.Index]);
+                _parent.TextEditorViewModel.Tabs.Remove(Tabs[tabViewModel.Index]);
+                _parent.TextEditorViewModel.TabViewModels.Remove(tabViewModel);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
