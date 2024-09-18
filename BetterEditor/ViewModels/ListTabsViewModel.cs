@@ -160,7 +160,8 @@ namespace BetterEditor.ViewModels {
         public ICommand OpenTabCommand => new RelayCommand(OpenTab, CanExecuteCommand);
         private void OpenTab(object obj) {
             try {
-                throw new NotImplementedException();
+                _parent.TextEditorViewModel.OpenTabCommand.Execute(obj);
+                _parent.OpenTextEditorUserControlCommand.Execute(obj);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
