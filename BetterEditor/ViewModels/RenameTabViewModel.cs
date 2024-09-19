@@ -1,14 +1,9 @@
 ﻿using BetterEditor.Models;
 using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace BetterEditor.ViewModels
-{
+namespace BetterEditor.ViewModels {
     internal class RenameTabViewModel : BaseViewModel {
         private string _filePath = string.Empty;
         public string FilePath {
