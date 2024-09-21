@@ -375,6 +375,7 @@ namespace BetterEditor.ViewModels {
                         OpenedTab.FilePath = filePath;
                         Tabs[_index].FilePath = filePath;
                         TabViewModels[_index].FilePath = filePath;
+                        OnPropertyChanged(nameof(TabViewModels));
                         SaveCommand.Execute(TabViewModels.Last());
                         File.WriteAllText(filePath, OpenedTab.Content);
                     }
