@@ -175,6 +175,13 @@ namespace BetterEditor.ViewModels {
                 Tabs.Remove(Tabs[tabViewModel.Index]);
                 _parent.TextEditorViewModel.Tabs.Remove(Tabs[tabViewModel.Index]);
                 _parent.TextEditorViewModel.TabViewModels.Remove(tabViewModel);
+                if (tabViewModel.FilePath != "" &&
+                    tabViewModel.FilePath != string.Empty &&
+                    tabViewModel.FilePath != null && 
+                    File.Exists(tabViewModel.FilePath) &&
+                    _parent.Settings.CAD == true)
+                    File.Delete(tabViewModel.FilePath);
+                DataManager.WriteTabs(Tabs);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
