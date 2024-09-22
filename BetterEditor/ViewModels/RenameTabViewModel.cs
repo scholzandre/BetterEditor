@@ -1,5 +1,6 @@
 ﻿using BetterEditor.Models;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
 
@@ -43,13 +44,27 @@ namespace BetterEditor.ViewModels {
 
         #region Fields
         private Action _closeWindow;
+        private int _index;
+        private Action<object, EventArgs> _eventUpdate;
+        private Action _update;
+        private ObservableCollection<TabViewModel> _tabViewModels;
         #endregion
 
         #region Constructores
-        public RenameTabViewModel(string filePath, Action closeWindow) {
+        public RenameTabViewModel(string filePath, int index, ObservableCollection<TabViewModel> tabViewModels, Action<object, EventArgs> tabsToTabViewModels, Action close) {
             FilePath = filePath;
-            _closeWindow = closeWindow;
-            GetFilePathParts();
+            this._index = index;
+            this._eventUpdate = tabsToTabViewModels;
+            this._tabViewModels = tabViewModels;
+            this._closeWindow = close;
+        }
+
+        public RenameTabViewModel(string filePath, int index, ObservableCollection<TabViewModel> tabViewModels, Action tabsToTabViewModels, Action close) {
+            FilePath = filePath;
+            this._index = index;
+            this._tabViewModels = tabViewModels;
+            this._update = tabsToTabViewModels;
+            this._closeWindow = close;
         }
         #endregion
 
@@ -75,7 +90,12 @@ namespace BetterEditor.ViewModels {
         public ICommand ApplyCommand => new RelayCommand(Apply, CanExecuteCommand);
         private void Apply(object obj) {
             try {
-                throw new NotImplementedException();
+                _tabViewModels[_index].FilePath = Path.GetDirectoryName(FilePath) + "\\" + NewFilename + Path.GetExtension(FilePath);
+                if (_update != null)
+                    _update();
+                else
+                    _eventUpdate.Invoke(null, null);
+                _closeWindow();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
             }
