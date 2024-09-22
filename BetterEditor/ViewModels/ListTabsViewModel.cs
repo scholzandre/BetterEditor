@@ -240,7 +240,7 @@ namespace BetterEditor.ViewModels {
             try {
                 if (obj is TabViewModel tabViewModel) {
                     RenameTabView renameTabView = new RenameTabView();
-                    renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, renameTabView.Close);
+                    renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, TabViewModels, TabsToTabViewModels, renameTabView.Close);
                     renameTabView.Show();
                 }
             } catch (Exception e) {
