@@ -1,5 +1,6 @@
 ﻿using BetterEditor.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
@@ -46,25 +47,28 @@ namespace BetterEditor.ViewModels {
         private Action _closeWindow;
         private int _index;
         private Action<object, EventArgs> _eventUpdate;
+        private Action<object> _save;
         private Action _update;
-        private ObservableCollection<TabViewModel> _tabViewModels;
+        private List<Tab> _tabs;
         #endregion
 
         #region Constructores
-        public RenameTabViewModel(string filePath, int index, ObservableCollection<TabViewModel> tabViewModels, Action<object, EventArgs> tabsToTabViewModels, Action close) {
+        public RenameTabViewModel(string filePath, int index, List<Tab> tabs, Action<object, EventArgs> tabsToTabViewModels, Action close, Action<object> save) {
             FilePath = filePath;
             this._index = index;
             this._eventUpdate = tabsToTabViewModels;
-            this._tabViewModels = tabViewModels;
+            this._tabs = tabs;
             this._closeWindow = close;
+            this._save = save;
         }
 
-        public RenameTabViewModel(string filePath, int index, ObservableCollection<TabViewModel> tabViewModels, Action tabsToTabViewModels, Action close) {
+        public RenameTabViewModel(string filePath, int index, List<Tab> tabs, Action tabsToTabViewModels, Action close, Action<object> save) {
             FilePath = filePath;
             this._index = index;
-            this._tabViewModels = tabViewModels;
+            this._tabs = tabs;
             this._update = tabsToTabViewModels;
             this._closeWindow = close;
+            this._save = save;
         }
         #endregion
 
@@ -90,11 +94,12 @@ namespace BetterEditor.ViewModels {
         public ICommand ApplyCommand => new RelayCommand(Apply, CanExecuteCommand);
         private void Apply(object obj) {
             try {
-                _tabViewModels[_index].FilePath = Path.GetDirectoryName(FilePath) + "\\" + NewFilename + Path.GetExtension(FilePath);
+                _tabs[_index].FilePath = Path.GetDirectoryName(FilePath) + "\\" + NewFilename + Path.GetExtension(FilePath);
                 if (_update != null)
                     _update();
                 else
                     _eventUpdate.Invoke(null, null);
+                _save.Invoke(null);
                 _closeWindow();
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
