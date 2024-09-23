@@ -103,7 +103,7 @@ namespace BetterEditor.ViewModels {
         }
 
         private void CreateListTabsView() {
-            ListTabsViewModel = new ListTabsViewModel(this);
+            ListTabsViewModel = new ListTabsViewModel(this, Save);
             ListTabsView listTabsView = new ListTabsView();
             listTabsView.DataContext = ListTabsViewModel;
             _listTabsUserControl.Content = listTabsView;
