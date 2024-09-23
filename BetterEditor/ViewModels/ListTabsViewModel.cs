@@ -103,11 +103,13 @@ namespace BetterEditor.ViewModels {
 
         #region Fields
         private MainViewModel _parent;
+        private Action<object> _save;
         #endregion
 
         #region Constructors
-        public ListTabsViewModel(MainViewModel parent) { 
+        public ListTabsViewModel(MainViewModel parent, Action<object> save) { 
             _parent = parent;
+            _save = save;
             Tabs = _parent.Tabs;
             GetFileTypes();
         }
@@ -240,7 +242,7 @@ namespace BetterEditor.ViewModels {
             try {
                 if (obj is TabViewModel tabViewModel) {
                     RenameTabView renameTabView = new RenameTabView();
-                    renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, TabViewModels, TabsToTabViewModels, renameTabView.Close);
+                    renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, Tabs, TabsToTabViewModels, renameTabView.Close, _save);
                     renameTabView.Show();
                 }
             } catch (Exception e) {

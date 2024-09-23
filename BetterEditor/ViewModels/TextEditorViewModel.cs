@@ -34,8 +34,8 @@ namespace BetterEditor.ViewModels {
         }
 
 
-        private ObservableCollection<Tab> _tabs = new ObservableCollection<Tab>();
-        public ObservableCollection<Tab> Tabs {
+        private List<Tab> _tabs = new List<Tab>();
+        public List<Tab> Tabs {
             get => _tabs;
             set {
                 _tabs = value;
@@ -108,7 +108,7 @@ namespace BetterEditor.ViewModels {
         #region Constructors
         public TextEditorViewModel(List<Tab> tabs, Settings settings, string editBackgroundColor, string deleteBackgroundColor, MainViewModel parent) {
             _contentChanged += TabsToTabViewModels;
-            Tabs = new ObservableCollection<Tab>(tabs);
+            Tabs = tabs;
             Settings = settings;
             OpenFirstTab();
             _appStart = false;
@@ -142,7 +142,7 @@ namespace BetterEditor.ViewModels {
         private void Rename(object obj) {
             if (obj is TabViewModel tabViewModel) { 
                 RenameTabView renameTabView = new RenameTabView();
-                renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, TabViewModels, TabsToTabViewModels, renameTabView.Close);
+                renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, Tabs, TabsToTabViewModels, renameTabView.Close, Save);
                 renameTabView.Show();
             }
         }
@@ -292,7 +292,7 @@ namespace BetterEditor.ViewModels {
                         DataManager.WriteTabs(Tabs.ToList());
                     }
                 } else if (!Tabs.Contains(Settings.LOT)) {
-                    Tabs = new ObservableCollection<Tab>(Tabs.Append(Settings.LOT));
+                    Tabs = new List<Tab>(Tabs.Append(Settings.LOT));
                     OpenedTab = TabViewModels.Last();
                     DataManager.WriteTabs(Tabs.ToList());
                     OpenTabCommand.Execute(TabViewModels[TabViewModels.Count - 1]);
@@ -353,7 +353,7 @@ namespace BetterEditor.ViewModels {
                 if (File.Exists(filePath)) { 
                     string content = File.ReadAllText(filePath);
                     DateOnly date = DateOnly.FromDateTime(File.GetLastWriteTime(filePath).Date);
-                    Tabs = new ObservableCollection<Tab>(Tabs.Append(new Tab(filePath, content, date)));
+                    Tabs = new List<Tab>(Tabs.Append(new Tab(filePath, content, date)));
                     OpenTabCommand.Execute(TabViewModels.Last());
                 }
             } catch (Exception e) {
