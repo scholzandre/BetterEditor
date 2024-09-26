@@ -249,6 +249,17 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+
+        public ICommand OpenFilePathCommand => new RelayCommand(OpenFilePath, CanExecuteCommand);
+        private void OpenFilePath(object obj) {
+            try {
+                if (obj is TabViewModel tabViewModel) {
+                    throw new NotImplementedException();
+                }
+            } catch (Exception e) {
+                BaseViewModel.ShowErrorMessage(e);
+            }
+        }
         #endregion
     }
 }
