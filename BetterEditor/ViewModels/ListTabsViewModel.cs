@@ -3,6 +3,7 @@ using BetterEditor.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -254,7 +255,9 @@ namespace BetterEditor.ViewModels {
         private void OpenFilePath(object obj) {
             try {
                 if (obj is TabViewModel tabViewModel) {
-                    throw new NotImplementedException();
+                    if (File.Exists(tabViewModel.FilePath)) {
+                        Process.Start("explorer.exe", tabViewModel.FilePath);
+                    }
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
