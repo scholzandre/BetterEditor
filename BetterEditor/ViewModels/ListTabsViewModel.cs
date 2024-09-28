@@ -256,7 +256,7 @@ namespace BetterEditor.ViewModels {
             try {
                 if (obj is TabViewModel tabViewModel) {
                     if (File.Exists(tabViewModel.FilePath)) {
-                        Process.Start("explorer.exe", tabViewModel.FilePath);
+                        Process.Start("explorer.exe", Path.GetDirectoryName(tabViewModel.FilePath));
                     }
                 }
             } catch (Exception e) {
