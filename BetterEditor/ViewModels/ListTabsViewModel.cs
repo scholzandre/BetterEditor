@@ -251,7 +251,12 @@ namespace BetterEditor.ViewModels {
             }
         }
 
-        public ICommand OpenFilePathCommand => new RelayCommand(OpenFilePath, CanExecuteCommand);
+        private bool CanExecuteOpenFilePathCommand(object arg) {
+            TabViewModel tabViewModel = (TabViewModel)arg;
+            return tabViewModel.FilePath != "" && tabViewModel.FilePath != null && tabViewModel.FilePath != string.Empty;
+        }
+
+        public ICommand OpenFilePathCommand => new RelayCommand(OpenFilePath, CanExecuteOpenFilePathCommand);
         private void OpenFilePath(object obj) {
             try {
                 if (obj is TabViewModel tabViewModel) {
