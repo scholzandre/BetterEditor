@@ -41,6 +41,11 @@ namespace BetterEditor.ViewModels {
             get => _sortInAppOrder;
             set {
                 _sortInAppOrder = value;
+                if (value) {
+                    SortAlpbabetically = false;
+                    SortByDataType = false;
+                    SortByModicifcationDate = false;
+                }
                 OnPropertyChanged(nameof(SortInAppOrder));
             }
         }
@@ -50,6 +55,11 @@ namespace BetterEditor.ViewModels {
             get => _sortAlpbabetically;
             set {
                 _sortAlpbabetically = value;
+                if (value) {
+                    SortInAppOrder = false;
+                    SortByDataType = false;
+                    SortByModicifcationDate = false;
+                }
                 OnPropertyChanged(nameof(SortAlpbabetically));
             }
         }
@@ -59,6 +69,11 @@ namespace BetterEditor.ViewModels {
             get => _sortByModicifcationDate;
             set {
                 _sortByModicifcationDate = value;
+                if (value) {
+                    SortInAppOrder = false;
+                    SortByDataType = false;
+                    SortAlpbabetically = false;
+                }
                 OnPropertyChanged(nameof(SortByModicifcationDate));
             }
         }
@@ -68,15 +83,22 @@ namespace BetterEditor.ViewModels {
             get => _sortByDataType;
             set {
                 _sortByDataType = value;
+                if (value) {
+                    SortInAppOrder = false;
+                    SortByModicifcationDate = false;
+                    SortAlpbabetically = false;
+                }
                 OnPropertyChanged(nameof(SortByDataType));
             }
         }
 
-        private bool _searchTabNames;
+        private bool _searchTabNames = true;
         public bool SearchTabNames {
             get => _searchTabNames;
             set {
                 _searchTabNames = value;
+                if (value)
+                    SearchTabContents = false;
                 OnPropertyChanged(nameof(SearchTabNames));
             }
         }
@@ -86,6 +108,8 @@ namespace BetterEditor.ViewModels {
             get => _searchTabContents;
             set {
                 _searchTabContents = value;
+                if (value)
+                    SearchTabNames = false;
                 OnPropertyChanged(nameof(SearchTabContents));
             }
         }
