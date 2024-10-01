@@ -2,6 +2,7 @@
 using BetterEditor.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -60,6 +61,7 @@ namespace BetterEditor.ViewModels {
                     SortByDataType = false;
                     SortByModicifcationDate = false;
                 }
+                TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => (SearchTabContents && !SearchTabNames)? x.Content : x.TabName));
                 OnPropertyChanged(nameof(SortAlpbabetically));
             }
         }
