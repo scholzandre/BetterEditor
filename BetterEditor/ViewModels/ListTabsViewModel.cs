@@ -46,6 +46,7 @@ namespace BetterEditor.ViewModels {
                     SortAlpbabetically = false;
                     SortByDataType = false;
                     SortByModicifcationDate = false;
+                    TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => x.Index));
                 }
                 OnPropertyChanged(nameof(SortInAppOrder));
             }
@@ -60,8 +61,8 @@ namespace BetterEditor.ViewModels {
                     SortInAppOrder = false;
                     SortByDataType = false;
                     SortByModicifcationDate = false;
+                    TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => (SearchTabContents && !SearchTabNames)? x.Content : x.TabName));
                 }
-                TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => (SearchTabContents && !SearchTabNames)? x.Content : x.TabName));
                 OnPropertyChanged(nameof(SortAlpbabetically));
             }
         }
@@ -75,6 +76,7 @@ namespace BetterEditor.ViewModels {
                     SortInAppOrder = false;
                     SortByDataType = false;
                     SortAlpbabetically = false;
+                    TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => x.MD));
                 }
                 OnPropertyChanged(nameof(SortByModicifcationDate));
             }
@@ -89,6 +91,7 @@ namespace BetterEditor.ViewModels {
                     SortInAppOrder = false;
                     SortByModicifcationDate = false;
                     SortAlpbabetically = false;
+                    TabViewModels = new ObservableCollection<TabViewModel>(TabViewModels.ToList().OrderBy(x => Path.GetExtension(x.FilePath)));
                 }
                 OnPropertyChanged(nameof(SortByDataType));
             }
