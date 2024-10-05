@@ -128,6 +128,15 @@ namespace BetterEditor.ViewModels {
             }
         }
 
+        private Settings _settings;
+        public Settings Settings {
+            get => _settings;
+            set { 
+                _settings = value;
+                OnPropertyChanged(nameof(Settings));
+            }
+        }
+
         public int TabCounter { get; set; } = 0;
         #endregion
 
@@ -141,6 +150,7 @@ namespace BetterEditor.ViewModels {
             _parent = parent;
             _save = save;
             Tabs = _parent.Tabs;
+            Settings = _parent.Settings;
             GetFileTypes();
         }
         public ListTabsViewModel() { }
