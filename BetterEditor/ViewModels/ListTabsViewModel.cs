@@ -213,10 +213,10 @@ namespace BetterEditor.ViewModels {
         private void CloseTab(object obj) {
             try {
                 TabViewModel tabViewModel = (TabViewModel)obj;
-                TabViewModels.Remove(TabViewModels[tabViewModel.Index]);
+                TabViewModels.Remove(TabViewModels[tabViewModel.Index-1]);
                 Tabs.Remove(Tabs[tabViewModel.Index]);
-                _parent.TextEditorViewModel.Tabs.Remove(Tabs[tabViewModel.Index]);
-                _parent.TextEditorViewModel.TabViewModels.Remove(tabViewModel);
+                _parent.TextEditorViewModel.Tabs.Remove(Tabs[tabViewModel.Index-1]);
+                _parent.TextEditorViewModel.TabViewModels.Remove(_parent.TextEditorViewModel.TabViewModels[tabViewModel.Index-1]);
                 if (tabViewModel.FilePath != "" &&
                     tabViewModel.FilePath != string.Empty &&
                     tabViewModel.FilePath != null && 
