@@ -282,6 +282,7 @@ namespace BetterEditor.ViewModels {
                 }
                 OnPropertyChanged(nameof(Settings));
                 TextEditorViewModel.Settings = Settings;
+                ListTabsViewModel.Settings = Settings;
                 DataManager.WriteSettings(Settings);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
