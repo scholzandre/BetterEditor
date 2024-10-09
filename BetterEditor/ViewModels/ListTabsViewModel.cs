@@ -250,7 +250,7 @@ namespace BetterEditor.ViewModels {
                 if (File.Exists(filePath)) {
                     tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
                 } else {
-                    tabName = (newContent.Length > 30) ? newContent.Substring(0, 30) : newContent;
+                    tabName = (newContent.Trim().Length > 30) ? newContent.Trim().Substring(0, 30) : newContent.Trim();
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);

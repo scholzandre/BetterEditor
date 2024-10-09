@@ -408,7 +408,7 @@ namespace BetterEditor.ViewModels {
                 if (File.Exists(filePath)) {
                     tabName += filePath.Substring(filePath.LastIndexOf("\\") + 1);
                 } else {
-                    string tempSubstring = (newContent.Length > 30) ? newContent.Substring(0, 27) + "..." : newContent;
+                    string tempSubstring = (newContent.Trim().Length > 30) ? newContent.Trim().Substring(0, 27) + "..." : newContent.Trim();
                     if (tempSubstring.Contains("\n"))
                         tempSubstring = tempSubstring.Substring(0, tempSubstring.IndexOf("\n"));
                     if (tempSubstring.Contains("\r"))
