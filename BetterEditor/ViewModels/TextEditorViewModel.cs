@@ -140,10 +140,15 @@ namespace BetterEditor.ViewModels {
 
         public ICommand RenameCommand => new RelayCommand(Rename, CanExecuteCommand);
         private void Rename(object obj) {
-            if (obj is TabViewModel tabViewModel) { 
-                RenameTabView renameTabView = new RenameTabView();
-                renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, Tabs, TabsToTabViewModels, renameTabView.Close, Save);
-                renameTabView.Show();
+            if (obj is TabViewModel tabViewModel) {
+                if (tabViewModel.FilePath != DataManager.FilePath.Substring(0, DataManager.FilePath.Length - "BetterEditor".Length * 2 - 1) + "README.md" &&
+                    tabViewModel.FilePath != DataManager.FilePath.Substring(0, DataManager.FilePath.Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt") {
+                    RenameTabView renameTabView = new RenameTabView();
+                    renameTabView.DataContext = new RenameTabViewModel(tabViewModel.FilePath, tabViewModel.Index, Tabs, TabsToTabViewModels, renameTabView.Close, Save);
+                    renameTabView.Show();
+                } else {
+                    throw new Exception("Can't rename this file.");
+                }
             }
         }
 
