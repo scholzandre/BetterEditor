@@ -10,7 +10,7 @@ namespace BetterEditor.Models {
         public List<ViewMode> ViewModes { get; set; }
         public List<Tab> Tabs { get; set; }
         private static string _folderPath = GetFolderPath();
-        private static string _filePath = GetFilePath();
+        public static string FilePath = GetFilePath();
 
         public DataManager(Settings settings, List<ViewMode> viewModes, List<Tab> tabs) {
             Settings = settings;
@@ -25,12 +25,12 @@ namespace BetterEditor.Models {
         /// <returns>DataManager instance</returns>
         public static DataManager GetData() {
             try {
-                if (File.Exists(_filePath)) {
-                    string jsonData = File.ReadAllText(_filePath);
+                if (File.Exists(FilePath)) {
+                    string jsonData = File.ReadAllText(FilePath);
                     DataManager dataManager = JsonConvert.DeserializeObject<DataManager>(jsonData);
                     return dataManager;
                 } else {
-                    return CreateDefaultAppData(_filePath);
+                    return CreateDefaultAppData(FilePath);
                 }
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -64,7 +64,7 @@ namespace BetterEditor.Models {
         public static bool WriteData(DataManager dataManager) {
             try {
                 string json = JsonConvert.SerializeObject(dataManager, Formatting.Indented);
-                File.WriteAllText(_filePath, json);
+                File.WriteAllText(FilePath, json);
                 return true;
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
@@ -139,7 +139,7 @@ namespace BetterEditor.Models {
         /// <returns>JSON content as string</returns>
         public static string GetPlainJSONFile() {
             try {
-                return File.ReadAllText(_filePath);
+                return File.ReadAllText(FilePath);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
                 return "";
@@ -154,7 +154,7 @@ namespace BetterEditor.Models {
         public static bool WritePlainTextInJSONFile(string content) {
             try {
                 DataManager dataManager = JsonConvert.DeserializeObject<DataManager>(content);
-                return WriteData(dataManager, _filePath);
+                return WriteData(dataManager, FilePath);
             } catch (Exception e) {
                 BaseViewModel.ShowErrorMessage(e);
                 return false;
@@ -225,9 +225,9 @@ namespace BetterEditor.Models {
         /// <returns>if deleting was successful</returns>
         public static bool DeleteFile(string filePath) {
             try {
-                string licensePath = _filePath.Substring(0, _filePath.Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt";
-                string readmePath = _filePath.Substring(0, _filePath.Length - "BetterEditor".Length * 2 - 1) + "README.md";
-                if (File.Exists(filePath) && filePath != _filePath && filePath != licensePath && filePath != readmePath) {
+                string licensePath = FilePath.Substring(0, FilePath.Length - "BetterEditor".Length * 2 - 1) + "LICENSE.txt";
+                string readmePath = FilePath.Substring(0, FilePath.Length - "BetterEditor".Length * 2 - 1) + "README.md";
+                if (File.Exists(filePath) && filePath != FilePath && filePath != licensePath && filePath != readmePath) {
                     File.Delete(filePath);
                 }
                 return true;
