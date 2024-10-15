@@ -22,6 +22,7 @@ namespace BetterEditor.ViewModels {
             Content = content;
             MD = mD;
         }
+        ~Tab() { }
 
         public override bool Equals(object obj) {
             if (obj == null || GetType() != obj.GetType()) {

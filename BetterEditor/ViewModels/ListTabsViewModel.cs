@@ -154,6 +154,8 @@ namespace BetterEditor.ViewModels {
             GetFileTypes();
         }
         public ListTabsViewModel() { }
+
+        ~ListTabsViewModel() { }
         #endregion
 
         #region Commands and methods
