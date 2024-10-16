@@ -46,6 +46,7 @@ namespace BetterEditor.ViewModels {
         }
 
         public ReplaceViewModel() { }
+        ~ReplaceViewModel() { }
         #endregion
 
         #region Commands and Methods

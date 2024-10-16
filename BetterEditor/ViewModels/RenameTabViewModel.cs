@@ -70,6 +70,7 @@ namespace BetterEditor.ViewModels {
             this._closeWindow = close;
             this._save = save;
         }
+        ~RenameTabViewModel() { }
         #endregion
 
         #region Commands and Methods
