@@ -86,6 +86,7 @@ namespace BetterEditor.ViewModels {
                 BaseViewModel.ShowErrorMessage(e);
             }
         }
+        ~MainViewModel() { }
         #endregion
 
         #region Commands and Methods
