@@ -46,6 +46,8 @@ namespace BetterEditor.ViewModels {
         }
 
         public SearchViewModel() { }
+
+        ~SearchViewModel() { }
         #endregion
 
         #region Commands and Methods
