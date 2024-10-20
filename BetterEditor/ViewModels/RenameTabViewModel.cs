@@ -107,6 +107,5 @@ namespace BetterEditor.ViewModels {
             }
         }
         #endregion
-        ~RenameTabViewModel() { }
     }
 }
